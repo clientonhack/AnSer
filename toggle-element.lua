@@ -1,4 +1,3 @@
--- toggle-element.lua
 local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
@@ -82,6 +81,10 @@ local function setupToggleElement(container)
 
 	toggleBtn.MouseButton1Click:Connect(function()
 		applyState(not enabled, false)
+		-- Авто-сохранение при каждом клике (опционально)
+		if _G.AnSerConfig and _G.AnSerConfig.Save then
+			_G.AnSerConfig.Save("default")
+		end
 	end)
 
 	toggleBtn:GetAttributeChangedSignal("State"):Connect(function()
@@ -91,24 +94,21 @@ local function setupToggleElement(container)
 		end
 	end)
 
-	-- Безопасная регистрация в конфиге
 	task.spawn(function()
 		while not _G.AnSerConfig do
 			task.wait(0.1)
 		end
 
-		if _G.AnSerConfig and _G.AnSerConfig.RegisterToggle then
-			local id = buildID(toggleBtn)
-			_G.AnSerConfig.RegisterToggle(
-				id,
-				function() return enabled end,
-				function(v) applyState(v, true) end
-			)
-		end
+		local id = buildID(toggleBtn)
+		_G.AnSerConfig.RegisterToggle(
+			id,
+			function() return enabled end,
+			function(v) applyState(v, true) end
+		)
 	end)
 end
 
--- Обработка тегов CollectionService
+-- Регистрация элементов
 for _, container in ipairs(CollectionService:GetTagged("ToggleElement")) do
 	task.spawn(setupToggleElement, container)
 end
@@ -117,10 +117,8 @@ CollectionService:GetInstanceAddedSignal("ToggleElement"):Connect(function(inst)
 	task.spawn(setupToggleElement, inst)
 end)
 
--- Прослушивание появления GUI в PlayerGui и CoreGui
 local function bindGuiContainer(parent)
 	if not parent then return end
-	
 	local function checkDescendant(desc)
 		if desc:IsA("Frame") and desc.Name ~= "Body" then
 			task.defer(setupToggleElement, desc)
