@@ -2,7 +2,10 @@ local HttpService = game:GetService("HttpService")
 
 local CONFIG_FOLDER = "AnSerConfigs"
 
-if type(isfolder) ~= "function" then
+-- Проверяем реальное наличие функций файловой системы
+local hasFS = (type(writefile) == "function" and type(readfile) == "function")
+
+if not hasFS then
 	isfolder = function() return true end
 	makefolder = function() end
 	isfile = function() return false end
@@ -10,14 +13,15 @@ if type(isfolder) ~= "function" then
 	readfile = function() return "{}" end
 	listfiles = function() return {} end
 	delfile = function() end
-end
-
-if not isfolder(CONFIG_FOLDER) then
-	makefolder(CONFIG_FOLDER)
+else
+	if type(isfolder) == "function" and not isfolder(CONFIG_FOLDER) then
+		if type(makefolder) == "function" then
+			makefolder(CONFIG_FOLDER)
+		end
+	end
 end
 
 local Registry = {}
-
 local API = {}
 
 function API.RegisterToggle(id, getValue, setValue)
@@ -53,7 +57,7 @@ function API.RegisterKeybind(id, getValue, setValue)
 end
 
 function API.Save(name)
-	name = name or "default"
+	name = (name and #name > 0) and name or "default"
 	local data = { version = 1, entries = {} }
 
 	for id, entry in pairs(Registry) do
@@ -66,21 +70,29 @@ function API.Save(name)
 		end
 	end
 
-	local json = HttpService:JSONEncode(data)
-	writefile(CONFIG_FOLDER .. "/" .. name .. ".json", json)
-	return true
+	local ok, json = pcall(function() return HttpService:JSONEncode(data) end)
+	if ok and json then
+		pcall(writefile, CONFIG_FOLDER .. "/" .. name .. ".json", json)
+		return true
+	end
+	return false
 end
 
 function API.Load(name)
-	name = name or "default"
+	name = (name and #name > 0) and name or "default"
 	local path = CONFIG_FOLDER .. "/" .. name .. ".json"
 
-	if not isfile(path) then
+	if type(isfile) == "function" and not isfile(path) then
+		return false
+	end
+
+	local readOk, content = pcall(readfile, path)
+	if not readOk or not content or #content == 0 then
 		return false
 	end
 
 	local ok, data = pcall(function()
-		return HttpService:JSONDecode(readfile(path))
+		return HttpService:JSONDecode(content)
 	end)
 
 	if not ok or not data or not data.entries then
@@ -89,7 +101,7 @@ function API.Load(name)
 
 	for id, saved in pairs(data.entries) do
 		local entry = Registry[id]
-		if entry then
+		if entry and type(saved) == "table" and saved.value ~= nil then
 			pcall(entry.set, saved.value)
 		end
 	end
@@ -98,7 +110,10 @@ function API.Load(name)
 end
 
 function API.ListConfigs()
-	local files = listfiles(CONFIG_FOLDER)
+	if type(listfiles) ~= "function" then return {} end
+	local ok, files = pcall(listfiles, CONFIG_FOLDER)
+	if not ok or not files then return {} end
+
 	local names = {}
 	for _, path in ipairs(files) do
 		local name = path:match("([^/\\]+)%.json$")
@@ -109,8 +124,8 @@ end
 
 function API.Delete(name)
 	local path = CONFIG_FOLDER .. "/" .. name .. ".json"
-	if isfile(path) then
-		delfile(path)
+	if type(isfile) == "function" and isfile(path) then
+		pcall(delfile, path)
 		return true
 	end
 	return false
