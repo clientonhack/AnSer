@@ -30,6 +30,20 @@ local function buildID(toggleBtn)
 	return table.concat(filtered, ".")
 end
 
+local function disableOverlayClicks(ToggleBtn)
+	local parent = ToggleBtn.Parent
+	if parent then
+		parent.Active = false
+		parent.Selectable = false
+		for _, child in ipairs(parent:GetChildren()) do
+			if child ~= ToggleBtn and child:IsA("GuiObject") then
+				child.Active = false
+				child.Selectable = false
+			end
+		end
+	end
+end
+
 local function setupToggleElement(Container)
 	if not Container or not Container:IsA("GuiObject") then return end
 	if Container:GetAttribute("ToggleSetup") then return end
@@ -41,6 +55,8 @@ local function setupToggleElement(Container)
 	if not Dot then return end
 
 	Container:SetAttribute("ToggleSetup", true)
+
+	disableOverlayClicks(ToggleBtn)
 
 	local enabled = ToggleBtn:GetAttribute("State") or false
 	ToggleBtn:SetAttribute("State", enabled)
