@@ -1,4 +1,3 @@
---edited
 local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
@@ -14,10 +13,8 @@ local function findToggleButton(container)
 		local tb = header:FindFirstChild("ToggleButton")
 		if tb then return tb end
 	end
-
 	local direct = container:FindFirstChild("ToggleButton")
 	if direct then return direct end
-
 	return nil
 end
 
@@ -36,13 +33,14 @@ end
 local function setupToggleElement(Container)
 	if not Container or not Container:IsA("GuiObject") then return end
 	if Container:GetAttribute("ToggleSetup") then return end
-	Container:SetAttribute("ToggleSetup", true)
 
 	local ToggleBtn = findToggleButton(Container)
 	if not ToggleBtn then return end
 
 	local Dot = ToggleBtn:FindFirstChild("Dot")
 	if not Dot then return end
+
+	Container:SetAttribute("ToggleSetup", true)
 
 	local enabled = ToggleBtn:GetAttribute("State") or false
 	ToggleBtn:SetAttribute("State", enabled)
@@ -102,30 +100,25 @@ CollectionService:GetInstanceAddedSignal("ToggleElement"):Connect(function(inst)
 	task.spawn(setupToggleElement, inst)
 end)
 
--- ВАЖНО: без script.Parent, через PlayerGui
-local parentGui = Players.LocalPlayer:WaitForChild("PlayerGui")
-
-local function scanForToggles(root)
-	for _, desc in ipairs(root:GetDescendants()) do
-		if desc:GetAttribute("ToggleSetup") then continue end
-		if desc:IsA("Frame") and desc.Name ~= "Body" then
-			local hasToggle = desc:FindFirstChild("ToggleButton")
-				or (desc:FindFirstChild("Header") and desc.Header:FindFirstChild("ToggleButton"))
-			if hasToggle then
-				task.spawn(setupToggleElement, desc)
+task.spawn(function()
+	while true do
+		task.wait(0.3)
+		local playerGui = Players.LocalPlayer:FindFirstChild("PlayerGui")
+		if playerGui then
+			local anserGui = playerGui:FindFirstChild("AnSer")
+			if anserGui then
+				for _, desc in ipairs(anserGui:GetDescendants()) do
+					if desc:IsA("Frame") and desc.Name ~= "Body" then
+						if not desc:GetAttribute("ToggleSetup") then
+							local hasToggle = desc:FindFirstChild("ToggleButton")
+								or (desc:FindFirstChild("Header") and desc.Header:FindFirstChild("ToggleButton"))
+							if hasToggle then
+								task.spawn(setupToggleElement, desc)
+							end
+						end
+					end
+				end
 			end
-		end
-	end
-end
-
-scanForToggles(parentGui)
-
-parentGui.DescendantAdded:Connect(function(desc)
-	if desc:IsA("Frame") then
-		local hasToggle = desc:FindFirstChild("ToggleButton")
-			or (desc:FindFirstChild("Header") and desc.Header:FindFirstChild("ToggleButton"))
-		if hasToggle then
-			task.spawn(setupToggleElement, desc)
 		end
 	end
 end)
