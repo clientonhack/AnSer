@@ -20,7 +20,24 @@ end
 local function buildID(toggleBtn)
 	local parts = toggleBtn:GetFullName():split(".")
 	local filtered = {}
-	local ignoreNames = { AnSer = true, Main = true, ContentArea = true, Body = true, Header = true, ToggleButton = true }
+	
+	-- Добавлены системные имена Roblox для корректного формирования чистого логического ID
+	local ignoreNames = { 
+		game = true, 
+		Players = true, 
+		LocalPlayer = true, 
+		PlayerGui = true, 
+		CoreGui = true, 
+		StarterGui = true,
+		AnSer = true, 
+		Main = true, 
+		ContentArea = true, 
+		Body = true, 
+		Header = true, 
+		ToggleButton = true,
+		TabList = true,
+		TabPage = true
+	}
 	
 	for _, p in ipairs(parts) do
 		if not ignoreNames[p] then
