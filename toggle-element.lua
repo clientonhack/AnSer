@@ -138,3 +138,27 @@ task.spawn(function()
 		end
 	end
 end)
+
+-- ФОРСИРОВАННЫЙ ОБРАБОТЧИК КЛИКОВ ДЛЯ ВСЕХ ToggleButton
+task.spawn(function()
+	while true do
+		task.wait(0.5)
+		local playerGui = Players.LocalPlayer:FindFirstChild("PlayerGui")
+		if playerGui then
+			local anserGui = playerGui:FindFirstChild("AnSer")
+			if anserGui then
+				for _, btn in ipairs(anserGui:GetDescendants()) do
+					if btn:IsA("TextButton") and btn.Name == "ToggleButton" then
+						if not btn:GetAttribute("ClickForced") then
+							btn:SetAttribute("ClickForced", true)
+							btn.MouseButton1Click:Connect(function()
+								local cur = btn:GetAttribute("State") or false
+								btn:SetAttribute("State", not cur)
+							end)
+						end
+					end
+				end
+			end
+		end
+	end
+end)
