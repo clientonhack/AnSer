@@ -1,3 +1,4 @@
+-- toggle-element.lua
 local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
@@ -57,12 +58,10 @@ local function setupToggleElement(container)
 	disableOverlayClicks(toggleBtn)
 
 	local enabled = toggleBtn:GetAttribute("State") or false
-	toggleBtn:SetAttribute("State", enabled)
 
 	local function applyState(state, instant)
 		enabled = state and true or false
 		
-		-- Обновляем атрибут только если он отличается, чтобы не зацикливать signal
 		if toggleBtn:GetAttribute("State") ~= enabled then
 			toggleBtn:SetAttribute("State", enabled)
 		end
@@ -79,15 +78,12 @@ local function setupToggleElement(container)
 		end
 	end
 
-	-- Устанавливаем начальное состояние
 	applyState(enabled, true)
 
-	-- Единственный обработчик клика
 	toggleBtn.MouseButton1Click:Connect(function()
 		applyState(not enabled, false)
 	end)
 
-	-- Реагируем на внешнее изменение атрибута State
 	toggleBtn:GetAttributeChangedSignal("State"):Connect(function()
 		local newState = toggleBtn:GetAttribute("State")
 		if newState ~= enabled then
@@ -95,13 +91,9 @@ local function setupToggleElement(container)
 		end
 	end)
 
-	-- Регистрация в конфигурации
+	-- Безопасная регистрация в конфиге
 	task.spawn(function()
-		local timeout = 5 -- Таймаут 5 секунд на ожидание конфига
-		local startTime = tick()
-		
-		while not _G.AnSerConfig and (tick() - startTime < timeout) do
-			if not toggleBtn.Parent then return end
+		while not _G.AnSerConfig do
 			task.wait(0.1)
 		end
 
@@ -125,28 +117,29 @@ CollectionService:GetInstanceAddedSignal("ToggleElement"):Connect(function(inst)
 	task.spawn(setupToggleElement, inst)
 end)
 
--- Подписка на автоматическое обнаружение UI без постоянных while-циклов
-local localPlayer = Players.LocalPlayer
-local function watchPlayerGui(gui)
-	if gui.Name == "AnSer" then
-		gui.DescendantAdded:Connect(function(desc)
-			if desc:IsA("Frame") and desc.Name ~= "Body" then
-				task.defer(setupToggleElement, desc)
-			end
-		end)
-		
-		for _, desc in ipairs(gui:GetDescendants()) do
-			if desc:IsA("Frame") and desc.Name ~= "Body" then
-				task.defer(setupToggleElement, desc)
-			end
+-- Прослушивание появления GUI в PlayerGui и CoreGui
+local function bindGuiContainer(parent)
+	if not parent then return end
+	
+	local function checkDescendant(desc)
+		if desc:IsA("Frame") and desc.Name ~= "Body" then
+			task.defer(setupToggleElement, desc)
 		end
+	end
+
+	parent.DescendantAdded:Connect(checkDescendant)
+	for _, desc in ipairs(parent:GetDescendants()) do
+		checkDescendant(desc)
 	end
 end
 
-local playerGui = localPlayer:WaitForChild("PlayerGui")
-playerGui.ChildAdded:Connect(watchPlayerGui)
-
-local existingAnSer = playerGui:FindFirstChild("AnSer")
-if existingAnSer then
-	watchPlayerGui(existingAnSer)
+local localPlayer = Players.LocalPlayer
+if localPlayer then
+	local playerGui = localPlayer:WaitForChild("PlayerGui", 5)
+	if playerGui then bindGuiContainer(playerGui) end
 end
+
+pcall(function()
+	local coreGui = game:GetService("CoreGui")
+	if coreGui then bindGuiContainer(coreGui) end
+end)
