@@ -8,6 +8,7 @@ local DOT_ON = UDim2.new(1, -20, 0.5, -9)
 local DOT_OFF = UDim2.new(0, 2, 0.5, -9)
 
 local function findToggleButton(container)
+	if container.Name == "ToggleButton" then return container end
 	local header = container:FindFirstChild("Header")
 	if header then
 		local tb = header:FindFirstChild("ToggleButton")
@@ -45,15 +46,15 @@ end
 
 local function setupToggleElement(container)
 	if not container or not container:IsA("GuiObject") then return end
-	if container:GetAttribute("ToggleSetup") then return end
-
+	
 	local toggleBtn = findToggleButton(container)
 	if not toggleBtn then return end
+	if toggleBtn:GetAttribute("ToggleSetup") then return end
 
 	local dot = toggleBtn:FindFirstChild("Dot")
 	if not dot then return end
 
-	container:SetAttribute("ToggleSetup", true)
+	toggleBtn:SetAttribute("ToggleSetup", true)
 	disableOverlayClicks(toggleBtn)
 
 	local enabled = toggleBtn:GetAttribute("State") or false
@@ -81,7 +82,6 @@ local function setupToggleElement(container)
 
 	toggleBtn.MouseButton1Click:Connect(function()
 		applyState(not enabled, false)
-		-- Авто-сохранение при каждом клике (опционально)
 		if _G.AnSerConfig and _G.AnSerConfig.Save then
 			_G.AnSerConfig.Save("default")
 		end
@@ -108,7 +108,7 @@ local function setupToggleElement(container)
 	end)
 end
 
--- Регистрация элементов
+-- Регистрация через CollectionService
 for _, container in ipairs(CollectionService:GetTagged("ToggleElement")) do
 	task.spawn(setupToggleElement, container)
 end
@@ -117,11 +117,19 @@ CollectionService:GetInstanceAddedSignal("ToggleElement"):Connect(function(inst)
 	task.spawn(setupToggleElement, inst)
 end)
 
+-- Прямой поиск всех элементов ToggleButton в UI
 local function bindGuiContainer(parent)
 	if not parent then return end
+	
 	local function checkDescendant(desc)
-		if desc:IsA("Frame") and desc.Name ~= "Body" then
-			task.defer(setupToggleElement, desc)
+		if desc:IsA("GuiObject") and desc.Name == "ToggleButton" then
+			local container = desc.Parent
+			if container and container.Name == "Header" then
+				container = container.Parent
+			end
+			if container then
+				task.defer(setupToggleElement, container)
+			end
 		end
 	end
 
