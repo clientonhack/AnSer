@@ -1,5 +1,7 @@
+--edited
 local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
 
 local COLOR_ON  = Color3.fromRGB(45, 200, 90)
 local COLOR_OFF = Color3.fromRGB(90, 90, 100)
@@ -100,6 +102,9 @@ CollectionService:GetInstanceAddedSignal("ToggleElement"):Connect(function(inst)
 	task.spawn(setupToggleElement, inst)
 end)
 
+-- ВАЖНО: без script.Parent, через PlayerGui
+local parentGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+
 local function scanForToggles(root)
 	for _, desc in ipairs(root:GetDescendants()) do
 		if desc:GetAttribute("ToggleSetup") then continue end
@@ -113,9 +118,9 @@ local function scanForToggles(root)
 	end
 end
 
-scanForToggles(script.Parent)
+scanForToggles(parentGui)
 
-script.Parent.DescendantAdded:Connect(function(desc)
+parentGui.DescendantAdded:Connect(function(desc)
 	if desc:IsA("Frame") then
 		local hasToggle = desc:FindFirstChild("ToggleButton")
 			or (desc:FindFirstChild("Header") and desc.Header:FindFirstChild("ToggleButton"))
