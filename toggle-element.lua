@@ -8,7 +8,11 @@ local DOT_ON = UDim2.new(1, -20, 0.5, -9)
 local DOT_OFF = UDim2.new(0, 2, 0.5, -9)
 
 local function buildID(toggleBtn)
-	local parts = toggleBtn:GetFullName():split(".")
+	if not toggleBtn or not toggleBtn.Parent then return "Unknown" end
+	local ok, fullName = pcall(function() return toggleBtn:GetFullName() end)
+	if not ok or not fullName then return "Unknown" end
+	
+	local parts = string.split(fullName, ".")
 	local filtered = {}
 	
 	local ignoreNames = { 
@@ -19,47 +23,28 @@ local function buildID(toggleBtn)
 	}
 	
 	for _, p in ipairs(parts) do
-		if not ignoreNames[p] then
+		if p and p ~= "" and not ignoreNames[p] then
 			table.insert(filtered, p)
 		end
 	end
 	return table.concat(filtered, ".")
 end
 
-local function disableOverlayClicks(toggleBtn)
-	local parent = toggleBtn.Parent
-	if parent then
-		parent.Active = false
-		parent.Selectable = false
-		for _, child in ipairs(parent:GetChildren()) do
-			if child ~= toggleBtn and child:IsA("GuiObject") then
-				child.Active = false
-				child.Selectable = false
-			end
-		end
-	end
-end
-
--- Настройка одного конкретного ToggleButton
 local function setupToggleButton(toggleBtn)
 	if not toggleBtn or not toggleBtn:IsA("GuiObject") then return end
 	if toggleBtn:GetAttribute("ToggleSetup") then return end
 
-	-- Ждем появления Dot, так как он может создаваться на миллисекунды позже самой кнопки
-	local dot = toggleBtn:FindFirstChild("Dot")
-	if not dot then
-		dot = toggleBtn:WaitForChild("Dot", 5)
-	end
+	local dot = toggleBtn:FindFirstChild("Dot") or toggleBtn:WaitForChild("Dot", 5)
 	if not dot then return end
 
 	toggleBtn:SetAttribute("ToggleSetup", true)
-	disableOverlayClicks(toggleBtn)
-
+	
 	local enabled = toggleBtn:GetAttribute("State") or false
+	local row = toggleBtn.Parent
+	local lastToggle = 0
 
 	local function applyState(state, instant)
 		enabled = state and true or false
-		
 		if toggleBtn:GetAttribute("State") ~= enabled then
 			toggleBtn:SetAttribute("State", enabled)
 		end
@@ -78,12 +63,27 @@ local function setupToggleButton(toggleBtn)
 
 	applyState(enabled, true)
 
-	toggleBtn.MouseButton1Click:Connect(function()
+	local function toggle()
+		if tick() - lastToggle < 0.1 then return end -- Защита от двойного срабатывания
+		lastToggle = tick()
 		applyState(not enabled, false)
 		if _G.AnSerConfig and _G.AnSerConfig.Save then
-			_G.AnSerConfig.Save("default")
+			pcall(function() _G.AnSerConfig.Save("default") end)
 		end
-	end)
+	end
+
+	-- Стандартный клик по самой кнопке
+	toggleBtn.MouseButton1Click:Connect(toggle)
+
+	-- Делаем кликабельной ВСЮ строку (родительский контейнер)
+	if row and row:IsA("GuiObject") and row ~= toggleBtn then
+		row.Active = true
+		row.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				toggle()
+			end
+		end)
+	end
 
 	toggleBtn:GetAttributeChangedSignal("State"):Connect(function()
 		local newState = toggleBtn:GetAttribute("State")
@@ -96,70 +96,57 @@ local function setupToggleButton(toggleBtn)
 		while not _G.AnSerConfig do
 			task.wait(0.1)
 		end
-
-		local id = buildID(toggleBtn)
-		_G.AnSerConfig.RegisterToggle(
-			id,
-			function() return enabled end,
-			function(v) applyState(v, true) end
-		)
-	end)
-end
-
--- Настройка ВСЕХ тогглов внутри контейнера (включая вложенные в Body)
-local function setupAllTogglesInContainer(container)
-	if not container or not container:IsA("GuiObject") then return end
-	
-	local function findAndSetup(descendants)
-		for _, desc in ipairs(descendants) do
-			if desc.Name == "ToggleButton" and desc:IsA("GuiObject") then
-				setupToggleButton(desc)
-			end
-		end
-	end
-
-	findAndSetup(container:GetDescendants())
-	
-	-- Слушаем появление новых кнопок (решает проблему Race Condition)
-	container.DescendantAdded:Connect(function(desc)
-		if desc.Name == "ToggleButton" and desc:IsA("GuiObject") then
-			setupToggleButton(desc)
+		if not toggleBtn.Parent then return end
+		
+		local ok, id = pcall(buildID, toggleBtn)
+		if ok and id then
+			pcall(function()
+				_G.AnSerConfig.RegisterToggle(
+					id,
+					function() return enabled end,
+					function(v) applyState(v, true) end
+				)
+			end)
 		end
 	end)
 end
 
--- Регистрация через CollectionService (для главных контейнеров)
-for _, container in ipairs(CollectionService:GetTagged("ToggleElement")) do
-	task.spawn(setupAllTogglesInContainer, container)
-end
-
-CollectionService:GetInstanceAddedSignal("ToggleElement"):Connect(function(inst)
-	task.spawn(setupAllTogglesInContainer, inst)
-end)
-
--- Fallback: Прямой поиск всех элементов ToggleButton в UI
-local function bindGuiContainer(parent)
+local function scanAndSetup(parent)
 	if not parent then return end
-	
-	local function checkDescendant(desc)
-		if desc:IsA("GuiObject") and desc.Name == "ToggleButton" then
-			setupToggleButton(desc)
+	for _, desc in ipairs(parent:GetDescendants()) do
+		if desc.Name == "ToggleButton" and desc:IsA("GuiObject") then
+			task.spawn(setupToggleButton, desc)
 		end
 	end
-
-	parent.DescendantAdded:Connect(checkDescendant)
-	for _, desc in ipairs(parent:GetDescendants()) do
-		checkDescendant(desc)
-	end
+	parent.DescendantAdded:Connect(function(desc)
+		if desc.Name == "ToggleButton" and desc:IsA("GuiObject") then
+			task.spawn(setupToggleButton, desc)
+		end
+	end)
 end
 
 local localPlayer = Players.LocalPlayer
 if localPlayer then
-	local playerGui = localPlayer:WaitForChild("PlayerGui", 5)
-	if playerGui then bindGuiContainer(playerGui) end
+	local playerGui = localPlayer:FindFirstChild("PlayerGui") or localPlayer:WaitForChild("PlayerGui", 10)
+	if playerGui then scanAndSetup(playerGui) end
 end
 
 pcall(function()
 	local coreGui = game:GetService("CoreGui")
-	if coreGui then bindGuiContainer(coreGui) end
+	if coreGui then scanAndSetup(coreGui) end
+end)
+
+-- ФОНОВЫЙ СКАНЕР: Гарантированно подхватывает тогглы, если экзекутор "проморгал" их создание через loadstring
+task.spawn(function()
+	while true do
+		task.wait(2)
+		local pg = localPlayer and localPlayer:FindFirstChild("PlayerGui")
+		if pg then
+			for _, desc in ipairs(pg:GetDescendants()) do
+				if desc.Name == "ToggleButton" and desc:IsA("GuiObject") and not desc:GetAttribute("ToggleSetup") then
+					task.spawn(setupToggleButton, desc)
+				end
+			end
+		end
+	end
 end)
