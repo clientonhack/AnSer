@@ -7,36 +7,15 @@ local COLOR_OFF = Color3.fromRGB(90, 90, 100)
 local DOT_ON = UDim2.new(1, -20, 0.5, -9)
 local DOT_OFF = UDim2.new(0, 2, 0.5, -9)
 
-local function findToggleButton(container)
-	if container.Name == "ToggleButton" then return container end
-	local header = container:FindFirstChild("Header")
-	if header then
-		local tb = header:FindFirstChild("ToggleButton")
-		if tb then return tb end
-	end
-	return container:FindFirstChild("ToggleButton")
-end
-
 local function buildID(toggleBtn)
 	local parts = toggleBtn:GetFullName():split(".")
 	local filtered = {}
 	
-	-- Добавлены системные имена Roblox для корректного формирования чистого логического ID
 	local ignoreNames = { 
-		game = true, 
-		Players = true, 
-		LocalPlayer = true, 
-		PlayerGui = true, 
-		CoreGui = true, 
-		StarterGui = true,
-		AnSer = true, 
-		Main = true, 
-		ContentArea = true, 
-		Body = true, 
-		Header = true, 
-		ToggleButton = true,
-		TabList = true,
-		TabPage = true
+		game = true, Players = true, LocalPlayer = true, PlayerGui = true, 
+		CoreGui = true, StarterGui = true, AnSer = true, Main = true, 
+		ContentArea = true, Body = true, Header = true, ToggleButton = true,
+		TabList = true, TabPage = true
 	}
 	
 	for _, p in ipairs(parts) do
@@ -61,14 +40,16 @@ local function disableOverlayClicks(toggleBtn)
 	end
 end
 
-local function setupToggleElement(container)
-	if not container or not container:IsA("GuiObject") then return end
-	
-	local toggleBtn = findToggleButton(container)
-	if not toggleBtn then return end
+-- Настройка одного конкретного ToggleButton
+local function setupToggleButton(toggleBtn)
+	if not toggleBtn or not toggleBtn:IsA("GuiObject") then return end
 	if toggleBtn:GetAttribute("ToggleSetup") then return end
 
+	-- Ждем появления Dot, так как он может создаваться на миллисекунды позже самой кнопки
 	local dot = toggleBtn:FindFirstChild("Dot")
+	if not dot then
+		dot = toggleBtn:WaitForChild("Dot", 5)
+	end
 	if not dot then return end
 
 	toggleBtn:SetAttribute("ToggleSetup", true)
@@ -125,28 +106,44 @@ local function setupToggleElement(container)
 	end)
 end
 
--- Регистрация через CollectionService
+-- Настройка ВСЕХ тогглов внутри контейнера (включая вложенные в Body)
+local function setupAllTogglesInContainer(container)
+	if not container or not container:IsA("GuiObject") then return end
+	
+	local function findAndSetup(descendants)
+		for _, desc in ipairs(descendants) do
+			if desc.Name == "ToggleButton" and desc:IsA("GuiObject") then
+				setupToggleButton(desc)
+			end
+		end
+	end
+
+	findAndSetup(container:GetDescendants())
+	
+	-- Слушаем появление новых кнопок (решает проблему Race Condition)
+	container.DescendantAdded:Connect(function(desc)
+		if desc.Name == "ToggleButton" and desc:IsA("GuiObject") then
+			setupToggleButton(desc)
+		end
+	end)
+end
+
+-- Регистрация через CollectionService (для главных контейнеров)
 for _, container in ipairs(CollectionService:GetTagged("ToggleElement")) do
-	task.spawn(setupToggleElement, container)
+	task.spawn(setupAllTogglesInContainer, container)
 end
 
 CollectionService:GetInstanceAddedSignal("ToggleElement"):Connect(function(inst)
-	task.spawn(setupToggleElement, inst)
+	task.spawn(setupAllTogglesInContainer, inst)
 end)
 
--- Прямой поиск всех элементов ToggleButton в UI
+-- Fallback: Прямой поиск всех элементов ToggleButton в UI
 local function bindGuiContainer(parent)
 	if not parent then return end
 	
 	local function checkDescendant(desc)
 		if desc:IsA("GuiObject") and desc.Name == "ToggleButton" then
-			local container = desc.Parent
-			if container and container.Name == "Header" then
-				container = container.Parent
-			end
-			if container then
-				task.defer(setupToggleElement, container)
-			end
+			setupToggleButton(desc)
 		end
 	end
 
