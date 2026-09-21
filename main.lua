@@ -87,6 +87,7 @@ G2L["9"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], En
 G2L["9"]["Size"] = UDim2.new(0, 26, 0, 26);
 G2L["9"]["Text"] = [[X]];
 G2L["9"]["Name"] = [[CloseButton]];
+G2L["9"]["Visible"] = false;
 G2L["9"]["Position"] = UDim2.new(1, -33, 0.5, -13);
 
 -- Tags
@@ -315,7 +316,6 @@ G2L["1f"] = Instance.new("ScrollingFrame", G2L["1e"]);
 G2L["1f"]["Visible"] = false;
 G2L["1f"]["BorderSizePixel"] = 0;
 G2L["1f"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
-G2L["1f"]["CanvasPosition"] = Vector2.new(0, 600);
 G2L["1f"]["Name"] = [[Combat]];
 G2L["1f"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
 G2L["1f"]["Size"] = UDim2.new(1, -20, 1, -20);
@@ -6020,7 +6020,6 @@ G2L["2f8"] = Instance.new("ScrollingFrame", G2L["1e"]);
 G2L["2f8"]["Visible"] = false;
 G2L["2f8"]["BorderSizePixel"] = 0;
 G2L["2f8"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
-G2L["2f8"]["CanvasPosition"] = Vector2.new(0, 650.99988);
 G2L["2f8"]["Name"] = [[Movement]];
 G2L["2f8"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
 G2L["2f8"]["Size"] = UDim2.new(1, -20, 1, -20);
@@ -9727,6 +9726,7 @@ local script = G2L["6c"];
 	local torsoBtn   = modeFrame:WaitForChild("m2")
 	local closestBtn = modeFrame:WaitForChild("m3")
 	
+	-- Удаление старого FOV GUI если есть
 	local existingFov = player:WaitForChild("PlayerGui"):FindFirstChild("AimFovGui")
 	if existingFov then existingFov:Destroy() end
 	
@@ -9758,19 +9758,20 @@ local script = G2L["6c"];
 	fovCircle.Parent = fovGui
 	fovGui.Parent    = player:WaitForChild("PlayerGui")
 	
+	-- ИСПРАВЛЕННАЯ ФУНКЦИЯ: проверяем атрибут State (наша система тогглов)
 	local function isToggleEnabled(button)
 		if not button or not button.Parent then return false end
-	
+		-- Приоритет: атрибут State от toggle-element.lua
+		local state = button:GetAttribute("State")
+		if state ~= nil then
+			return state == true
+		end
+		-- Фоллбэк: UIStroke
 		local stroke = button:FindFirstChild("UIStroke")
-		if stroke then
-			return stroke.Enabled
-		end
-	
+		if stroke then return stroke.Enabled end
+		-- Фоллбэк: позиция Dot
 		local dot = button:FindFirstChild("Dot")
-		if dot then
-			return dot.Position.X.Scale >= 0.5
-		end
-	
+		if dot then return dot.Position.X.Scale >= 0.5 end
 		return false
 	end
 	
@@ -9927,21 +9928,19 @@ local script = G2L["6c"];
 	
 	local autoFireBusy = false
 	
-	local function autoFire()
+	-- ИСПРАВЛЕНО: target теперь передается как параметр
+	local function autoFire(target)
 		if not isToggleEnabled(autoFireToggle) then return end
 		if autoFireBusy then return end
 	
-		-- === НОВОЕ: Блокировка авто-файра, если меню открыто ===
+		-- Блокировка если меню открыто
 		if _G.MenuMainFrame and _G.MenuMainFrame.Visible then
 			return
 		end
-		-- ========================================================
 	
 		autoFireBusy = true
 	
-		local vp = camera.ViewportSize
-	
-		-- Регистрация для Hitsound (из прошлого шага)
+		-- Регистрация для Hitsound
 		local targetChar = target.Parent
 		local targetHum = targetChar and targetChar:FindFirstChildOfClass("Humanoid")
 		if _G.AnSerHitsound and targetHum then
@@ -9951,6 +9950,8 @@ local script = G2L["6c"];
 				Time = tick()
 			}
 		end
+	
+		local vp = camera.ViewportSize
 	
 		pcall(function()
 			VirtualInputManager:SendMouseButtonEvent(vp.X / 2, vp.Y / 2, 0, true,  game, 0)
@@ -9988,7 +9989,8 @@ local script = G2L["6c"];
 			aimAtTarget(target)
 	
 			if isToggleEnabled(autoFireToggle) then
-				task.spawn(autoFire)
+				-- ИСПРАВЛЕНО: передаем target в autoFire
+				task.spawn(function() autoFire(target) end)
 			end
 		else
 			lockedTarget = nil
@@ -10706,6 +10708,10 @@ local script = G2L["11d"];
 	
 	local function isToggleEnabled(button)
 		if not button or not button.Parent then return false end
+		local state = button:GetAttribute("State")
+		if state ~= nil then
+			return state == true
+		end
 		local stroke = button:FindFirstChild("UIStroke")
 		if stroke then return stroke.Enabled end
 		local dot = button:FindFirstChild("Dot")
@@ -10870,6 +10876,7 @@ local script = G2L["11d"];
 		end
 	end
 	
+	-- ИСПРАВЛЕННАЯ ФУНКЦИЯ: правильное наведение + выстрел
 	local function cameraSnapShot()
 		if silentMode ~= "camera_snap" then return false end
 		if not State.silentAim or not currentTargetPos then return false end
@@ -10890,17 +10897,26 @@ local script = G2L["11d"];
 		local savedType = camera.CameraType
 		local success = false
 	
-		local snapOk = pcall(function()
+		-- Наводим камеру на цель
+		local aimOk = pcall(function()
 			camera.CameraType = Enum.CameraType.Scriptable
 			camera.CFrame = CFrame.new(savedCF.Position, currentTargetPos)
 		end)
 	
-		if snapOk then
-			task.wait()
+		if aimOk then
+			-- Ждем немного чтобы сервер успел обработать направление камеры
+			-- Это КРИТИЧЕСКИ важно для попаданий
+			task.wait(0.05) -- 50мс достаточно для сервера
+	
+			-- Делаем выстрел
 			safeClick()
 			success = true
+	
+			-- Еще небольшая задержка перед восстановлением камеры
+			task.wait(0.02)
 		end
 	
+		-- Восстанавливаем камеру
 		pcall(function()
 			camera.CameraType = savedType
 			camera.CFrame = savedCF
@@ -10919,11 +10935,9 @@ local script = G2L["11d"];
 		if silentMode ~= "camera_snap" then return end
 		if not currentTargetPos then return end
 	
-		-- === НОВОЕ: Блокировка Silent Aim клика, если меню открыто ===
 		if _G.MenuMainFrame and _G.MenuMainFrame.Visible then
 			return
 		end
-		-- ============================================================
 	
 		local now = tick()
 		if now - clickCooldown < 0.1 then return end
@@ -10988,14 +11002,13 @@ local script = G2L["11d"];
 	local lastFire = 0
 	local autoFireBusy = false
 	
+	-- ИСПРАВЛЕННЫЙ AUTOFIRE: правильная синхронизация
 	local function autoFire()
 		if not State.autoFire or not currentTarget or autoFireBusy then return end
 	
-		-- === НОВОЕ: Блокировка авто-файра, если меню открыто ===
 		if _G.MenuMainFrame and _G.MenuMainFrame.Visible then
 			return
 		end
-		-- ========================================================
 	
 		local now = tick()
 		local delay = State.fireDelay / 1000
@@ -11017,9 +11030,12 @@ local script = G2L["11d"];
 			}
 		end
 	
+		-- Если Silent Aim и camera_snap - используем правильное наведение
 		if State.silentAim and silentMode == "camera_snap" then
+			-- Ждем пока камера наведется
 			cameraSnapShot()
 		else
+			-- Для других режимов просто кликаем
 			safeClick()
 		end
 	
