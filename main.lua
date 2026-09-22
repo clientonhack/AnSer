@@ -7,13 +7,14 @@
  Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
 ]=]
 
--- Instances: 1185 | Scripts: 106 | Modules: 0 | Tags: 72
+-- Instances: 1129 | Scripts: 112 | Modules: 0 | Tags: 68
 local CollectionService = game:GetService("CollectionService");
 local G2L = {};
 
 -- StarterGui.AnSer
 G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
 G2L["1"]["IgnoreGuiInset"] = true;
+G2L["1"]["DisplayOrder"] = 268475347;
 G2L["1"]["ScreenInsets"] = Enum.ScreenInsets.DeviceSafeInsets;
 G2L["1"]["Name"] = [[AnSer]];
 G2L["1"]["ResetOnSpawn"] = false;
@@ -7848,7 +7849,6 @@ G2L["3e1"] = Instance.new("LocalScript", G2L["3d7"]);
 
 -- StarterGui.AnSer.Main.ContentArea.HUD
 G2L["3e2"] = Instance.new("ScrollingFrame", G2L["1e"]);
-G2L["3e2"]["Visible"] = false;
 G2L["3e2"]["BorderSizePixel"] = 0;
 G2L["3e2"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
 G2L["3e2"]["Name"] = [[HUD]];
@@ -7870,1607 +7870,1107 @@ G2L["3e3"]["Padding"] = UDim.new(0, 8);
 G2L["3e3"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps
 G2L["3e4"] = Instance.new("Frame", G2L["3e2"]);
 G2L["3e4"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
 G2L["3e4"]["ClipsDescendants"] = true;
-G2L["3e4"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["3e4"]["Name"] = [[WaterMark]];
+G2L["3e4"]["Size"] = UDim2.new(1, 0, -0.18235, 100);
+G2L["3e4"]["Position"] = UDim2.new(0, 0, 0.31765, 0);
+G2L["3e4"]["Name"] = [[Fps]];
 G2L["3e4"]["LayoutOrder"] = 1;
 
 -- Tags
 CollectionService:AddTag(G2L["3e4"], [[ToggleElement]]);
 
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.UICorner
-G2L["3e5"] = Instance.new("UICorner", G2L["3e4"]);
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header
+G2L["3e5"] = Instance.new("Frame", G2L["3e4"]);
+G2L["3e5"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["3e5"]["Name"] = [[Header]];
+G2L["3e5"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.TextLabel
+G2L["3e6"] = Instance.new("TextLabel", G2L["3e5"]);
+G2L["3e6"]["TextSize"] = 14;
+G2L["3e6"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["3e6"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["3e6"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["3e6"]["BackgroundTransparency"] = 1;
+G2L["3e6"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["3e6"]["Text"] = [[ChinaHat]];
+G2L["3e6"]["Position"] = UDim2.new(0, 8, 0, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.TextLabel.LocalScript
+G2L["3e7"] = Instance.new("LocalScript", G2L["3e6"]);
 
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.UIStroke
-G2L["3e6"] = Instance.new("UIStroke", G2L["3e4"]);
-G2L["3e6"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Header
-G2L["3e7"] = Instance.new("Frame", G2L["3e4"]);
-G2L["3e7"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["3e7"]["Name"] = [[Header]];
-G2L["3e7"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Header.Arrow
-G2L["3e8"] = Instance.new("TextButton", G2L["3e7"]);
-G2L["3e8"]["TextSize"] = 14;
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton
+G2L["3e8"] = Instance.new("TextButton", G2L["3e5"]);
 G2L["3e8"]["AutoButtonColor"] = false;
-G2L["3e8"]["TextColor3"] = Color3.fromRGB(201, 201, 211);
-G2L["3e8"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["3e8"]["BackgroundTransparency"] = 1;
-G2L["3e8"]["Size"] = UDim2.new(0, 24, 0, 24);
-G2L["3e8"]["Text"] = [[▶]];
-G2L["3e8"]["Name"] = [[Arrow]];
-G2L["3e8"]["Position"] = UDim2.new(0, 8, 0.5, -12);
+G2L["3e8"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["3e8"]["Size"] = UDim2.new(0, 42, 0, 22);
+G2L["3e8"]["Text"] = [[]];
+G2L["3e8"]["Name"] = [[ToggleButton]];
+G2L["3e8"]["Position"] = UDim2.new(1, -52, 0.5, -11);
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Header.TextLabel
-G2L["3e9"] = Instance.new("TextLabel", G2L["3e7"]);
-G2L["3e9"]["TextSize"] = 14;
-G2L["3e9"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["3e9"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["3e9"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["3e9"]["BackgroundTransparency"] = 1;
-G2L["3e9"]["Size"] = UDim2.new(1, -90, 1, 0);
-G2L["3e9"]["Text"] = [[Test Function A]];
-G2L["3e9"]["Position"] = UDim2.new(0, 38, 0, 0);
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton.UICorner
+G2L["3e9"] = Instance.new("UICorner", G2L["3e8"]);
+G2L["3e9"]["CornerRadius"] = UDim.new(1, 0);
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Header.ToggleButton
-G2L["3ea"] = Instance.new("TextButton", G2L["3e7"]);
-G2L["3ea"]["AutoButtonColor"] = false;
-G2L["3ea"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["3ea"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["3ea"]["Text"] = [[]];
-G2L["3ea"]["Name"] = [[ToggleButton]];
-G2L["3ea"]["Position"] = UDim2.new(1, -52, 0.5, -11);
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton.Dot
+G2L["3ea"] = Instance.new("Frame", G2L["3e8"]);
+G2L["3ea"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
+G2L["3ea"]["Size"] = UDim2.new(0, 18, 0, 18);
+G2L["3ea"]["Position"] = UDim2.new(0, 2, 0.5, -9);
+G2L["3ea"]["Name"] = [[Dot]];
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Header.ToggleButton.UICorner
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton.Dot.UICorner
 G2L["3eb"] = Instance.new("UICorner", G2L["3ea"]);
 G2L["3eb"]["CornerRadius"] = UDim.new(1, 0);
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Header.ToggleButton.Dot
-G2L["3ec"] = Instance.new("Frame", G2L["3ea"]);
-G2L["3ec"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["3ec"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["3ec"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["3ec"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Header.ToggleButton.Dot.UICorner
-G2L["3ed"] = Instance.new("UICorner", G2L["3ec"]);
-G2L["3ed"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Body
-G2L["3ee"] = Instance.new("Frame", G2L["3e4"]);
-G2L["3ee"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
-G2L["3ee"]["Size"] = UDim2.new(1, -16, 0, 50);
-G2L["3ee"]["Position"] = UDim2.new(0, 8, 0, 42);
-G2L["3ee"]["Name"] = [[Body]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Body.UICorner
-G2L["3ef"] = Instance.new("UICorner", G2L["3ee"]);
-G2L["3ef"]["CornerRadius"] = UDim.new(0, 6);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.WaterMark.Body.TextLabel
-G2L["3f0"] = Instance.new("TextLabel", G2L["3ee"]);
-G2L["3f0"]["TextWrapped"] = true;
-G2L["3f0"]["TextSize"] = 12;
-G2L["3f0"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["3f0"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-G2L["3f0"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["3f0"]["TextColor3"] = Color3.fromRGB(161, 161, 171);
-G2L["3f0"]["BackgroundTransparency"] = 1;
-G2L["3f0"]["Size"] = UDim2.new(1, -16, 1, -10);
-G2L["3f0"]["Text"] = [[Тестовая настройка функции (ничего не делает)]];
-G2L["3f0"]["Position"] = UDim2.new(0, 8, 0, 5);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps
-G2L["3f1"] = Instance.new("Frame", G2L["3e2"]);
-G2L["3f1"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["3f1"]["ClipsDescendants"] = true;
-G2L["3f1"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["3f1"]["Name"] = [[Fps]];
-G2L["3f1"]["LayoutOrder"] = 2;
-
--- Tags
-CollectionService:AddTag(G2L["3f1"], [[ToggleElement]]);
-
 -- StarterGui.AnSer.Main.ContentArea.HUD.Fps.UICorner
-G2L["3f2"] = Instance.new("UICorner", G2L["3f1"]);
+G2L["3ec"] = Instance.new("UICorner", G2L["3e4"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.HUD.Fps.UIStroke
-G2L["3f3"] = Instance.new("UIStroke", G2L["3f1"]);
-G2L["3f3"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["3ed"] = Instance.new("UIStroke", G2L["3e4"]);
+G2L["3ed"]["Color"] = Color3.fromRGB(61, 61, 71);
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header
-G2L["3f4"] = Instance.new("Frame", G2L["3f1"]);
-G2L["3f4"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["3f4"]["Name"] = [[Header]];
-G2L["3f4"]["BackgroundTransparency"] = 1;
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.LocalScript
+G2L["3ee"] = Instance.new("LocalScript", G2L["3e4"]);
 
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.Arrow
-G2L["3f5"] = Instance.new("TextButton", G2L["3f4"]);
-G2L["3f5"]["TextSize"] = 14;
-G2L["3f5"]["AutoButtonColor"] = false;
-G2L["3f5"]["TextColor3"] = Color3.fromRGB(201, 201, 211);
-G2L["3f5"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["3f5"]["BackgroundTransparency"] = 1;
-G2L["3f5"]["Size"] = UDim2.new(0, 24, 0, 24);
-G2L["3f5"]["Text"] = [[▶]];
-G2L["3f5"]["Name"] = [[Arrow]];
-G2L["3f5"]["Position"] = UDim2.new(0, 8, 0.5, -12);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.TextLabel
-G2L["3f6"] = Instance.new("TextLabel", G2L["3f4"]);
-G2L["3f6"]["TextSize"] = 14;
-G2L["3f6"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["3f6"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["3f6"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["3f6"]["BackgroundTransparency"] = 1;
-G2L["3f6"]["Size"] = UDim2.new(1, -90, 1, 0);
-G2L["3f6"]["Text"] = [[Test Function B]];
-G2L["3f6"]["Position"] = UDim2.new(0, 38, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton
-G2L["3f7"] = Instance.new("TextButton", G2L["3f4"]);
-G2L["3f7"]["AutoButtonColor"] = false;
-G2L["3f7"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["3f7"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["3f7"]["Text"] = [[]];
-G2L["3f7"]["Name"] = [[ToggleButton]];
-G2L["3f7"]["Position"] = UDim2.new(1, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton.UICorner
-G2L["3f8"] = Instance.new("UICorner", G2L["3f7"]);
-G2L["3f8"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton.Dot
-G2L["3f9"] = Instance.new("Frame", G2L["3f7"]);
-G2L["3f9"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["3f9"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["3f9"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["3f9"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.ToggleButton.Dot.UICorner
-G2L["3fa"] = Instance.new("UICorner", G2L["3f9"]);
-G2L["3fa"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Body
-G2L["3fb"] = Instance.new("Frame", G2L["3f1"]);
-G2L["3fb"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
-G2L["3fb"]["Size"] = UDim2.new(1, -16, 0, 50);
-G2L["3fb"]["Position"] = UDim2.new(0, 8, 0, 42);
-G2L["3fb"]["Name"] = [[Body]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Body.UICorner
-G2L["3fc"] = Instance.new("UICorner", G2L["3fb"]);
-G2L["3fc"]["CornerRadius"] = UDim.new(0, 6);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Body.TextLabel
-G2L["3fd"] = Instance.new("TextLabel", G2L["3fb"]);
-G2L["3fd"]["TextWrapped"] = true;
-G2L["3fd"]["TextSize"] = 12;
-G2L["3fd"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["3fd"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-G2L["3fd"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["3fd"]["TextColor3"] = Color3.fromRGB(161, 161, 171);
-G2L["3fd"]["BackgroundTransparency"] = 1;
-G2L["3fd"]["Size"] = UDim2.new(1, -16, 1, -10);
-G2L["3fd"]["Text"] = [[Тестовая настройка функции (ничего не делает)]];
-G2L["3fd"]["Position"] = UDim2.new(0, 8, 0, 5);
 
 
 -- StarterGui.AnSer.Main.ContentArea.HUD.User
-G2L["3fe"] = Instance.new("Frame", G2L["3e2"]);
-G2L["3fe"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["3fe"]["ClipsDescendants"] = true;
-G2L["3fe"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["3fe"]["Name"] = [[User]];
-G2L["3fe"]["LayoutOrder"] = 2;
+G2L["3ef"] = Instance.new("Frame", G2L["3e2"]);
+G2L["3ef"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["3ef"]["ClipsDescendants"] = true;
+G2L["3ef"]["Size"] = UDim2.new(1, 0, -0.18235, 100);
+G2L["3ef"]["Position"] = UDim2.new(0, 0, 0.31765, 0);
+G2L["3ef"]["Name"] = [[User]];
+G2L["3ef"]["LayoutOrder"] = 1;
 
 -- Tags
-CollectionService:AddTag(G2L["3fe"], [[ToggleElement]]);
+CollectionService:AddTag(G2L["3ef"], [[ToggleElement]]);
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header
+G2L["3f0"] = Instance.new("Frame", G2L["3ef"]);
+G2L["3f0"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["3f0"]["Name"] = [[Header]];
+G2L["3f0"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.TextLabel
+G2L["3f1"] = Instance.new("TextLabel", G2L["3f0"]);
+G2L["3f1"]["TextSize"] = 14;
+G2L["3f1"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["3f1"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["3f1"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["3f1"]["BackgroundTransparency"] = 1;
+G2L["3f1"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["3f1"]["Text"] = [[ChinaHat]];
+G2L["3f1"]["Position"] = UDim2.new(0, 8, 0, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.TextLabel.LocalScript
+G2L["3f2"] = Instance.new("LocalScript", G2L["3f1"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton
+G2L["3f3"] = Instance.new("TextButton", G2L["3f0"]);
+G2L["3f3"]["AutoButtonColor"] = false;
+G2L["3f3"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["3f3"]["Size"] = UDim2.new(0, 42, 0, 22);
+G2L["3f3"]["Text"] = [[]];
+G2L["3f3"]["Name"] = [[ToggleButton]];
+G2L["3f3"]["Position"] = UDim2.new(1, -52, 0.5, -11);
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton.UICorner
+G2L["3f4"] = Instance.new("UICorner", G2L["3f3"]);
+G2L["3f4"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton.Dot
+G2L["3f5"] = Instance.new("Frame", G2L["3f3"]);
+G2L["3f5"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
+G2L["3f5"]["Size"] = UDim2.new(0, 18, 0, 18);
+G2L["3f5"]["Position"] = UDim2.new(0, 2, 0.5, -9);
+G2L["3f5"]["Name"] = [[Dot]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton.Dot.UICorner
+G2L["3f6"] = Instance.new("UICorner", G2L["3f5"]);
+G2L["3f6"]["CornerRadius"] = UDim.new(1, 0);
+
 
 -- StarterGui.AnSer.Main.ContentArea.HUD.User.UICorner
-G2L["3ff"] = Instance.new("UICorner", G2L["3fe"]);
+G2L["3f7"] = Instance.new("UICorner", G2L["3ef"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.HUD.User.UIStroke
-G2L["400"] = Instance.new("UIStroke", G2L["3fe"]);
-G2L["400"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["3f8"] = Instance.new("UIStroke", G2L["3ef"]);
+G2L["3f8"]["Color"] = Color3.fromRGB(61, 61, 71);
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Header
-G2L["401"] = Instance.new("Frame", G2L["3fe"]);
-G2L["401"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["401"]["Name"] = [[Header]];
-G2L["401"]["BackgroundTransparency"] = 1;
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.LocalScript
+G2L["3f9"] = Instance.new("LocalScript", G2L["3ef"]);
 
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.Arrow
-G2L["402"] = Instance.new("TextButton", G2L["401"]);
-G2L["402"]["TextSize"] = 14;
-G2L["402"]["AutoButtonColor"] = false;
-G2L["402"]["TextColor3"] = Color3.fromRGB(201, 201, 211);
-G2L["402"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["402"]["BackgroundTransparency"] = 1;
-G2L["402"]["Size"] = UDim2.new(0, 24, 0, 24);
-G2L["402"]["Text"] = [[▶]];
-G2L["402"]["Name"] = [[Arrow]];
-G2L["402"]["Position"] = UDim2.new(0, 8, 0.5, -12);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.TextLabel
-G2L["403"] = Instance.new("TextLabel", G2L["401"]);
-G2L["403"]["TextSize"] = 14;
-G2L["403"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["403"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["403"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["403"]["BackgroundTransparency"] = 1;
-G2L["403"]["Size"] = UDim2.new(1, -90, 1, 0);
-G2L["403"]["Text"] = [[Test Function B]];
-G2L["403"]["Position"] = UDim2.new(0, 38, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton
-G2L["404"] = Instance.new("TextButton", G2L["401"]);
-G2L["404"]["AutoButtonColor"] = false;
-G2L["404"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["404"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["404"]["Text"] = [[]];
-G2L["404"]["Name"] = [[ToggleButton]];
-G2L["404"]["Position"] = UDim2.new(1, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton.UICorner
-G2L["405"] = Instance.new("UICorner", G2L["404"]);
-G2L["405"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton.Dot
-G2L["406"] = Instance.new("Frame", G2L["404"]);
-G2L["406"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["406"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["406"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["406"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.ToggleButton.Dot.UICorner
-G2L["407"] = Instance.new("UICorner", G2L["406"]);
-G2L["407"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Body
-G2L["408"] = Instance.new("Frame", G2L["3fe"]);
-G2L["408"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
-G2L["408"]["Size"] = UDim2.new(1, -16, 0, 50);
-G2L["408"]["Position"] = UDim2.new(0, 8, 0, 42);
-G2L["408"]["Name"] = [[Body]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Body.UICorner
-G2L["409"] = Instance.new("UICorner", G2L["408"]);
-G2L["409"]["CornerRadius"] = UDim.new(0, 6);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.User.Body.TextLabel
-G2L["40a"] = Instance.new("TextLabel", G2L["408"]);
-G2L["40a"]["TextWrapped"] = true;
-G2L["40a"]["TextSize"] = 12;
-G2L["40a"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["40a"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-G2L["40a"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["40a"]["TextColor3"] = Color3.fromRGB(161, 161, 171);
-G2L["40a"]["BackgroundTransparency"] = 1;
-G2L["40a"]["Size"] = UDim2.new(1, -16, 1, -10);
-G2L["40a"]["Text"] = [[Тестовая настройка функции (ничего не делает)]];
-G2L["40a"]["Position"] = UDim2.new(0, 8, 0, 5);
 
 
 -- StarterGui.AnSer.Main.ContentArea.HUD.Ping
-G2L["40b"] = Instance.new("Frame", G2L["3e2"]);
-G2L["40b"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["40b"]["ClipsDescendants"] = true;
-G2L["40b"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["40b"]["Name"] = [[Ping]];
-G2L["40b"]["LayoutOrder"] = 2;
+G2L["3fa"] = Instance.new("Frame", G2L["3e2"]);
+G2L["3fa"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["3fa"]["ClipsDescendants"] = true;
+G2L["3fa"]["Size"] = UDim2.new(1, 0, -0.18235, 100);
+G2L["3fa"]["Position"] = UDim2.new(0, 0, 0.31765, 0);
+G2L["3fa"]["Name"] = [[Ping]];
+G2L["3fa"]["LayoutOrder"] = 1;
 
 -- Tags
-CollectionService:AddTag(G2L["40b"], [[ToggleElement]]);
+CollectionService:AddTag(G2L["3fa"], [[ToggleElement]]);
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header
+G2L["3fb"] = Instance.new("Frame", G2L["3fa"]);
+G2L["3fb"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["3fb"]["Name"] = [[Header]];
+G2L["3fb"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.TextLabel
+G2L["3fc"] = Instance.new("TextLabel", G2L["3fb"]);
+G2L["3fc"]["TextSize"] = 14;
+G2L["3fc"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["3fc"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["3fc"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["3fc"]["BackgroundTransparency"] = 1;
+G2L["3fc"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["3fc"]["Text"] = [[ChinaHat]];
+G2L["3fc"]["Position"] = UDim2.new(0, 8, 0, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.TextLabel.LocalScript
+G2L["3fd"] = Instance.new("LocalScript", G2L["3fc"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton
+G2L["3fe"] = Instance.new("TextButton", G2L["3fb"]);
+G2L["3fe"]["AutoButtonColor"] = false;
+G2L["3fe"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["3fe"]["Size"] = UDim2.new(0, 42, 0, 22);
+G2L["3fe"]["Text"] = [[]];
+G2L["3fe"]["Name"] = [[ToggleButton]];
+G2L["3fe"]["Position"] = UDim2.new(1, -52, 0.5, -11);
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton.UICorner
+G2L["3ff"] = Instance.new("UICorner", G2L["3fe"]);
+G2L["3ff"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton.Dot
+G2L["400"] = Instance.new("Frame", G2L["3fe"]);
+G2L["400"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
+G2L["400"]["Size"] = UDim2.new(0, 18, 0, 18);
+G2L["400"]["Position"] = UDim2.new(0, 2, 0.5, -9);
+G2L["400"]["Name"] = [[Dot]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton.Dot.UICorner
+G2L["401"] = Instance.new("UICorner", G2L["400"]);
+G2L["401"]["CornerRadius"] = UDim.new(1, 0);
+
 
 -- StarterGui.AnSer.Main.ContentArea.HUD.Ping.UICorner
-G2L["40c"] = Instance.new("UICorner", G2L["40b"]);
+G2L["402"] = Instance.new("UICorner", G2L["3fa"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.HUD.Ping.UIStroke
-G2L["40d"] = Instance.new("UIStroke", G2L["40b"]);
-G2L["40d"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["403"] = Instance.new("UIStroke", G2L["3fa"]);
+G2L["403"]["Color"] = Color3.fromRGB(61, 61, 71);
 
 
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header
-G2L["40e"] = Instance.new("Frame", G2L["40b"]);
-G2L["40e"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["40e"]["Name"] = [[Header]];
-G2L["40e"]["BackgroundTransparency"] = 1;
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.LocalScript
+G2L["404"] = Instance.new("LocalScript", G2L["3fa"]);
 
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.Arrow
-G2L["40f"] = Instance.new("TextButton", G2L["40e"]);
-G2L["40f"]["TextSize"] = 14;
-G2L["40f"]["AutoButtonColor"] = false;
-G2L["40f"]["TextColor3"] = Color3.fromRGB(201, 201, 211);
-G2L["40f"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["40f"]["BackgroundTransparency"] = 1;
-G2L["40f"]["Size"] = UDim2.new(0, 24, 0, 24);
-G2L["40f"]["Text"] = [[▶]];
-G2L["40f"]["Name"] = [[Arrow]];
-G2L["40f"]["Position"] = UDim2.new(0, 8, 0.5, -12);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.TextLabel
-G2L["410"] = Instance.new("TextLabel", G2L["40e"]);
-G2L["410"]["TextSize"] = 14;
-G2L["410"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["410"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["410"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["410"]["BackgroundTransparency"] = 1;
-G2L["410"]["Size"] = UDim2.new(1, -90, 1, 0);
-G2L["410"]["Text"] = [[Test Function B]];
-G2L["410"]["Position"] = UDim2.new(0, 38, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton
-G2L["411"] = Instance.new("TextButton", G2L["40e"]);
-G2L["411"]["AutoButtonColor"] = false;
-G2L["411"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["411"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["411"]["Text"] = [[]];
-G2L["411"]["Name"] = [[ToggleButton]];
-G2L["411"]["Position"] = UDim2.new(1, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton.UICorner
-G2L["412"] = Instance.new("UICorner", G2L["411"]);
-G2L["412"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton.Dot
-G2L["413"] = Instance.new("Frame", G2L["411"]);
-G2L["413"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["413"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["413"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["413"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.ToggleButton.Dot.UICorner
-G2L["414"] = Instance.new("UICorner", G2L["413"]);
-G2L["414"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Body
-G2L["415"] = Instance.new("Frame", G2L["40b"]);
-G2L["415"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
-G2L["415"]["Size"] = UDim2.new(1, -16, 0, 50);
-G2L["415"]["Position"] = UDim2.new(0, 8, 0, 42);
-G2L["415"]["Name"] = [[Body]];
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Body.UICorner
-G2L["416"] = Instance.new("UICorner", G2L["415"]);
-G2L["416"]["CornerRadius"] = UDim.new(0, 6);
-
-
--- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Body.TextLabel
-G2L["417"] = Instance.new("TextLabel", G2L["415"]);
-G2L["417"]["TextWrapped"] = true;
-G2L["417"]["TextSize"] = 12;
-G2L["417"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["417"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-G2L["417"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["417"]["TextColor3"] = Color3.fromRGB(161, 161, 171);
-G2L["417"]["BackgroundTransparency"] = 1;
-G2L["417"]["Size"] = UDim2.new(1, -16, 1, -10);
-G2L["417"]["Text"] = [[Тестовая настройка функции (ничего не делает)]];
-G2L["417"]["Position"] = UDim2.new(0, 8, 0, 5);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg
-G2L["418"] = Instance.new("ScrollingFrame", G2L["1e"]);
-G2L["418"]["Visible"] = false;
-G2L["418"]["BorderSizePixel"] = 0;
-G2L["418"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
-G2L["418"]["Name"] = [[Cfg]];
-G2L["418"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
-G2L["418"]["Size"] = UDim2.new(1, -20, 1, -20);
-G2L["418"]["ScrollBarImageColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["418"]["Position"] = UDim2.new(0, 10, 0, 10);
-G2L["418"]["ScrollBarThickness"] = 4;
-G2L["418"]["BackgroundTransparency"] = 1;
+G2L["405"] = Instance.new("ScrollingFrame", G2L["1e"]);
+G2L["405"]["Visible"] = false;
+G2L["405"]["BorderSizePixel"] = 0;
+G2L["405"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
+G2L["405"]["Name"] = [[Cfg]];
+G2L["405"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
+G2L["405"]["Size"] = UDim2.new(1, -20, 1, -20);
+G2L["405"]["ScrollBarImageColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["405"]["Position"] = UDim2.new(0, 10, 0, 10);
+G2L["405"]["ScrollBarThickness"] = 4;
+G2L["405"]["BackgroundTransparency"] = 1;
 -- Attributes
-G2L["418"]:SetAttribute([[TabName]], [[Test5]]);
+G2L["405"]:SetAttribute([[TabName]], [[Test5]]);
 
 -- Tags
-CollectionService:AddTag(G2L["418"], [[TabPage]]);
+CollectionService:AddTag(G2L["405"], [[TabPage]]);
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.SafeCfg
-G2L["419"] = Instance.new("TextButton", G2L["418"]);
-G2L["419"]["TextWrapped"] = true;
-G2L["419"]["BorderSizePixel"] = 0;
-G2L["419"]["TextSize"] = 30;
-G2L["419"]["TextScaled"] = true;
-G2L["419"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
-G2L["419"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["419"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["419"]["BackgroundTransparency"] = 0.5;
-G2L["419"]["Size"] = UDim2.new(0, 75, 0, 50);
-G2L["419"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["419"]["Text"] = [[Safe Cfg]];
-G2L["419"]["Name"] = [[SafeCfg]];
-G2L["419"]["Position"] = UDim2.new(0.00976, 0, 0.76471, 0);
+G2L["406"] = Instance.new("TextButton", G2L["405"]);
+G2L["406"]["TextWrapped"] = true;
+G2L["406"]["BorderSizePixel"] = 0;
+G2L["406"]["TextSize"] = 30;
+G2L["406"]["TextScaled"] = true;
+G2L["406"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
+G2L["406"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["406"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["406"]["BackgroundTransparency"] = 0.5;
+G2L["406"]["Size"] = UDim2.new(0, 75, 0, 50);
+G2L["406"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["406"]["Text"] = [[Safe Cfg]];
+G2L["406"]["Name"] = [[SafeCfg]];
+G2L["406"]["Position"] = UDim2.new(0.00976, 0, 0.76471, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.SafeCfg.UICorner
-G2L["41a"] = Instance.new("UICorner", G2L["419"]);
+G2L["407"] = Instance.new("UICorner", G2L["406"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.SafeCfg.UIStroke
-G2L["41b"] = Instance.new("UIStroke", G2L["419"]);
-G2L["41b"]["Color"] = Color3.fromRGB(61, 61, 71);
-G2L["41b"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["408"] = Instance.new("UIStroke", G2L["406"]);
+G2L["408"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["408"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.LoadCfg
-G2L["41c"] = Instance.new("TextButton", G2L["418"]);
-G2L["41c"]["TextWrapped"] = true;
-G2L["41c"]["BorderSizePixel"] = 0;
-G2L["41c"]["TextSize"] = 30;
-G2L["41c"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
-G2L["41c"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["41c"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["41c"]["BackgroundTransparency"] = 0.5;
-G2L["41c"]["Size"] = UDim2.new(0, 150, 0, 50);
-G2L["41c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["41c"]["Text"] = [[Load Cfg]];
-G2L["41c"]["Name"] = [[LoadCfg]];
-G2L["41c"]["Position"] = UDim2.new(0.57805, 0, 0.76471, 0);
+G2L["409"] = Instance.new("TextButton", G2L["405"]);
+G2L["409"]["TextWrapped"] = true;
+G2L["409"]["BorderSizePixel"] = 0;
+G2L["409"]["TextSize"] = 30;
+G2L["409"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
+G2L["409"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["409"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["409"]["BackgroundTransparency"] = 0.5;
+G2L["409"]["Size"] = UDim2.new(0, 150, 0, 50);
+G2L["409"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["409"]["Text"] = [[Load Cfg]];
+G2L["409"]["Name"] = [[LoadCfg]];
+G2L["409"]["Position"] = UDim2.new(0.57805, 0, 0.76471, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.LoadCfg.UICorner
-G2L["41d"] = Instance.new("UICorner", G2L["41c"]);
+G2L["40a"] = Instance.new("UICorner", G2L["409"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.LoadCfg.UIStroke
-G2L["41e"] = Instance.new("UIStroke", G2L["41c"]);
-G2L["41e"]["Color"] = Color3.fromRGB(61, 61, 71);
-G2L["41e"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["40b"] = Instance.new("UIStroke", G2L["409"]);
+G2L["40b"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["40b"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.AutoSafeCfg
-G2L["41f"] = Instance.new("TextButton", G2L["418"]);
-G2L["41f"]["TextWrapped"] = true;
-G2L["41f"]["BorderSizePixel"] = 0;
-G2L["41f"]["TextSize"] = 30;
-G2L["41f"]["TextScaled"] = true;
-G2L["41f"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
-G2L["41f"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["41f"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["41f"]["BackgroundTransparency"] = 0.5;
-G2L["41f"]["Size"] = UDim2.new(0, 70, 0, 50);
-G2L["41f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["41f"]["Text"] = [[AutoSafe: On]];
-G2L["41f"]["Name"] = [[AutoSafeCfg]];
-G2L["41f"]["Position"] = UDim2.new(0.39268, 0, 0.76471, 0);
+G2L["40c"] = Instance.new("TextButton", G2L["405"]);
+G2L["40c"]["TextWrapped"] = true;
+G2L["40c"]["BorderSizePixel"] = 0;
+G2L["40c"]["TextSize"] = 30;
+G2L["40c"]["TextScaled"] = true;
+G2L["40c"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
+G2L["40c"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["40c"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["40c"]["BackgroundTransparency"] = 0.5;
+G2L["40c"]["Size"] = UDim2.new(0, 70, 0, 50);
+G2L["40c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["40c"]["Text"] = [[AutoSafe: On]];
+G2L["40c"]["Name"] = [[AutoSafeCfg]];
+G2L["40c"]["Position"] = UDim2.new(0.39268, 0, 0.76471, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.AutoSafeCfg.UICorner
-G2L["420"] = Instance.new("UICorner", G2L["41f"]);
+G2L["40d"] = Instance.new("UICorner", G2L["40c"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.AutoSafeCfg.UIStroke
-G2L["421"] = Instance.new("UIStroke", G2L["41f"]);
-G2L["421"]["Color"] = Color3.fromRGB(61, 61, 71);
-G2L["421"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["40e"] = Instance.new("UIStroke", G2L["40c"]);
+G2L["40e"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["40e"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CfgList
-G2L["422"] = Instance.new("ScrollingFrame", G2L["418"]);
-G2L["422"]["Active"] = true;
-G2L["422"]["BorderSizePixel"] = 0;
-G2L["422"]["Name"] = [[CfgList]];
-G2L["422"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["422"]["Size"] = UDim2.new(0, 386, 0, 240);
-G2L["422"]["ScrollBarImageColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["422"]["Position"] = UDim2.new(-0, 0, 0, 0);
-G2L["422"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["422"]["BackgroundTransparency"] = 1;
+G2L["40f"] = Instance.new("ScrollingFrame", G2L["405"]);
+G2L["40f"]["Active"] = true;
+G2L["40f"]["BorderSizePixel"] = 0;
+G2L["40f"]["Name"] = [[CfgList]];
+G2L["40f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["40f"]["Size"] = UDim2.new(0, 386, 0, 240);
+G2L["40f"]["ScrollBarImageColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["40f"]["Position"] = UDim2.new(-0, 0, 0, 0);
+G2L["40f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["40f"]["BackgroundTransparency"] = 1;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CfgList.Template
-G2L["423"] = Instance.new("Frame", G2L["422"]);
-G2L["423"]["Visible"] = false;
-G2L["423"]["BorderSizePixel"] = 0;
-G2L["423"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["423"]["Size"] = UDim2.new(0, 371, 0, 44);
-G2L["423"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["423"]["Name"] = [[Template]];
-G2L["423"]["BackgroundTransparency"] = 0.8;
+G2L["410"] = Instance.new("Frame", G2L["40f"]);
+G2L["410"]["Visible"] = false;
+G2L["410"]["BorderSizePixel"] = 0;
+G2L["410"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["410"]["Size"] = UDim2.new(0, 371, 0, 44);
+G2L["410"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["410"]["Name"] = [[Template]];
+G2L["410"]["BackgroundTransparency"] = 0.8;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CfgList.Template.UICorner
-G2L["424"] = Instance.new("UICorner", G2L["423"]);
+G2L["411"] = Instance.new("UICorner", G2L["410"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CfgList.Template.CfgName
-G2L["425"] = Instance.new("TextLabel", G2L["423"]);
-G2L["425"]["BorderSizePixel"] = 0;
-G2L["425"]["TextSize"] = 14;
-G2L["425"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["425"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["425"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["425"]["BackgroundTransparency"] = 1;
-G2L["425"]["Size"] = UDim2.new(0, 200, 0, 36);
-G2L["425"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["425"]["Text"] = [[Unknown]];
-G2L["425"]["Name"] = [[CfgName]];
-G2L["425"]["Position"] = UDim2.new(0, 0, 0.09091, 0);
+G2L["412"] = Instance.new("TextLabel", G2L["410"]);
+G2L["412"]["BorderSizePixel"] = 0;
+G2L["412"]["TextSize"] = 14;
+G2L["412"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["412"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["412"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["412"]["BackgroundTransparency"] = 1;
+G2L["412"]["Size"] = UDim2.new(0, 200, 0, 36);
+G2L["412"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["412"]["Text"] = [[Unknown]];
+G2L["412"]["Name"] = [[CfgName]];
+G2L["412"]["Position"] = UDim2.new(0, 0, 0.09091, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CfgList.Template.Select
-G2L["426"] = Instance.new("TextButton", G2L["423"]);
-G2L["426"]["TextWrapped"] = true;
-G2L["426"]["BorderSizePixel"] = 0;
-G2L["426"]["TextSize"] = 30;
-G2L["426"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
-G2L["426"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["426"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["426"]["BackgroundTransparency"] = 0.5;
-G2L["426"]["Size"] = UDim2.new(0, 170, 0, 40);
-G2L["426"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["426"]["Text"] = [[Select]];
-G2L["426"]["Name"] = [[Select]];
-G2L["426"]["Position"] = UDim2.new(0.53908, 0, 0.03904, 0);
+G2L["413"] = Instance.new("TextButton", G2L["410"]);
+G2L["413"]["TextWrapped"] = true;
+G2L["413"]["BorderSizePixel"] = 0;
+G2L["413"]["TextSize"] = 30;
+G2L["413"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
+G2L["413"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["413"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["413"]["BackgroundTransparency"] = 0.5;
+G2L["413"]["Size"] = UDim2.new(0, 170, 0, 40);
+G2L["413"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["413"]["Text"] = [[Select]];
+G2L["413"]["Name"] = [[Select]];
+G2L["413"]["Position"] = UDim2.new(0.53908, 0, 0.03904, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CfgList.Template.Select.UICorner
-G2L["427"] = Instance.new("UICorner", G2L["426"]);
+G2L["414"] = Instance.new("UICorner", G2L["413"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CfgList.Template.Select.UIStroke
-G2L["428"] = Instance.new("UIStroke", G2L["426"]);
-G2L["428"]["Color"] = Color3.fromRGB(61, 61, 71);
-G2L["428"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["415"] = Instance.new("UIStroke", G2L["413"]);
+G2L["415"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["415"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.TextBox
-G2L["429"] = Instance.new("TextBox", G2L["418"]);
-G2L["429"]["Visible"] = false;
-G2L["429"]["BorderSizePixel"] = 0;
-G2L["429"]["TextWrapped"] = true;
-G2L["429"]["TextSize"] = 14;
-G2L["429"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["429"]["TextScaled"] = true;
-G2L["429"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["429"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["429"]["PlaceholderText"] = [[Safe cfg name]];
-G2L["429"]["Size"] = UDim2.new(0, 382, 0, 28);
-G2L["429"]["Position"] = UDim2.new(0.00976, 0, 0.91176, 0);
-G2L["429"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["429"]["Text"] = [[]];
-G2L["429"]["BackgroundTransparency"] = 1;
+G2L["416"] = Instance.new("TextBox", G2L["405"]);
+G2L["416"]["Visible"] = false;
+G2L["416"]["BorderSizePixel"] = 0;
+G2L["416"]["TextWrapped"] = true;
+G2L["416"]["TextSize"] = 14;
+G2L["416"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["416"]["TextScaled"] = true;
+G2L["416"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["416"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["416"]["PlaceholderText"] = [[Safe cfg name]];
+G2L["416"]["Size"] = UDim2.new(0, 382, 0, 28);
+G2L["416"]["Position"] = UDim2.new(0.00976, 0, 0.91176, 0);
+G2L["416"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["416"]["Text"] = [[]];
+G2L["416"]["BackgroundTransparency"] = 1;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CreateCfg
-G2L["42a"] = Instance.new("TextButton", G2L["418"]);
-G2L["42a"]["TextWrapped"] = true;
-G2L["42a"]["BorderSizePixel"] = 0;
-G2L["42a"]["TextSize"] = 30;
-G2L["42a"]["TextScaled"] = true;
-G2L["42a"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
-G2L["42a"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["42a"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["42a"]["BackgroundTransparency"] = 0.5;
-G2L["42a"]["Size"] = UDim2.new(0, 75, 0, 50);
-G2L["42a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["42a"]["Text"] = [[CreateCfg]];
-G2L["42a"]["Name"] = [[CreateCfg]];
-G2L["42a"]["Position"] = UDim2.new(0.2, 0, 0.76471, 0);
+G2L["417"] = Instance.new("TextButton", G2L["405"]);
+G2L["417"]["TextWrapped"] = true;
+G2L["417"]["BorderSizePixel"] = 0;
+G2L["417"]["TextSize"] = 30;
+G2L["417"]["TextScaled"] = true;
+G2L["417"]["TextColor3"] = Color3.fromRGB(162, 162, 162);
+G2L["417"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["417"]["FontFace"] = Font.new([[rbxasset://fonts/families/Arial.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["417"]["BackgroundTransparency"] = 0.5;
+G2L["417"]["Size"] = UDim2.new(0, 75, 0, 50);
+G2L["417"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["417"]["Text"] = [[CreateCfg]];
+G2L["417"]["Name"] = [[CreateCfg]];
+G2L["417"]["Position"] = UDim2.new(0.2, 0, 0.76471, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CreateCfg.UICorner
-G2L["42b"] = Instance.new("UICorner", G2L["42a"]);
+G2L["418"] = Instance.new("UICorner", G2L["417"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.CreateCfg.UIStroke
-G2L["42c"] = Instance.new("UIStroke", G2L["42a"]);
-G2L["42c"]["Color"] = Color3.fromRGB(61, 61, 71);
-G2L["42c"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+G2L["419"] = Instance.new("UIStroke", G2L["417"]);
+G2L["419"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["419"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Cfg.LocalScript
-G2L["42d"] = Instance.new("LocalScript", G2L["418"]);
+G2L["41a"] = Instance.new("LocalScript", G2L["405"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Credits
-G2L["42e"] = Instance.new("ScrollingFrame", G2L["1e"]);
-G2L["42e"]["Visible"] = false;
-G2L["42e"]["BorderSizePixel"] = 0;
-G2L["42e"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
-G2L["42e"]["Name"] = [[Credits]];
-G2L["42e"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
-G2L["42e"]["Size"] = UDim2.new(1, -20, 1, -20);
-G2L["42e"]["ScrollBarImageColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["42e"]["Position"] = UDim2.new(0, 10, 0, 10);
-G2L["42e"]["ScrollBarThickness"] = 4;
-G2L["42e"]["BackgroundTransparency"] = 1;
+G2L["41b"] = Instance.new("ScrollingFrame", G2L["1e"]);
+G2L["41b"]["Visible"] = false;
+G2L["41b"]["BorderSizePixel"] = 0;
+G2L["41b"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
+G2L["41b"]["Name"] = [[Credits]];
+G2L["41b"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
+G2L["41b"]["Size"] = UDim2.new(1, -20, 1, -20);
+G2L["41b"]["ScrollBarImageColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["41b"]["Position"] = UDim2.new(0, 10, 0, 10);
+G2L["41b"]["ScrollBarThickness"] = 4;
+G2L["41b"]["BackgroundTransparency"] = 1;
 -- Attributes
-G2L["42e"]:SetAttribute([[TabName]], [[Test5]]);
+G2L["41b"]:SetAttribute([[TabName]], [[Test5]]);
 
 -- Tags
-CollectionService:AddTag(G2L["42e"], [[TabPage]]);
+CollectionService:AddTag(G2L["41b"], [[TabPage]]);
 
 -- StarterGui.AnSer.Main.ContentArea.Credits.UIListLayout
-G2L["42f"] = Instance.new("UIListLayout", G2L["42e"]);
-G2L["42f"]["Padding"] = UDim.new(0, 8);
-G2L["42f"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A
-G2L["430"] = Instance.new("Frame", G2L["42e"]);
-G2L["430"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["430"]["ClipsDescendants"] = true;
-G2L["430"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["430"]["Name"] = [[Test Function A]];
-G2L["430"]["LayoutOrder"] = 1;
-
--- Tags
-CollectionService:AddTag(G2L["430"], [[ToggleElement]]);
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.UICorner
-G2L["431"] = Instance.new("UICorner", G2L["430"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.UIStroke
-G2L["432"] = Instance.new("UIStroke", G2L["430"]);
-G2L["432"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Header
-G2L["433"] = Instance.new("Frame", G2L["430"]);
-G2L["433"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["433"]["Name"] = [[Header]];
-G2L["433"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Header.Arrow
-G2L["434"] = Instance.new("TextButton", G2L["433"]);
-G2L["434"]["TextSize"] = 14;
-G2L["434"]["AutoButtonColor"] = false;
-G2L["434"]["TextColor3"] = Color3.fromRGB(201, 201, 211);
-G2L["434"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["434"]["BackgroundTransparency"] = 1;
-G2L["434"]["Size"] = UDim2.new(0, 24, 0, 24);
-G2L["434"]["Text"] = [[▶]];
-G2L["434"]["Name"] = [[Arrow]];
-G2L["434"]["Position"] = UDim2.new(0, 8, 0.5, -12);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Header.TextLabel
-G2L["435"] = Instance.new("TextLabel", G2L["433"]);
-G2L["435"]["TextSize"] = 14;
-G2L["435"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["435"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["435"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["435"]["BackgroundTransparency"] = 1;
-G2L["435"]["Size"] = UDim2.new(1, -90, 1, 0);
-G2L["435"]["Text"] = [[Test Function A]];
-G2L["435"]["Position"] = UDim2.new(0, 38, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Header.ToggleButton
-G2L["436"] = Instance.new("TextButton", G2L["433"]);
-G2L["436"]["AutoButtonColor"] = false;
-G2L["436"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["436"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["436"]["Text"] = [[]];
-G2L["436"]["Name"] = [[ToggleButton]];
-G2L["436"]["Position"] = UDim2.new(1, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Header.ToggleButton.UICorner
-G2L["437"] = Instance.new("UICorner", G2L["436"]);
-G2L["437"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Header.ToggleButton.Dot
-G2L["438"] = Instance.new("Frame", G2L["436"]);
-G2L["438"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["438"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["438"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["438"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Header.ToggleButton.Dot.UICorner
-G2L["439"] = Instance.new("UICorner", G2L["438"]);
-G2L["439"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Body
-G2L["43a"] = Instance.new("Frame", G2L["430"]);
-G2L["43a"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
-G2L["43a"]["Size"] = UDim2.new(1, -16, 0, 50);
-G2L["43a"]["Position"] = UDim2.new(0, 8, 0, 42);
-G2L["43a"]["Name"] = [[Body]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Body.UICorner
-G2L["43b"] = Instance.new("UICorner", G2L["43a"]);
-G2L["43b"]["CornerRadius"] = UDim.new(0, 6);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function A.Body.TextLabel
-G2L["43c"] = Instance.new("TextLabel", G2L["43a"]);
-G2L["43c"]["TextWrapped"] = true;
-G2L["43c"]["TextSize"] = 12;
-G2L["43c"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["43c"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-G2L["43c"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["43c"]["TextColor3"] = Color3.fromRGB(161, 161, 171);
-G2L["43c"]["BackgroundTransparency"] = 1;
-G2L["43c"]["Size"] = UDim2.new(1, -16, 1, -10);
-G2L["43c"]["Text"] = [[Тестовая настройка функции (ничего не делает)]];
-G2L["43c"]["Position"] = UDim2.new(0, 8, 0, 5);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B
-G2L["43d"] = Instance.new("Frame", G2L["42e"]);
-G2L["43d"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["43d"]["ClipsDescendants"] = true;
-G2L["43d"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["43d"]["Name"] = [[Test Function B]];
-G2L["43d"]["LayoutOrder"] = 2;
-
--- Tags
-CollectionService:AddTag(G2L["43d"], [[ToggleElement]]);
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.UICorner
-G2L["43e"] = Instance.new("UICorner", G2L["43d"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.UIStroke
-G2L["43f"] = Instance.new("UIStroke", G2L["43d"]);
-G2L["43f"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Header
-G2L["440"] = Instance.new("Frame", G2L["43d"]);
-G2L["440"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["440"]["Name"] = [[Header]];
-G2L["440"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Header.Arrow
-G2L["441"] = Instance.new("TextButton", G2L["440"]);
-G2L["441"]["TextSize"] = 14;
-G2L["441"]["AutoButtonColor"] = false;
-G2L["441"]["TextColor3"] = Color3.fromRGB(201, 201, 211);
-G2L["441"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["441"]["BackgroundTransparency"] = 1;
-G2L["441"]["Size"] = UDim2.new(0, 24, 0, 24);
-G2L["441"]["Text"] = [[▶]];
-G2L["441"]["Name"] = [[Arrow]];
-G2L["441"]["Position"] = UDim2.new(0, 8, 0.5, -12);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Header.TextLabel
-G2L["442"] = Instance.new("TextLabel", G2L["440"]);
-G2L["442"]["TextSize"] = 14;
-G2L["442"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["442"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["442"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["442"]["BackgroundTransparency"] = 1;
-G2L["442"]["Size"] = UDim2.new(1, -90, 1, 0);
-G2L["442"]["Text"] = [[Test Function B]];
-G2L["442"]["Position"] = UDim2.new(0, 38, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Header.ToggleButton
-G2L["443"] = Instance.new("TextButton", G2L["440"]);
-G2L["443"]["AutoButtonColor"] = false;
-G2L["443"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["443"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["443"]["Text"] = [[]];
-G2L["443"]["Name"] = [[ToggleButton]];
-G2L["443"]["Position"] = UDim2.new(1, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Header.ToggleButton.UICorner
-G2L["444"] = Instance.new("UICorner", G2L["443"]);
-G2L["444"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Header.ToggleButton.Dot
-G2L["445"] = Instance.new("Frame", G2L["443"]);
-G2L["445"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["445"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["445"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["445"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Header.ToggleButton.Dot.UICorner
-G2L["446"] = Instance.new("UICorner", G2L["445"]);
-G2L["446"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Body
-G2L["447"] = Instance.new("Frame", G2L["43d"]);
-G2L["447"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
-G2L["447"]["Size"] = UDim2.new(1, -16, 0, 50);
-G2L["447"]["Position"] = UDim2.new(0, 8, 0, 42);
-G2L["447"]["Name"] = [[Body]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Body.UICorner
-G2L["448"] = Instance.new("UICorner", G2L["447"]);
-G2L["448"]["CornerRadius"] = UDim.new(0, 6);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Function B.Body.TextLabel
-G2L["449"] = Instance.new("TextLabel", G2L["447"]);
-G2L["449"]["TextWrapped"] = true;
-G2L["449"]["TextSize"] = 12;
-G2L["449"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["449"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-G2L["449"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["449"]["TextColor3"] = Color3.fromRGB(161, 161, 171);
-G2L["449"]["BackgroundTransparency"] = 1;
-G2L["449"]["Size"] = UDim2.new(1, -16, 1, -10);
-G2L["449"]["Text"] = [[Тестовая настройка функции (ничего не делает)]];
-G2L["449"]["Position"] = UDim2.new(0, 8, 0, 5);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider
-G2L["44a"] = Instance.new("Frame", G2L["42e"]);
-G2L["44a"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["44a"]["Size"] = UDim2.new(1, 0, 0, 50);
-G2L["44a"]["Name"] = [[Test Slider]];
-G2L["44a"]["LayoutOrder"] = 3;
--- Attributes
-G2L["44a"]:SetAttribute([[MinValue]], 0);
-G2L["44a"]:SetAttribute([[DefaultValue]], 50);
-G2L["44a"]:SetAttribute([[MaxValue]], 100);
-
--- Tags
-CollectionService:AddTag(G2L["44a"], [[SliderElement]]);
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.UICorner
-G2L["44b"] = Instance.new("UICorner", G2L["44a"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.UIStroke
-G2L["44c"] = Instance.new("UIStroke", G2L["44a"]);
-G2L["44c"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.NameLabel
-G2L["44d"] = Instance.new("TextLabel", G2L["44a"]);
-G2L["44d"]["TextSize"] = 13;
-G2L["44d"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["44d"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["44d"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["44d"]["BackgroundTransparency"] = 1;
-G2L["44d"]["Size"] = UDim2.new(1, -70, 0, 20);
-G2L["44d"]["Text"] = [[Test Slider]];
-G2L["44d"]["Name"] = [[NameLabel]];
-G2L["44d"]["Position"] = UDim2.new(0, 10, 0, 5);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.ValueLabel
-G2L["44e"] = Instance.new("TextLabel", G2L["44a"]);
-G2L["44e"]["TextSize"] = 13;
-G2L["44e"]["TextXAlignment"] = Enum.TextXAlignment.Right;
-G2L["44e"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["44e"]["TextColor3"] = Color3.fromRGB(151, 201, 255);
-G2L["44e"]["BackgroundTransparency"] = 1;
-G2L["44e"]["Size"] = UDim2.new(0, 60, 0, 20);
-G2L["44e"]["Text"] = [[50]];
-G2L["44e"]["Name"] = [[ValueLabel]];
-G2L["44e"]["Position"] = UDim2.new(1, -70, 0, 5);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.Track
-G2L["44f"] = Instance.new("Frame", G2L["44a"]);
-G2L["44f"]["BackgroundColor3"] = Color3.fromRGB(56, 56, 64);
-G2L["44f"]["Size"] = UDim2.new(1, -20, 0, 6);
-G2L["44f"]["Position"] = UDim2.new(0, 10, 0, 32);
-G2L["44f"]["Name"] = [[Track]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.Track.UICorner
-G2L["450"] = Instance.new("UICorner", G2L["44f"]);
-G2L["450"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.Track.Fill
-G2L["451"] = Instance.new("Frame", G2L["44f"]);
-G2L["451"]["BackgroundColor3"] = Color3.fromRGB(91, 161, 255);
-G2L["451"]["Size"] = UDim2.new(0.5, 0, 1, 0);
-G2L["451"]["Name"] = [[Fill]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.Track.Fill.UICorner
-G2L["452"] = Instance.new("UICorner", G2L["451"]);
-G2L["452"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.Track.Knob
-G2L["453"] = Instance.new("Frame", G2L["44f"]);
-G2L["453"]["ZIndex"] = 2;
-G2L["453"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["453"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["453"]["Size"] = UDim2.new(0, 14, 0, 14);
-G2L["453"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
-G2L["453"]["Name"] = [[Knob]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Credits.Test Slider.Track.Knob.UICorner
-G2L["454"] = Instance.new("UICorner", G2L["453"]);
-G2L["454"]["CornerRadius"] = UDim.new(1, 0);
+G2L["41c"] = Instance.new("UIListLayout", G2L["41b"]);
+G2L["41c"]["Padding"] = UDim.new(0, 8);
+G2L["41c"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility
-G2L["455"] = Instance.new("ScrollingFrame", G2L["1e"]);
-G2L["455"]["BorderSizePixel"] = 0;
-G2L["455"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
-G2L["455"]["Name"] = [[Utility]];
-G2L["455"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
-G2L["455"]["Size"] = UDim2.new(1, -20, 1, -20);
-G2L["455"]["ScrollBarImageColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["455"]["Position"] = UDim2.new(0, 10, 0, 10);
-G2L["455"]["ScrollBarThickness"] = 4;
-G2L["455"]["BackgroundTransparency"] = 1;
+G2L["41d"] = Instance.new("ScrollingFrame", G2L["1e"]);
+G2L["41d"]["Visible"] = false;
+G2L["41d"]["BorderSizePixel"] = 0;
+G2L["41d"]["CanvasSize"] = UDim2.new(0, 0, 0, 0);
+G2L["41d"]["Name"] = [[Utility]];
+G2L["41d"]["AutomaticCanvasSize"] = Enum.AutomaticSize.Y;
+G2L["41d"]["Size"] = UDim2.new(1, -20, 1, -20);
+G2L["41d"]["ScrollBarImageColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["41d"]["Position"] = UDim2.new(0, 10, 0, 10);
+G2L["41d"]["ScrollBarThickness"] = 4;
+G2L["41d"]["BackgroundTransparency"] = 1;
 -- Attributes
-G2L["455"]:SetAttribute([[TabName]], [[Test5]]);
+G2L["41d"]:SetAttribute([[TabName]], [[Test5]]);
 
 -- Tags
-CollectionService:AddTag(G2L["455"], [[TabPage]]);
+CollectionService:AddTag(G2L["41d"], [[TabPage]]);
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.UIListLayout
-G2L["456"] = Instance.new("UIListLayout", G2L["455"]);
-G2L["456"]["Padding"] = UDim.new(0, 8);
-G2L["456"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+G2L["41e"] = Instance.new("UIListLayout", G2L["41d"]);
+G2L["41e"]["Padding"] = UDim.new(0, 8);
+G2L["41e"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin
-G2L["457"] = Instance.new("Frame", G2L["455"]);
+G2L["41f"] = Instance.new("Frame", G2L["41d"]);
+G2L["41f"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["41f"]["ClipsDescendants"] = true;
+G2L["41f"]["Size"] = UDim2.new(1, 0, -0.17647, 100);
+G2L["41f"]["Position"] = UDim2.new(0, 0, 0.5, 0);
+G2L["41f"]["Name"] = [[ReJoin]];
+G2L["41f"]["LayoutOrder"] = 1;
+
+-- Tags
+CollectionService:AddTag(G2L["41f"], [[ToggleElement]]);
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.UICorner
+G2L["420"] = Instance.new("UICorner", G2L["41f"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.UIStroke
+G2L["421"] = Instance.new("UIStroke", G2L["41f"]);
+G2L["421"]["Color"] = Color3.fromRGB(61, 61, 71);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.global
+G2L["422"] = Instance.new("LocalScript", G2L["41f"]);
+G2L["422"]["Name"] = [[global]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header
+G2L["423"] = Instance.new("Frame", G2L["41f"]);
+G2L["423"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["423"]["Name"] = [[Header]];
+G2L["423"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.TextLabel
+G2L["424"] = Instance.new("TextLabel", G2L["423"]);
+G2L["424"]["TextSize"] = 14;
+G2L["424"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["424"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["424"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["424"]["BackgroundTransparency"] = 1;
+G2L["424"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["424"]["Text"] = [[Test Function A]];
+G2L["424"]["Position"] = UDim2.new(0, 8, 0, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.TextLabel.LocalScript
+G2L["425"] = Instance.new("LocalScript", G2L["424"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.ClickButton
+G2L["426"] = Instance.new("TextButton", G2L["423"]);
+G2L["426"]["AutoButtonColor"] = false;
+G2L["426"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["426"]["Size"] = UDim2.new(0, 22, 0, 22);
+G2L["426"]["Text"] = [[]];
+G2L["426"]["Name"] = [[ClickButton]];
+G2L["426"]["Position"] = UDim2.new(1.03902, -52, 0.5, -11);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.ClickButton.UICorner
+G2L["427"] = Instance.new("UICorner", G2L["426"]);
+G2L["427"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop
+G2L["428"] = Instance.new("Frame", G2L["41d"]);
+G2L["428"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["428"]["ClipsDescendants"] = true;
+G2L["428"]["Size"] = UDim2.new(1, 0, -0.17647, 100);
+G2L["428"]["Position"] = UDim2.new(0, 0, 0.5, 0);
+G2L["428"]["Name"] = [[ServerHop]];
+G2L["428"]["LayoutOrder"] = 1;
+
+-- Tags
+CollectionService:AddTag(G2L["428"], [[ToggleElement]]);
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.UICorner
+G2L["429"] = Instance.new("UICorner", G2L["428"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.UIStroke
+G2L["42a"] = Instance.new("UIStroke", G2L["428"]);
+G2L["42a"]["Color"] = Color3.fromRGB(61, 61, 71);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.global
+G2L["42b"] = Instance.new("LocalScript", G2L["428"]);
+G2L["42b"]["Name"] = [[global]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header
+G2L["42c"] = Instance.new("Frame", G2L["428"]);
+G2L["42c"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["42c"]["Name"] = [[Header]];
+G2L["42c"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.TextLabel
+G2L["42d"] = Instance.new("TextLabel", G2L["42c"]);
+G2L["42d"]["TextSize"] = 14;
+G2L["42d"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["42d"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["42d"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["42d"]["BackgroundTransparency"] = 1;
+G2L["42d"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["42d"]["Text"] = [[Test Function A]];
+G2L["42d"]["Position"] = UDim2.new(0, 8, 0, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.TextLabel.LocalScript
+G2L["42e"] = Instance.new("LocalScript", G2L["42d"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.ClickButton
+G2L["42f"] = Instance.new("TextButton", G2L["42c"]);
+G2L["42f"]["AutoButtonColor"] = false;
+G2L["42f"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["42f"]["Size"] = UDim2.new(0, 22, 0, 22);
+G2L["42f"]["Text"] = [[]];
+G2L["42f"]["Name"] = [[ClickButton]];
+G2L["42f"]["Position"] = UDim2.new(1.03902, -52, 0.5, -11);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.ClickButton.UICorner
+G2L["430"] = Instance.new("UICorner", G2L["42f"]);
+G2L["430"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost
+G2L["431"] = Instance.new("Frame", G2L["41d"]);
+G2L["431"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["431"]["ClipsDescendants"] = true;
+G2L["431"]["Size"] = UDim2.new(1, 0, 0.00882, 100);
+G2L["431"]["Position"] = UDim2.new(0, 0, 0.28235, 0);
+G2L["431"]["Name"] = [[ChunkyFpsBoost]];
+G2L["431"]["LayoutOrder"] = 1;
+
+-- Tags
+CollectionService:AddTag(G2L["431"], [[ToggleElement]]);
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header
+G2L["432"] = Instance.new("Frame", G2L["431"]);
+G2L["432"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["432"]["Name"] = [[Header]];
+G2L["432"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.TextLabel
+G2L["433"] = Instance.new("TextLabel", G2L["432"]);
+G2L["433"]["TextSize"] = 14;
+G2L["433"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["433"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["433"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["433"]["BackgroundTransparency"] = 1;
+G2L["433"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["433"]["Text"] = [[Test Function A]];
+G2L["433"]["Position"] = UDim2.new(0, 8, 0, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.TextLabel.LocalScript
+G2L["434"] = Instance.new("LocalScript", G2L["433"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton
+G2L["435"] = Instance.new("TextButton", G2L["432"]);
+G2L["435"]["AutoButtonColor"] = false;
+G2L["435"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["435"]["Size"] = UDim2.new(0, 42, 0, 22);
+G2L["435"]["Text"] = [[]];
+G2L["435"]["Name"] = [[ToggleButton]];
+G2L["435"]["Position"] = UDim2.new(1, -52, 0.5, -11);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton.UICorner
+G2L["436"] = Instance.new("UICorner", G2L["435"]);
+G2L["436"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton.Dot
+G2L["437"] = Instance.new("Frame", G2L["435"]);
+G2L["437"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
+G2L["437"]["Size"] = UDim2.new(0, 18, 0, 18);
+G2L["437"]["Position"] = UDim2.new(0, 2, 0.5, -9);
+G2L["437"]["Name"] = [[Dot]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton.Dot.UICorner
+G2L["438"] = Instance.new("UICorner", G2L["437"]);
+G2L["438"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.UICorner
+G2L["439"] = Instance.new("UICorner", G2L["431"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.UIStroke
+G2L["43a"] = Instance.new("UIStroke", G2L["431"]);
+G2L["43a"]["Color"] = Color3.fromRGB(61, 61, 71);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.global
+G2L["43b"] = Instance.new("LocalScript", G2L["431"]);
+G2L["43b"]["Name"] = [[global]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body
+G2L["43c"] = Instance.new("Frame", G2L["431"]);
+G2L["43c"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
+G2L["43c"]["Size"] = UDim2.new(1, -16, 0.35047, 50);
+G2L["43c"]["Position"] = UDim2.new(0, 8, 0, 42);
+G2L["43c"]["Name"] = [[Body]];
+G2L["43c"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.UICorner
+G2L["43d"] = Instance.new("UICorner", G2L["43c"]);
+G2L["43d"]["CornerRadius"] = UDim.new(0, 6);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue
+G2L["43e"] = Instance.new("Frame", G2L["43c"]);
+G2L["43e"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["43e"]["Size"] = UDim2.new(0.9797, 0, 0, 50);
+G2L["43e"]["Position"] = UDim2.new(0.0203, 0, 0.42614, 0);
+G2L["43e"]["Name"] = [[ChunkValue]];
+G2L["43e"]["LayoutOrder"] = 3;
+-- Attributes
+G2L["43e"]:SetAttribute([[MinValue]], 0);
+G2L["43e"]:SetAttribute([[DefaultValue]], 50);
+G2L["43e"]:SetAttribute([[MaxValue]], 100);
+
+-- Tags
+CollectionService:AddTag(G2L["43e"], [[SliderElement]]);
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.NameLabel
+G2L["43f"] = Instance.new("TextLabel", G2L["43e"]);
+G2L["43f"]["TextSize"] = 13;
+G2L["43f"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["43f"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["43f"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["43f"]["BackgroundTransparency"] = 1;
+G2L["43f"]["Size"] = UDim2.new(1, -70, 0, 20);
+G2L["43f"]["Text"] = [[Fov Value]];
+G2L["43f"]["Name"] = [[NameLabel]];
+G2L["43f"]["Position"] = UDim2.new(0, 10, 0, 5);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.NameLabel.LocalScript
+G2L["440"] = Instance.new("LocalScript", G2L["43f"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.ValueLabel
+G2L["441"] = Instance.new("TextLabel", G2L["43e"]);
+G2L["441"]["TextSize"] = 13;
+G2L["441"]["TextXAlignment"] = Enum.TextXAlignment.Right;
+G2L["441"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["441"]["TextColor3"] = Color3.fromRGB(151, 201, 255);
+G2L["441"]["BackgroundTransparency"] = 1;
+G2L["441"]["Size"] = UDim2.new(0, 60, 0, 20);
+G2L["441"]["Text"] = [[50]];
+G2L["441"]["Name"] = [[ValueLabel]];
+G2L["441"]["Position"] = UDim2.new(1, -70, 0, 5);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track
+G2L["442"] = Instance.new("Frame", G2L["43e"]);
+G2L["442"]["BackgroundColor3"] = Color3.fromRGB(56, 56, 64);
+G2L["442"]["Size"] = UDim2.new(1, -20, 0, 6);
+G2L["442"]["Position"] = UDim2.new(0, 10, 0, 32);
+G2L["442"]["Name"] = [[Track]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.UICorner
+G2L["443"] = Instance.new("UICorner", G2L["442"]);
+G2L["443"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Fill
+G2L["444"] = Instance.new("Frame", G2L["442"]);
+G2L["444"]["BackgroundColor3"] = Color3.fromRGB(91, 161, 255);
+G2L["444"]["Size"] = UDim2.new(0.5, 0, 1, 0);
+G2L["444"]["Name"] = [[Fill]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Fill.UICorner
+G2L["445"] = Instance.new("UICorner", G2L["444"]);
+G2L["445"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Knob
+G2L["446"] = Instance.new("Frame", G2L["442"]);
+G2L["446"]["ZIndex"] = 2;
+G2L["446"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["446"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
+G2L["446"]["Size"] = UDim2.new(0, 14, 0, 14);
+G2L["446"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
+G2L["446"]["Name"] = [[Knob]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Knob.UICorner
+G2L["447"] = Instance.new("UICorner", G2L["446"]);
+G2L["447"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.UICorner
+G2L["448"] = Instance.new("UICorner", G2L["43e"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.UIStroke
+G2L["449"] = Instance.new("UIStroke", G2L["43e"]);
+G2L["449"]["Color"] = Color3.fromRGB(61, 61, 71);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.LocalScript
+G2L["44a"] = Instance.new("LocalScript", G2L["43e"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.UIListLayout
+G2L["44b"] = Instance.new("UIListLayout", G2L["43c"]);
+G2L["44b"]["HorizontalAlignment"] = Enum.HorizontalAlignment.Center;
+G2L["44b"]["Padding"] = UDim.new(0, 8);
+G2L["44b"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag
+G2L["44c"] = Instance.new("Frame", G2L["41d"]);
+G2L["44c"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
+G2L["44c"]["ClipsDescendants"] = true;
+G2L["44c"]["Size"] = UDim2.new(1, 0, -0.17647, 100);
+G2L["44c"]["Position"] = UDim2.new(0, 0, 0.5, 0);
+G2L["44c"]["Name"] = [[AntiLag]];
+G2L["44c"]["LayoutOrder"] = 1;
+
+-- Tags
+CollectionService:AddTag(G2L["44c"], [[ToggleElement]]);
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header
+G2L["44d"] = Instance.new("Frame", G2L["44c"]);
+G2L["44d"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["44d"]["Name"] = [[Header]];
+G2L["44d"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.TextLabel
+G2L["44e"] = Instance.new("TextLabel", G2L["44d"]);
+G2L["44e"]["TextSize"] = 14;
+G2L["44e"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["44e"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["44e"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["44e"]["BackgroundTransparency"] = 1;
+G2L["44e"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["44e"]["Text"] = [[Test Function A]];
+G2L["44e"]["Position"] = UDim2.new(0, 8, 0, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.TextLabel.LocalScript
+G2L["44f"] = Instance.new("LocalScript", G2L["44e"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton
+G2L["450"] = Instance.new("TextButton", G2L["44d"]);
+G2L["450"]["AutoButtonColor"] = false;
+G2L["450"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["450"]["Size"] = UDim2.new(0, 42, 0, 22);
+G2L["450"]["Text"] = [[]];
+G2L["450"]["Name"] = [[ToggleButton]];
+G2L["450"]["Position"] = UDim2.new(1, -52, 0.5, -11);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton.UICorner
+G2L["451"] = Instance.new("UICorner", G2L["450"]);
+G2L["451"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton.Dot
+G2L["452"] = Instance.new("Frame", G2L["450"]);
+G2L["452"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
+G2L["452"]["Size"] = UDim2.new(0, 18, 0, 18);
+G2L["452"]["Position"] = UDim2.new(0, 2, 0.5, -9);
+G2L["452"]["Name"] = [[Dot]];
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton.Dot.UICorner
+G2L["453"] = Instance.new("UICorner", G2L["452"]);
+G2L["453"]["CornerRadius"] = UDim.new(1, 0);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.UICorner
+G2L["454"] = Instance.new("UICorner", G2L["44c"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.UIStroke
+G2L["455"] = Instance.new("UIStroke", G2L["44c"]);
+G2L["455"]["Color"] = Color3.fromRGB(61, 61, 71);
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.LocalScript
+G2L["456"] = Instance.new("LocalScript", G2L["44c"]);
+
+
+
+-- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics
+G2L["457"] = Instance.new("Frame", G2L["41d"]);
 G2L["457"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
 G2L["457"]["ClipsDescendants"] = true;
 G2L["457"]["Size"] = UDim2.new(1, 0, -0.17647, 100);
 G2L["457"]["Position"] = UDim2.new(0, 0, 0.5, 0);
-G2L["457"]["Name"] = [[ReJoin]];
+G2L["457"]["Name"] = [[LowGraphics]];
 G2L["457"]["LayoutOrder"] = 1;
 
 -- Tags
 CollectionService:AddTag(G2L["457"], [[ToggleElement]]);
 
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.UICorner
-G2L["458"] = Instance.new("UICorner", G2L["457"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.UIStroke
-G2L["459"] = Instance.new("UIStroke", G2L["457"]);
-G2L["459"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.global
-G2L["45a"] = Instance.new("LocalScript", G2L["457"]);
-G2L["45a"]["Name"] = [[global]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header
-G2L["45b"] = Instance.new("Frame", G2L["457"]);
-G2L["45b"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["45b"]["Name"] = [[Header]];
-G2L["45b"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.TextLabel
-G2L["45c"] = Instance.new("TextLabel", G2L["45b"]);
-G2L["45c"]["TextSize"] = 14;
-G2L["45c"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["45c"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["45c"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["45c"]["BackgroundTransparency"] = 1;
-G2L["45c"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
-G2L["45c"]["Text"] = [[Test Function A]];
-G2L["45c"]["Position"] = UDim2.new(0, 8, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.TextLabel.LocalScript
-G2L["45d"] = Instance.new("LocalScript", G2L["45c"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.ClickButton
-G2L["45e"] = Instance.new("TextButton", G2L["45b"]);
-G2L["45e"]["AutoButtonColor"] = false;
-G2L["45e"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["45e"]["Size"] = UDim2.new(0, 22, 0, 22);
-G2L["45e"]["Text"] = [[]];
-G2L["45e"]["Name"] = [[ClickButton]];
-G2L["45e"]["Position"] = UDim2.new(1.03902, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.ClickButton.UICorner
-G2L["45f"] = Instance.new("UICorner", G2L["45e"]);
-G2L["45f"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop
-G2L["460"] = Instance.new("Frame", G2L["455"]);
-G2L["460"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["460"]["ClipsDescendants"] = true;
-G2L["460"]["Size"] = UDim2.new(1, 0, -0.17647, 100);
-G2L["460"]["Position"] = UDim2.new(0, 0, 0.5, 0);
-G2L["460"]["Name"] = [[ServerHop]];
-G2L["460"]["LayoutOrder"] = 1;
-
--- Tags
-CollectionService:AddTag(G2L["460"], [[ToggleElement]]);
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.UICorner
-G2L["461"] = Instance.new("UICorner", G2L["460"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.UIStroke
-G2L["462"] = Instance.new("UIStroke", G2L["460"]);
-G2L["462"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.global
-G2L["463"] = Instance.new("LocalScript", G2L["460"]);
-G2L["463"]["Name"] = [[global]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header
-G2L["464"] = Instance.new("Frame", G2L["460"]);
-G2L["464"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["464"]["Name"] = [[Header]];
-G2L["464"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.TextLabel
-G2L["465"] = Instance.new("TextLabel", G2L["464"]);
-G2L["465"]["TextSize"] = 14;
-G2L["465"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["465"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["465"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["465"]["BackgroundTransparency"] = 1;
-G2L["465"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
-G2L["465"]["Text"] = [[Test Function A]];
-G2L["465"]["Position"] = UDim2.new(0, 8, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.TextLabel.LocalScript
-G2L["466"] = Instance.new("LocalScript", G2L["465"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.ClickButton
-G2L["467"] = Instance.new("TextButton", G2L["464"]);
-G2L["467"]["AutoButtonColor"] = false;
-G2L["467"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["467"]["Size"] = UDim2.new(0, 22, 0, 22);
-G2L["467"]["Text"] = [[]];
-G2L["467"]["Name"] = [[ClickButton]];
-G2L["467"]["Position"] = UDim2.new(1.03902, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.ClickButton.UICorner
-G2L["468"] = Instance.new("UICorner", G2L["467"]);
-G2L["468"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost
-G2L["469"] = Instance.new("Frame", G2L["455"]);
-G2L["469"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["469"]["ClipsDescendants"] = true;
-G2L["469"]["Size"] = UDim2.new(1, 0, 0.00882, 100);
-G2L["469"]["Position"] = UDim2.new(0, 0, 0.28235, 0);
-G2L["469"]["Name"] = [[ChunkyFpsBoost]];
-G2L["469"]["LayoutOrder"] = 1;
-
--- Tags
-CollectionService:AddTag(G2L["469"], [[ToggleElement]]);
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header
-G2L["46a"] = Instance.new("Frame", G2L["469"]);
-G2L["46a"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["46a"]["Name"] = [[Header]];
-G2L["46a"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.TextLabel
-G2L["46b"] = Instance.new("TextLabel", G2L["46a"]);
-G2L["46b"]["TextSize"] = 14;
-G2L["46b"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["46b"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["46b"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["46b"]["BackgroundTransparency"] = 1;
-G2L["46b"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
-G2L["46b"]["Text"] = [[Test Function A]];
-G2L["46b"]["Position"] = UDim2.new(0, 8, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.TextLabel.LocalScript
-G2L["46c"] = Instance.new("LocalScript", G2L["46b"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton
-G2L["46d"] = Instance.new("TextButton", G2L["46a"]);
-G2L["46d"]["AutoButtonColor"] = false;
-G2L["46d"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["46d"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["46d"]["Text"] = [[]];
-G2L["46d"]["Name"] = [[ToggleButton]];
-G2L["46d"]["Position"] = UDim2.new(1, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton.UICorner
-G2L["46e"] = Instance.new("UICorner", G2L["46d"]);
-G2L["46e"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton.Dot
-G2L["46f"] = Instance.new("Frame", G2L["46d"]);
-G2L["46f"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["46f"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["46f"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["46f"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.ToggleButton.Dot.UICorner
-G2L["470"] = Instance.new("UICorner", G2L["46f"]);
-G2L["470"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.UICorner
-G2L["471"] = Instance.new("UICorner", G2L["469"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.UIStroke
-G2L["472"] = Instance.new("UIStroke", G2L["469"]);
-G2L["472"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.global
-G2L["473"] = Instance.new("LocalScript", G2L["469"]);
-G2L["473"]["Name"] = [[global]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body
-G2L["474"] = Instance.new("Frame", G2L["469"]);
-G2L["474"]["BackgroundColor3"] = Color3.fromRGB(31, 31, 37);
-G2L["474"]["Size"] = UDim2.new(1, -16, 0.35047, 50);
-G2L["474"]["Position"] = UDim2.new(0, 8, 0, 42);
-G2L["474"]["Name"] = [[Body]];
-G2L["474"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.UICorner
-G2L["475"] = Instance.new("UICorner", G2L["474"]);
-G2L["475"]["CornerRadius"] = UDim.new(0, 6);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue
-G2L["476"] = Instance.new("Frame", G2L["474"]);
-G2L["476"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["476"]["Size"] = UDim2.new(0.9797, 0, 0, 50);
-G2L["476"]["Position"] = UDim2.new(0.0203, 0, 0.42614, 0);
-G2L["476"]["Name"] = [[ChunkValue]];
-G2L["476"]["LayoutOrder"] = 3;
--- Attributes
-G2L["476"]:SetAttribute([[MinValue]], 0);
-G2L["476"]:SetAttribute([[DefaultValue]], 50);
-G2L["476"]:SetAttribute([[MaxValue]], 100);
-
--- Tags
-CollectionService:AddTag(G2L["476"], [[SliderElement]]);
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.NameLabel
-G2L["477"] = Instance.new("TextLabel", G2L["476"]);
-G2L["477"]["TextSize"] = 13;
-G2L["477"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["477"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["477"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["477"]["BackgroundTransparency"] = 1;
-G2L["477"]["Size"] = UDim2.new(1, -70, 0, 20);
-G2L["477"]["Text"] = [[Fov Value]];
-G2L["477"]["Name"] = [[NameLabel]];
-G2L["477"]["Position"] = UDim2.new(0, 10, 0, 5);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.NameLabel.LocalScript
-G2L["478"] = Instance.new("LocalScript", G2L["477"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.ValueLabel
-G2L["479"] = Instance.new("TextLabel", G2L["476"]);
-G2L["479"]["TextSize"] = 13;
-G2L["479"]["TextXAlignment"] = Enum.TextXAlignment.Right;
-G2L["479"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["479"]["TextColor3"] = Color3.fromRGB(151, 201, 255);
-G2L["479"]["BackgroundTransparency"] = 1;
-G2L["479"]["Size"] = UDim2.new(0, 60, 0, 20);
-G2L["479"]["Text"] = [[50]];
-G2L["479"]["Name"] = [[ValueLabel]];
-G2L["479"]["Position"] = UDim2.new(1, -70, 0, 5);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track
-G2L["47a"] = Instance.new("Frame", G2L["476"]);
-G2L["47a"]["BackgroundColor3"] = Color3.fromRGB(56, 56, 64);
-G2L["47a"]["Size"] = UDim2.new(1, -20, 0, 6);
-G2L["47a"]["Position"] = UDim2.new(0, 10, 0, 32);
-G2L["47a"]["Name"] = [[Track]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.UICorner
-G2L["47b"] = Instance.new("UICorner", G2L["47a"]);
-G2L["47b"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Fill
-G2L["47c"] = Instance.new("Frame", G2L["47a"]);
-G2L["47c"]["BackgroundColor3"] = Color3.fromRGB(91, 161, 255);
-G2L["47c"]["Size"] = UDim2.new(0.5, 0, 1, 0);
-G2L["47c"]["Name"] = [[Fill]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Fill.UICorner
-G2L["47d"] = Instance.new("UICorner", G2L["47c"]);
-G2L["47d"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Knob
-G2L["47e"] = Instance.new("Frame", G2L["47a"]);
-G2L["47e"]["ZIndex"] = 2;
-G2L["47e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["47e"]["AnchorPoint"] = Vector2.new(0.5, 0.5);
-G2L["47e"]["Size"] = UDim2.new(0, 14, 0, 14);
-G2L["47e"]["Position"] = UDim2.new(0.5, 0, 0.5, 0);
-G2L["47e"]["Name"] = [[Knob]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.Track.Knob.UICorner
-G2L["47f"] = Instance.new("UICorner", G2L["47e"]);
-G2L["47f"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.UICorner
-G2L["480"] = Instance.new("UICorner", G2L["476"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.UIStroke
-G2L["481"] = Instance.new("UIStroke", G2L["476"]);
-G2L["481"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.LocalScript
-G2L["482"] = Instance.new("LocalScript", G2L["476"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.UIListLayout
-G2L["483"] = Instance.new("UIListLayout", G2L["474"]);
-G2L["483"]["HorizontalAlignment"] = Enum.HorizontalAlignment.Center;
-G2L["483"]["Padding"] = UDim.new(0, 8);
-G2L["483"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag
-G2L["484"] = Instance.new("Frame", G2L["455"]);
-G2L["484"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["484"]["ClipsDescendants"] = true;
-G2L["484"]["Size"] = UDim2.new(1, 0, -0.17647, 100);
-G2L["484"]["Position"] = UDim2.new(0, 0, 0.5, 0);
-G2L["484"]["Name"] = [[AntiLag]];
-G2L["484"]["LayoutOrder"] = 1;
-
--- Tags
-CollectionService:AddTag(G2L["484"], [[ToggleElement]]);
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header
-G2L["485"] = Instance.new("Frame", G2L["484"]);
-G2L["485"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["485"]["Name"] = [[Header]];
-G2L["485"]["BackgroundTransparency"] = 1;
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.TextLabel
-G2L["486"] = Instance.new("TextLabel", G2L["485"]);
-G2L["486"]["TextSize"] = 14;
-G2L["486"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["486"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["486"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["486"]["BackgroundTransparency"] = 1;
-G2L["486"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
-G2L["486"]["Text"] = [[Test Function A]];
-G2L["486"]["Position"] = UDim2.new(0, 8, 0, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.TextLabel.LocalScript
-G2L["487"] = Instance.new("LocalScript", G2L["486"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton
-G2L["488"] = Instance.new("TextButton", G2L["485"]);
-G2L["488"]["AutoButtonColor"] = false;
-G2L["488"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["488"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["488"]["Text"] = [[]];
-G2L["488"]["Name"] = [[ToggleButton]];
-G2L["488"]["Position"] = UDim2.new(1, -52, 0.5, -11);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton.UICorner
-G2L["489"] = Instance.new("UICorner", G2L["488"]);
-G2L["489"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton.Dot
-G2L["48a"] = Instance.new("Frame", G2L["488"]);
-G2L["48a"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["48a"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["48a"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["48a"]["Name"] = [[Dot]];
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.ToggleButton.Dot.UICorner
-G2L["48b"] = Instance.new("UICorner", G2L["48a"]);
-G2L["48b"]["CornerRadius"] = UDim.new(1, 0);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.UICorner
-G2L["48c"] = Instance.new("UICorner", G2L["484"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.UIStroke
-G2L["48d"] = Instance.new("UIStroke", G2L["484"]);
-G2L["48d"]["Color"] = Color3.fromRGB(61, 61, 71);
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.LocalScript
-G2L["48e"] = Instance.new("LocalScript", G2L["484"]);
-
-
-
--- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics
-G2L["48f"] = Instance.new("Frame", G2L["455"]);
-G2L["48f"]["BackgroundColor3"] = Color3.fromRGB(39, 39, 46);
-G2L["48f"]["ClipsDescendants"] = true;
-G2L["48f"]["Size"] = UDim2.new(1, 0, -0.17647, 100);
-G2L["48f"]["Position"] = UDim2.new(0, 0, 0.5, 0);
-G2L["48f"]["Name"] = [[LowGraphics]];
-G2L["48f"]["LayoutOrder"] = 1;
-
--- Tags
-CollectionService:AddTag(G2L["48f"], [[ToggleElement]]);
-
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header
-G2L["490"] = Instance.new("Frame", G2L["48f"]);
-G2L["490"]["Size"] = UDim2.new(1, 0, 0, 40);
-G2L["490"]["Name"] = [[Header]];
-G2L["490"]["BackgroundTransparency"] = 1;
+G2L["458"] = Instance.new("Frame", G2L["457"]);
+G2L["458"]["Size"] = UDim2.new(1, 0, 0, 40);
+G2L["458"]["Name"] = [[Header]];
+G2L["458"]["BackgroundTransparency"] = 1;
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header.TextLabel
-G2L["491"] = Instance.new("TextLabel", G2L["490"]);
-G2L["491"]["TextSize"] = 14;
-G2L["491"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["491"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
-G2L["491"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
-G2L["491"]["BackgroundTransparency"] = 1;
-G2L["491"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
-G2L["491"]["Text"] = [[Test Function A]];
-G2L["491"]["Position"] = UDim2.new(0, 8, 0, 0);
+G2L["459"] = Instance.new("TextLabel", G2L["458"]);
+G2L["459"]["TextSize"] = 14;
+G2L["459"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["459"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Medium, Enum.FontStyle.Normal);
+G2L["459"]["TextColor3"] = Color3.fromRGB(231, 231, 236);
+G2L["459"]["BackgroundTransparency"] = 1;
+G2L["459"]["Size"] = UDim2.new(1.06585, -90, 1, 0);
+G2L["459"]["Text"] = [[Test Function A]];
+G2L["459"]["Position"] = UDim2.new(0, 8, 0, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header.TextLabel.LocalScript
-G2L["492"] = Instance.new("LocalScript", G2L["491"]);
+G2L["45a"] = Instance.new("LocalScript", G2L["459"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header.ToggleButton
-G2L["493"] = Instance.new("TextButton", G2L["490"]);
-G2L["493"]["AutoButtonColor"] = false;
-G2L["493"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
-G2L["493"]["Size"] = UDim2.new(0, 42, 0, 22);
-G2L["493"]["Text"] = [[]];
-G2L["493"]["Name"] = [[ToggleButton]];
-G2L["493"]["Position"] = UDim2.new(1, -52, 0.5, -11);
+G2L["45b"] = Instance.new("TextButton", G2L["458"]);
+G2L["45b"]["AutoButtonColor"] = false;
+G2L["45b"]["BackgroundColor3"] = Color3.fromRGB(91, 91, 101);
+G2L["45b"]["Size"] = UDim2.new(0, 42, 0, 22);
+G2L["45b"]["Text"] = [[]];
+G2L["45b"]["Name"] = [[ToggleButton]];
+G2L["45b"]["Position"] = UDim2.new(1, -52, 0.5, -11);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header.ToggleButton.UICorner
-G2L["494"] = Instance.new("UICorner", G2L["493"]);
-G2L["494"]["CornerRadius"] = UDim.new(1, 0);
+G2L["45c"] = Instance.new("UICorner", G2L["45b"]);
+G2L["45c"]["CornerRadius"] = UDim.new(1, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header.ToggleButton.Dot
-G2L["495"] = Instance.new("Frame", G2L["493"]);
-G2L["495"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
-G2L["495"]["Size"] = UDim2.new(0, 18, 0, 18);
-G2L["495"]["Position"] = UDim2.new(0, 2, 0.5, -9);
-G2L["495"]["Name"] = [[Dot]];
+G2L["45d"] = Instance.new("Frame", G2L["45b"]);
+G2L["45d"]["BackgroundColor3"] = Color3.fromRGB(231, 231, 231);
+G2L["45d"]["Size"] = UDim2.new(0, 18, 0, 18);
+G2L["45d"]["Position"] = UDim2.new(0, 2, 0.5, -9);
+G2L["45d"]["Name"] = [[Dot]];
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header.ToggleButton.Dot.UICorner
-G2L["496"] = Instance.new("UICorner", G2L["495"]);
-G2L["496"]["CornerRadius"] = UDim.new(1, 0);
+G2L["45e"] = Instance.new("UICorner", G2L["45d"]);
+G2L["45e"]["CornerRadius"] = UDim.new(1, 0);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.UICorner
-G2L["497"] = Instance.new("UICorner", G2L["48f"]);
+G2L["45f"] = Instance.new("UICorner", G2L["457"]);
 
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.UIStroke
-G2L["498"] = Instance.new("UIStroke", G2L["48f"]);
-G2L["498"]["Color"] = Color3.fromRGB(61, 61, 71);
+G2L["460"] = Instance.new("UIStroke", G2L["457"]);
+G2L["460"]["Color"] = Color3.fromRGB(61, 61, 71);
 
 
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.LocalScript
-G2L["499"] = Instance.new("LocalScript", G2L["48f"]);
+G2L["461"] = Instance.new("LocalScript", G2L["457"]);
 
 
 
 -- StarterGui.AnSer.Main.Drag
-G2L["49a"] = Instance.new("LocalScript", G2L["2"]);
-G2L["49a"]["Name"] = [[Drag]];
+G2L["462"] = Instance.new("LocalScript", G2L["2"]);
+G2L["462"]["Name"] = [[Drag]];
 
 
 -- StarterGui.AnSer.Main.Cursor
-G2L["49b"] = Instance.new("LocalScript", G2L["2"]);
-G2L["49b"]["Name"] = [[Cursor]];
+G2L["463"] = Instance.new("LocalScript", G2L["2"]);
+G2L["463"]["Name"] = [[Cursor]];
 
 
 -- StarterGui.AnSer.Title
-G2L["49c"] = Instance.new("ScreenGui", G2L["1"]);
-G2L["49c"]["DisplayOrder"] = 266666666;
-G2L["49c"]["Name"] = [[Title]];
-G2L["49c"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
-G2L["49c"]["ResetOnSpawn"] = false;
+G2L["464"] = Instance.new("ScreenGui", G2L["1"]);
+G2L["464"]["DisplayOrder"] = 266666666;
+G2L["464"]["Name"] = [[Title]];
+G2L["464"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+G2L["464"]["ResetOnSpawn"] = false;
 
 
 -- StarterGui.AnSer.Title.TextLabel
-G2L["49d"] = Instance.new("TextLabel", G2L["49c"]);
-G2L["49d"]["TextWrapped"] = true;
-G2L["49d"]["Interactable"] = false;
-G2L["49d"]["TextStrokeTransparency"] = 0.5;
-G2L["49d"]["BorderSizePixel"] = 0;
-G2L["49d"]["TextSize"] = 14;
-G2L["49d"]["TextTransparency"] = 0.5;
-G2L["49d"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["49d"]["TextScaled"] = true;
-G2L["49d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["49d"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["49d"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["49d"]["BackgroundTransparency"] = 1;
-G2L["49d"]["Size"] = UDim2.new(0, 200, 0, 50);
-G2L["49d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["49d"]["Text"] = [[AnSer v0.1]];
+G2L["465"] = Instance.new("TextLabel", G2L["464"]);
+G2L["465"]["TextWrapped"] = true;
+G2L["465"]["Interactable"] = false;
+G2L["465"]["TextStrokeTransparency"] = 0.5;
+G2L["465"]["BorderSizePixel"] = 0;
+G2L["465"]["TextSize"] = 14;
+G2L["465"]["TextTransparency"] = 0.5;
+G2L["465"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["465"]["TextScaled"] = true;
+G2L["465"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["465"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["465"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["465"]["BackgroundTransparency"] = 1;
+G2L["465"]["Size"] = UDim2.new(0, 200, 0, 50);
+G2L["465"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["465"]["Text"] = [[AnSer v0.1]];
 
 
 -- StarterGui.AnSer.Title.Fps
-G2L["49e"] = Instance.new("TextLabel", G2L["49c"]);
-G2L["49e"]["TextWrapped"] = true;
-G2L["49e"]["Interactable"] = false;
-G2L["49e"]["TextStrokeTransparency"] = 0.5;
-G2L["49e"]["BorderSizePixel"] = 0;
-G2L["49e"]["TextSize"] = 14;
-G2L["49e"]["TextTransparency"] = 0.5;
-G2L["49e"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["49e"]["TextScaled"] = true;
-G2L["49e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["49e"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["49e"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["49e"]["BackgroundTransparency"] = 1;
-G2L["49e"]["Size"] = UDim2.new(0, 200, 0, 23);
-G2L["49e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["49e"]["Text"] = [[FPS: 00]];
-G2L["49e"]["Name"] = [[Fps]];
-G2L["49e"]["Position"] = UDim2.new(0, 0, 0.06553, 0);
+G2L["466"] = Instance.new("TextLabel", G2L["464"]);
+G2L["466"]["TextWrapped"] = true;
+G2L["466"]["Interactable"] = false;
+G2L["466"]["TextStrokeTransparency"] = 0.5;
+G2L["466"]["BorderSizePixel"] = 0;
+G2L["466"]["TextSize"] = 14;
+G2L["466"]["TextTransparency"] = 0.5;
+G2L["466"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["466"]["TextScaled"] = true;
+G2L["466"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["466"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["466"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["466"]["BackgroundTransparency"] = 1;
+G2L["466"]["Size"] = UDim2.new(0, 200, 0, 23);
+G2L["466"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["466"]["Text"] = [[FPS: 00]];
+G2L["466"]["Name"] = [[Fps]];
+G2L["466"]["Position"] = UDim2.new(0, 0, 0.06553, 0);
 
 
 -- StarterGui.AnSer.Title.User
-G2L["49f"] = Instance.new("TextLabel", G2L["49c"]);
-G2L["49f"]["TextWrapped"] = true;
-G2L["49f"]["Interactable"] = false;
-G2L["49f"]["TextStrokeTransparency"] = 0.5;
-G2L["49f"]["BorderSizePixel"] = 0;
-G2L["49f"]["TextSize"] = 14;
-G2L["49f"]["TextTransparency"] = 0.5;
-G2L["49f"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["49f"]["TextScaled"] = true;
-G2L["49f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["49f"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["49f"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["49f"]["BackgroundTransparency"] = 1;
-G2L["49f"]["Size"] = UDim2.new(0, 200, 0, 23);
-G2L["49f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["49f"]["Text"] = [[User: unknown]];
-G2L["49f"]["Name"] = [[User]];
-G2L["49f"]["Position"] = UDim2.new(0, 0, 0.09567, 0);
+G2L["467"] = Instance.new("TextLabel", G2L["464"]);
+G2L["467"]["TextWrapped"] = true;
+G2L["467"]["Interactable"] = false;
+G2L["467"]["TextStrokeTransparency"] = 0.5;
+G2L["467"]["BorderSizePixel"] = 0;
+G2L["467"]["TextSize"] = 14;
+G2L["467"]["TextTransparency"] = 0.5;
+G2L["467"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["467"]["TextScaled"] = true;
+G2L["467"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["467"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["467"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["467"]["BackgroundTransparency"] = 1;
+G2L["467"]["Size"] = UDim2.new(0, 200, 0, 23);
+G2L["467"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["467"]["Text"] = [[User: unknown]];
+G2L["467"]["Name"] = [[User]];
+G2L["467"]["Position"] = UDim2.new(0, 0, 0.09567, 0);
 
 
 -- StarterGui.AnSer.Title.Ping
-G2L["4a0"] = Instance.new("TextLabel", G2L["49c"]);
-G2L["4a0"]["TextWrapped"] = true;
-G2L["4a0"]["Interactable"] = false;
-G2L["4a0"]["TextStrokeTransparency"] = 0.5;
-G2L["4a0"]["BorderSizePixel"] = 0;
-G2L["4a0"]["TextSize"] = 14;
-G2L["4a0"]["TextTransparency"] = 0.5;
-G2L["4a0"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["4a0"]["TextScaled"] = true;
-G2L["4a0"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["4a0"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["4a0"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["4a0"]["BackgroundTransparency"] = 1;
-G2L["4a0"]["Size"] = UDim2.new(0, 200, 0, 23);
-G2L["4a0"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["4a0"]["Text"] = [[Ping: 190]];
-G2L["4a0"]["Name"] = [[Ping]];
-G2L["4a0"]["Position"] = UDim2.new(0, 0, 0.13237, 0);
+G2L["468"] = Instance.new("TextLabel", G2L["464"]);
+G2L["468"]["TextWrapped"] = true;
+G2L["468"]["Interactable"] = false;
+G2L["468"]["TextStrokeTransparency"] = 0.5;
+G2L["468"]["BorderSizePixel"] = 0;
+G2L["468"]["TextSize"] = 14;
+G2L["468"]["TextTransparency"] = 0.5;
+G2L["468"]["TextStrokeColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["468"]["TextScaled"] = true;
+G2L["468"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["468"]["FontFace"] = Font.new([[rbxasset://fonts/families/Jura.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["468"]["TextColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["468"]["BackgroundTransparency"] = 1;
+G2L["468"]["Size"] = UDim2.new(0, 200, 0, 23);
+G2L["468"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["468"]["Text"] = [[Ping: 190]];
+G2L["468"]["Name"] = [[Ping]];
+G2L["468"]["Position"] = UDim2.new(0, 0, 0.13237, 0);
 
 
 -- StarterGui.AnSer.Title.LocalScript
-G2L["4a1"] = Instance.new("LocalScript", G2L["49c"]);
+G2L["469"] = Instance.new("LocalScript", G2L["464"]);
 
 
 
@@ -9758,18 +9258,14 @@ local script = G2L["6c"];
 	fovCircle.Parent = fovGui
 	fovGui.Parent    = player:WaitForChild("PlayerGui")
 	
-	-- ИСПРАВЛЕННАЯ ФУНКЦИЯ: проверяем атрибут State (наша система тогглов)
 	local function isToggleEnabled(button)
 		if not button or not button.Parent then return false end
-		-- Приоритет: атрибут State от toggle-element.lua
 		local state = button:GetAttribute("State")
 		if state ~= nil then
 			return state == true
 		end
-		-- Фоллбэк: UIStroke
 		local stroke = button:FindFirstChild("UIStroke")
 		if stroke then return stroke.Enabled end
-		-- Фоллбэк: позиция Dot
 		local dot = button:FindFirstChild("Dot")
 		if dot then return dot.Position.X.Scale >= 0.5 end
 		return false
@@ -9803,18 +9299,25 @@ local script = G2L["6c"];
 		fovCircle.Size = UDim2.new(0, diameter, 0, diameter)
 	end
 	
+	-- ИСПРАВЛЕНО: Team Check теперь корректно работает
 	local function isTeammate(p)
 		if not isToggleEnabled(teamDetectToggle) then return false end
 		if not p or p == player then return true end
 	
-		if player.Team and p.Team and player.Team == p.Team then
-			return true
+		-- Проверяем Team только если ОБА игрока имеют команду
+		if player.Team and p.Team then
+			if player.Team == p.Team then
+				return true
+			end
 		end
 	
+		-- Проверяем TeamColor только если ОБА имеют цвет И это не дефолтный цвет
 		if player.TeamColor and p.TeamColor then
-			if player.TeamColor ~= BrickColor.new("Medium stone grey")
-				and player.TeamColor == p.TeamColor then
-				return true
+			local defaultColor = BrickColor.new("Medium stone grey")
+			if player.TeamColor ~= defaultColor and p.TeamColor ~= defaultColor then
+				if player.TeamColor == p.TeamColor then
+					return true
+				end
 			end
 		end
 	
@@ -9928,19 +9431,16 @@ local script = G2L["6c"];
 	
 	local autoFireBusy = false
 	
-	-- ИСПРАВЛЕНО: target теперь передается как параметр
 	local function autoFire(target)
 		if not isToggleEnabled(autoFireToggle) then return end
 		if autoFireBusy then return end
 	
-		-- Блокировка если меню открыто
 		if _G.MenuMainFrame and _G.MenuMainFrame.Visible then
 			return
 		end
 	
 		autoFireBusy = true
 	
-		-- Регистрация для Hitsound
 		local targetChar = target.Parent
 		local targetHum = targetChar and targetChar:FindFirstChildOfClass("Humanoid")
 		if _G.AnSerHitsound and targetHum then
@@ -9989,7 +9489,6 @@ local script = G2L["6c"];
 			aimAtTarget(target)
 	
 			if isToggleEnabled(autoFireToggle) then
-				-- ИСПРАВЛЕНО: передаем target в autoFire
 				task.spawn(function() autoFire(target) end)
 			end
 		else
@@ -10753,14 +10252,28 @@ local script = G2L["11d"];
 	
 	local currentTarget, currentTargetPos = nil, nil
 	
+	-- ИСПРАВЛЕНО: Team Check теперь корректно работает
 	local function isTeammate(p)
 		if not State.teamDetect then return false end
 		if not p or p == player then return true end
-		if player.Team and p.Team and player.Team == p.Team then return true end
-		if player.TeamColor and p.TeamColor then
-			if player.TeamColor ~= BrickColor.new("Medium stone grey")
-				and player.TeamColor == p.TeamColor then return true end
+	
+		-- Проверяем Team только если ОБА игрока имеют команду
+		if player.Team and p.Team then
+			if player.Team == p.Team then
+				return true
+			end
 		end
+	
+		-- Проверяем TeamColor только если ОБА имеют цвет И это не дефолтный цвет
+		if player.TeamColor and p.TeamColor then
+			local defaultColor = BrickColor.new("Medium stone grey")
+			if player.TeamColor ~= defaultColor and p.TeamColor ~= defaultColor then
+				if player.TeamColor == p.TeamColor then
+					return true
+				end
+			end
+		end
+	
 		return false
 	end
 	
@@ -10868,7 +10381,7 @@ local script = G2L["11d"];
 		local vp = camera.ViewportSize
 		local ok = pcall(function()
 			VirtualInputManager:SendMouseButtonEvent(vp.X/2, vp.Y/2, 0, true, game, 0)
-			task.wait(0.01)
+			task.wait(0.02)
 			VirtualInputManager:SendMouseButtonEvent(vp.X/2, vp.Y/2, 0, false, game, 0)
 		end)
 		if not ok and type(mouse1click) == "function" then
@@ -10876,14 +10389,14 @@ local script = G2L["11d"];
 		end
 	end
 	
-	-- ИСПРАВЛЕННАЯ ФУНКЦИЯ: правильное наведение + выстрел
+	-- ИСПРАВЛЕНО: cameraSnapShot с увеличенными задержками для надёжных попаданий
 	local function cameraSnapShot()
 		if silentMode ~= "camera_snap" then return false end
 		if not State.silentAim or not currentTargetPos then return false end
 		if snapBusy then return false end
 	
 		local now = tick()
-		if now - lastSnapTime < 0.05 then return false end
+		if now - lastSnapTime < 0.08 then return false end
 	
 		snapBusy = true
 		lastSnapTime = now
@@ -10904,16 +10417,15 @@ local script = G2L["11d"];
 		end)
 	
 		if aimOk then
-			-- Ждем немного чтобы сервер успел обработать направление камеры
-			-- Это КРИТИЧЕСКИ важно для попаданий
-			task.wait(0.05) -- 50мс достаточно для сервера
+			-- УВЕЛИЧЕНА задержка для надёжной синхронизации с сервером
+			task.wait(0.08)
 	
 			-- Делаем выстрел
 			safeClick()
 			success = true
 	
-			-- Еще небольшая задержка перед восстановлением камеры
-			task.wait(0.02)
+			-- УВЕЛИЧЕНА задержка перед восстановлением камеры
+			task.wait(0.05)
 		end
 	
 		-- Восстанавливаем камеру
@@ -10940,7 +10452,7 @@ local script = G2L["11d"];
 		end
 	
 		local now = tick()
-		if now - clickCooldown < 0.1 then return end
+		if now - clickCooldown < 0.15 then return end
 		clickCooldown = now
 	
 		-- Регистрация для Hitsound
@@ -10957,34 +10469,44 @@ local script = G2L["11d"];
 		task.spawn(cameraSnapShot)
 	end)
 	
-	RunService.RenderStepped:Connect(function()
-		if not State.enabled then return end
-		if State.silentCamera or not currentTargetPos then return end
-		if silentMode == "hook" and State.silentAim then return end
-		if not camera then return end
-	
-		local cur = camera.CFrame
-		local desired = CFrame.new(cur.Position, currentTargetPos)
-		local smoothFactor = math.clamp(1 - State.smooth/100, 0.05, 1)
-		camera.CFrame = cur:Lerp(desired, smoothFactor)
-	end)
-	
+	-- ИСПРАВЛЕНО: Spinbot теперь "тихий" - камера смотрит вниз и не крутится у игрока
 	local spinAngle = 0
 	
+	RunService.RenderStepped:Connect(function(dt)
+		-- Обработка Silent Aim камеры
+		if State.enabled and State.silentCamera and currentTargetPos and camera then
+			if not (silentMode == "hook" and State.silentAim) then
+				local cur = camera.CFrame
+				local desired = CFrame.new(cur.Position, currentTargetPos)
+				local smoothFactor = math.clamp(1 - State.smooth/100, 0.05, 1)
+				camera.CFrame = cur:Lerp(desired, smoothFactor)
+			end
+		end
+	
+		-- ИСПРАВЛЕНО: Silent Spinbot - камера смотрит вниз и не крутится
+		if State.enabled and State.spinbot and camera then
+			camera.CameraType = Enum.CameraType.Scriptable
+			-- Наклон камеры вниз на 80 градусов + компенсация вращения HRP
+			camera.CFrame = CFrame.new(camera.CFrame.Position) * CFrame.Angles(math.rad(-80), -spinAngle, 0)
+		end
+	end)
+	
 	RunService.Heartbeat:Connect(function(dt)
-		if not State.enabled or not State.spinbot then return end
-	
-		local char = player.Character
-		if not char or not char.Parent then return end
-		local hrp = char:FindFirstChild("HumanoidRootPart")
-		local hum = char:FindFirstChildOfClass("Humanoid")
-		if not hrp or not hum or hrp.Anchored then return end
-	
-		pcall(function()
-			hum.AutoRotate = false
-			spinAngle = (spinAngle + math.rad(State.spinSpeed) * dt) % (math.pi * 2)
-			hrp.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, spinAngle, 0)
-		end)
+		-- Spinbot вращение HRP (видят другие игроки)
+		if State.enabled and State.spinbot then
+			local char = player.Character
+			if char and char.Parent then
+				local hrp = char:FindFirstChild("HumanoidRootPart")
+				local hum = char:FindFirstChildOfClass("Humanoid")
+				if hrp and hum and not hrp.Anchored then
+					pcall(function()
+						hum.AutoRotate = false
+						spinAngle = (spinAngle + math.rad(State.spinSpeed) * dt) % (math.pi * 2)
+						hrp.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, spinAngle, 0)
+					end)
+				end
+			end
+		end
 	end)
 	
 	local fakeLagActive = false
@@ -11002,7 +10524,7 @@ local script = G2L["11d"];
 	local lastFire = 0
 	local autoFireBusy = false
 	
-	-- ИСПРАВЛЕННЫЙ AUTOFIRE: правильная синхронизация
+	-- ИСПРАВЛЕНО: AutoFire с правильной синхронизацией
 	local function autoFire()
 		if not State.autoFire or not currentTarget or autoFireBusy then return end
 	
@@ -11032,10 +10554,13 @@ local script = G2L["11d"];
 	
 		-- Если Silent Aim и camera_snap - используем правильное наведение
 		if State.silentAim and silentMode == "camera_snap" then
-			-- Ждем пока камера наведется
-			cameraSnapShot()
+			-- Вызываем cameraSnapShot и ждём его выполнения
+			local success = cameraSnapShot()
+			-- Если не удалось (например, snapBusy), делаем обычный клик
+			if not success then
+				safeClick()
+			end
 		else
-			-- Для других режимов просто кликаем
 			safeClick()
 		end
 	
@@ -12620,18 +12145,12 @@ local script = G2L["1ea"];
 	end
 	
 	local function spawnHat()
-		if hatModel then
-			hatModel:Destroy()
-			hatModel = nil
-		end
+		removeHat()
 	
 		local character = localPlayer.Character
 		if not character or not character.Parent then return end
 	
-		local head = character:FindFirstChild("Head")
-		if not head then
-			head = character:WaitForChild("Head", 5)
-		end
+		local head = character:FindFirstChild("Head") or character:WaitForChild("Head", 5)
 		if not head then return end
 	
 		hatModel = Instance.new("Model")
@@ -12667,8 +12186,6 @@ local script = G2L["1ea"];
 			part.CanCollide = false
 			part.Massless = true
 			part.Anchored = false
-			part.BottomSurface = Enum.SurfaceType.Smooth
-			part.TopSurface = Enum.SurfaceType.Smooth
 			part.Parent = hatModel
 	
 			local pWeld = Instance.new("Weld")
@@ -12683,7 +12200,7 @@ local script = G2L["1ea"];
 			highlight.FillTransparency = 0.8
 			highlight.OutlineColor = Color3.new(1, 1, 1)
 			highlight.OutlineTransparency = 0
-			highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop -- Всегда поверх всего
 			highlight.Parent = part
 		end
 	
@@ -12691,8 +12208,7 @@ local script = G2L["1ea"];
 	end
 	
 	local function setHat(state)
-		isEnabled = state and true or false
-	
+		isEnabled = state == true
 		if isEnabled then
 			spawnHat()
 		else
@@ -12706,13 +12222,21 @@ local script = G2L["1ea"];
 	
 	setHat(toggleButton:GetAttribute("State") or false)
 	
+	-- ЗАЩИТА ОТ НЕВИДИМОСТИ + ВРАЩЕНИЕ
 	RunService.RenderStepped:Connect(function(deltaTime)
 		if not isEnabled or not hatModel or not hatModel.PrimaryPart then return end
 	
 		local character = localPlayer.Character
-		if not character or not character.Parent or not character:FindFirstChild("Head") then
+		if not character or not character.Parent then
 			removeHat()
 			return
+		end
+	
+		-- ПРИНУДИТЕЛЬНО ДЕЛАЕМ НАШИ ЧАСТИ ВИДИМЫМИ, ПЕРЕБИВАЯ СКРИПТЫ ИГРЫ
+		for _, part in ipairs(hatModel:GetDescendants()) do
+			if part:IsA("BasePart") then
+				part.LocalTransparencyModifier = 0 
+			end
 		end
 	
 		rotationAngle = rotationAngle + math.rad(90) * deltaTime
@@ -12724,8 +12248,7 @@ local script = G2L["1ea"];
 	
 	localPlayer.CharacterAdded:Connect(function(character)
 		task.wait(0.5)
-	
-		if toggleButton:GetAttribute("State") and character and character.Parent then
+		if toggleButton:GetAttribute("State") then
 			spawnHat()
 		end
 	end)
@@ -12840,6 +12363,7 @@ task.spawn(C_1f9);
 local function C_200()
 local script = G2L["200"];
 	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
 	
 	local toggleButton = script.Parent.Header.ToggleButton
 	local localPlayer = Players.LocalPlayer
@@ -12851,39 +12375,26 @@ local script = G2L["200"];
 	local attachment2 = nil
 	
 	local function removeTrails()
-		if leftTrail then
-			leftTrail:Destroy()
-			leftTrail = nil
-		end
-		if rightTrail then
-			rightTrail:Destroy()
-			rightTrail = nil
-		end
-		if attachment1 then
-			attachment1:Destroy()
-			attachment1 = nil
-		end
-		if attachment2 then
-			attachment2:Destroy()
-			attachment2 = nil
-		end
+		if leftTrail then leftTrail:Destroy(); leftTrail = nil end
+		if rightTrail then rightTrail:Destroy(); rightTrail = nil end
+		if attachment1 then attachment1:Destroy(); attachment1 = nil end
+		if attachment2 then attachment2:Destroy(); attachment2 = nil end
 	end
 	
 	local function spawnTrails(character)
 		removeTrails()
-		if not isEnabled then return end
-		if not character or not character.Parent then return end
+		if not isEnabled or not character or not character.Parent then return end
 	
-		local upperTorso = character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso")
-		if not upperTorso then return end
+		local torso = character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso")
+		if not torso then return end
 	
 		attachment1 = Instance.new("Attachment")
 		attachment1.Position = Vector3.new(0, 1, 0)
-		attachment1.Parent = upperTorso
+		attachment1.Parent = torso
 	
 		attachment2 = Instance.new("Attachment")
 		attachment2.Position = Vector3.new(0, -1, 0)
-		attachment2.Parent = upperTorso
+		attachment2.Parent = torso
 	
 		local gradient = ColorSequence.new({
 			ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)),
@@ -12903,12 +12414,12 @@ local script = G2L["200"];
 		leftTrail.Lifetime = 0.5
 		leftTrail.MinLength = 0.05
 		leftTrail.FaceCamera = true
-		leftTrail.Parent = upperTorso
+		leftTrail.Enabled = true
+		leftTrail.Parent = torso
 	end
 	
 	local function setTrails(state)
-		isEnabled = state and true or false
-	
+		isEnabled = state == true
 		if isEnabled then
 			if localPlayer.Character and localPlayer.Character.Parent then
 				spawnTrails(localPlayer.Character)
@@ -12924,10 +12435,24 @@ local script = G2L["200"];
 	
 	setTrails(toggleButton:GetAttribute("State") or false)
 	
+	-- ЗАЩИТА: Если игра отключает трейл или удаляет аттачменты, мы их мгновенно восстанавливаем
+	RunService.RenderStepped:Connect(function()
+		if not isEnabled then return end
+	
+		local character = localPlayer.Character
+		if not character or not character.Parent then return end
+	
+		if not attachment1 or not attachment1.Parent or not leftTrail or not leftTrail.Enabled then
+			spawnTrails(character)
+		end
+	
+		-- Дополнительная защита от принудительного отключения
+		if leftTrail then leftTrail.Enabled = true end
+	end)
+	
 	localPlayer.CharacterAdded:Connect(function(character)
 		task.wait(0.5)
-	
-		if toggleButton:GetAttribute("State") and character and character.Parent then
+		if toggleButton:GetAttribute("State") then
 			spawnTrails(character)
 		end
 	end)
@@ -12946,28 +12471,48 @@ local script = G2L["20b"];
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
 	local UserInputService = game:GetService("UserInputService")
+	local Workspace = game:GetService("Workspace")
 	
-	local toggleButton = script.Parent.Header.ToggleButton
-	local localPlayer = Players.LocalPlayer
-	local camera = workspace.CurrentCamera
+	local player = Players.LocalPlayer
+	local camera = Workspace.CurrentCamera
+	
+	local container = script.Parent
+	local header = container:FindFirstChild("Header") or container
+	local toggleButton = header:FindFirstChild("ToggleButton")
+	
+	if not toggleButton then
+		return
+	end
 	
 	local isEnabled = false
 	local renderConnection = nil
 	
-	local cameraOffset = Vector3.new(2, 2, 7)
+	-- Настройки камеры
+	local cameraOffset = Vector3.new(0, 2, 8) -- Смещение: X (влево/вправо), Y (вверх/вниз), Z (отдаление)
 	local minDistance = 3
 	local maxDistance = 25
 	
-	local rotX = 0
-	local rotY = 0
+	-- Углы вращения (в радианах для корректной работы с CFrame)
+	local rotX = 0 -- Рыскание (влево/вправо)
+	local rotY = 0 -- Тангаж (вверх/вниз)
+	
+	-- Функция проверки, открыто ли меню
+	local function isMenuOpen()
+		return _G.MenuMainFrame and _G.MenuMainFrame.Visible == true
+	end
 	
 	local function updateCamera()
-		local character = localPlayer.Character
+		-- Если функция выключена ИЛИ открыто меню, прерываем выполнение
+		if not isEnabled or isMenuOpen() then return end
+	
+		local character = player.Character
 		if not character or not character.Parent then return end
 	
 		local rootPart = character:FindFirstChild("HumanoidRootPart")
 		if not rootPart then return end
 	
+		-- Делает персонажа видимым (0 = видимый, 1 = невидимый). 
+		-- Если хочешь, чтобы персонаж исчезал от 3-го лица, поменяй 0 на 1.
 		for _, part in ipairs(character:GetDescendants()) do
 			if part:IsA("BasePart") then
 				part.LocalTransparencyModifier = 0
@@ -12975,52 +12520,61 @@ local script = G2L["20b"];
 		end
 	
 		if not camera then
-			camera = workspace.CurrentCamera
+			camera = Workspace.CurrentCamera
 			if not camera then return end
 		end
 	
-		UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 		camera.CameraType = Enum.CameraType.Scriptable
 	
-		local startCFrame = CFrame.new(rootPart.Position) * CFrame.Angles(0, math.rad(rotX), 0) * CFrame.Angles(math.rad(rotY), 0, 0)
-		local targetPosition = startCFrame * CFrame.new(cameraOffset.X, cameraOffset.Y, cameraOffset.Z)
+		-- Строим CFrame камеры на основе позиции персонажа и углов поворота
+		local rootCFrame = CFrame.new(rootPart.Position)
+		local yaw = CFrame.Angles(0, rotX, 0)
+		local pitch = CFrame.Angles(rotY, 0, 0)
 	
-		camera.CFrame = CFrame.lookAt(targetPosition.Position, rootPart.Position + Vector3.new(0, cameraOffset.Y, 0))
+		local startCFrame = rootCFrame * yaw * pitch
+		local targetPosition = startCFrame * cameraOffset
+	
+		-- Камера смотрит на центр персонажа (чуть выше HRP)
+		camera.CFrame = CFrame.lookAt(targetPosition.Position, rootPart.Position + Vector3.new(0, 2, 0))
 	end
 	
+	-- Обработка движения мыши и зума
 	UserInputService.InputChanged:Connect(function(input)
-		if not isEnabled then return end
+		if not isEnabled or isMenuOpen() then return end
 	
 		if input.UserInputType == Enum.UserInputType.MouseMovement then
 			local delta = input.Delta
-			rotX = rotX - delta.X * 0.4
-			rotY = math.clamp(rotY - delta.Y * 0.4, -80, 80)
+			-- Чувствительность 0.2. Уменьши для более плавного поворота
+			rotX = rotX - math.rad(delta.X * 0.2)
+			rotY = math.clamp(rotY - math.rad(delta.Y * 0.2), math.rad(-80), math.rad(80))
+	
 		elseif input.UserInputType == Enum.UserInputType.MouseWheel then
+			-- Roblox иногда передает зум через input.Position.Z, проверим его
 			local zoomDelta = input.Position.Z
-			local newZ = math.clamp(cameraOffset.Z - (zoomDelta * 2), minDistance, maxDistance)
-			cameraOffset = Vector3.new(cameraOffset.X, cameraOffset.Y, newZ)
+			if zoomDelta ~= 0 then
+				local newZ = math.clamp(cameraOffset.Z - (zoomDelta * 2), minDistance, maxDistance)
+				cameraOffset = Vector3.new(cameraOffset.X, cameraOffset.Y, newZ)
+			end
 		end
 	end)
 	
-	local function setThirdPerson(state)
-		isEnabled = state and true or false
+	-- Главная функция применения состояния камеры
+	local function applyCameraState()
+		local shouldEnable = isEnabled and not isMenuOpen()
 	
-		if isEnabled then
-			local character = localPlayer.Character
-			local rootPart = character and character:FindFirstChild("HumanoidRootPart")
-			if rootPart and camera then
+		if shouldEnable then
+			-- При первом включении синхронизируем углы с текущей камерой, чтобы не было резкого скачка
+			if rotX == 0 and rotY == 0 and camera then
 				local _, y, _ = camera.CFrame:ToEulerAnglesYXZ()
-				rotX = math.deg(y)
+				rotX = y
 				rotY = 0
 			end
 	
-			UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-	
-			if renderConnection then
-				renderConnection:Disconnect()
+			if not renderConnection then
+				renderConnection = RunService.RenderStepped:Connect(updateCamera)
 			end
-			renderConnection = RunService.RenderStepped:Connect(updateCamera)
 		else
+			-- Возвращаем управление камерой стандартному движку Roblox
 			if renderConnection then
 				renderConnection:Disconnect()
 				renderConnection = nil
@@ -13031,32 +12585,42 @@ local script = G2L["20b"];
 			end
 	
 			UserInputService.MouseBehavior = Enum.MouseBehavior.Default
-	
-			local character = localPlayer.Character
-			if character and character.Parent then
-				for _, part in ipairs(character:GetDescendants()) do
-					if part:IsA("BasePart") then
-						part.LocalTransparencyModifier = 0
-					end
-				end
-			end
 		end
 	end
 	
+	-- Слушаем изменение тоггла
 	toggleButton:GetAttributeChangedSignal("State"):Connect(function()
-		setThirdPerson(toggleButton:GetAttribute("State"))
+		isEnabled = toggleButton:GetAttribute("State") == true
+		applyCameraState()
 	end)
 	
-	setThirdPerson(toggleButton:GetAttribute("State") or false)
-	
-	localPlayer.CharacterAdded:Connect(function(character)
-		task.wait(0.1)
-	
-		if toggleButton:GetAttribute("State") and character and character.Parent then
-			if renderConnection then
-				renderConnection:Disconnect()
+	-- Слушаем открытие/закрытие меню
+	if _G.MenuMainFrame then
+		_G.MenuMainFrame:GetPropertyChangedSignal("Visible"):Connect(function()
+			applyCameraState()
+		end)
+	else
+		-- Если меню загрузится позже, пробуем подключиться с задержкой
+		task.delay(1, function()
+			if _G.MenuMainFrame then
+				_G.MenuMainFrame:GetPropertyChangedSignal("Visible"):Connect(function()
+					applyCameraState()
+				end)
 			end
-			renderConnection = RunService.RenderStepped:Connect(updateCamera)
+		end)
+	end
+	
+	-- Инициализация при запуске
+	isEnabled = toggleButton:GetAttribute("State") == true
+	applyCameraState()
+	
+	-- Обработка респауна персонажа
+	player.CharacterAdded:Connect(function()
+		task.wait(0.1)
+		if isEnabled and not isMenuOpen() then
+			if not renderConnection then
+				renderConnection = RunService.RenderStepped:Connect(updateCamera)
+			end
 		end
 	end)
 end;
@@ -13259,10 +12823,7 @@ local script = G2L["2f7"];
 	end
 	
 	local function spawnWings()
-		if wingsModel then
-			wingsModel:Destroy()
-			wingsModel = nil
-		end
+		removeWings()
 	
 		local character = localPlayer.Character
 		if not character or not character.Parent then return end
@@ -13303,7 +12864,7 @@ local script = G2L["2f7"];
 		highlight.FillTransparency = 0.85
 		highlight.OutlineColor = WING_COLOR
 		highlight.OutlineTransparency = 0
-		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop -- Ключевой параметр для обхода скрытия
 		highlight.Parent = wingPart
 	
 		local weld = Instance.new("Weld")
@@ -13321,8 +12882,7 @@ local script = G2L["2f7"];
 	end
 	
 	local function setWings(state)
-		isEnabled = state and true or false
-	
+		isEnabled = state == true
 		if isEnabled then
 			spawnWings()
 		else
@@ -13336,29 +12896,32 @@ local script = G2L["2f7"];
 	
 	setWings(toggleButton:GetAttribute("State") or false)
 	
-	RunService.Heartbeat:Connect(function()
+	-- ЗАЩИТА ОТ НЕВИДИМОСТИ + АВТОВОССТАНОВЛЕНИЕ
+	RunService.RenderStepped:Connect(function()
 		if not isEnabled then return end
 	
-		if not wingsModel or not wingsModel.Parent then
+		local character = localPlayer.Character
+		if not character or not character.Parent then
+			removeWings()
+			return
+		end
+	
+		-- Если крылья пропали или сварка сломалась, пересоздаем их
+		if not wingsModel or not wingsModel.Parent or not wingsModel.PrimaryPart or not wingsModel.PrimaryPart:FindFirstChildOfClass("Weld") then
 			spawnWings()
 			return
 		end
 	
-		local character = localPlayer.Character
-		if not character or not character.Parent then return end
-	
-		local torso = character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso")
-		if not torso then return end
-	
-		if not wingsModel.PrimaryPart or not wingsModel.PrimaryPart:FindFirstChildOfClass("Weld") then
-			spawnWings()
+		-- ПРИНУДИТЕЛЬНО ДЕЛАЕМ КРЫЛЬЯ ВИДИМЫМИ, ПЕРЕБИВАЯ СКРИПТЫ ИГРЫ
+		local wingPart = wingsModel:FindFirstChild("WingMesh")
+		if wingPart then
+			wingPart.LocalTransparencyModifier = 0
 		end
 	end)
 	
 	localPlayer.CharacterAdded:Connect(function(character)
 		task.wait(0.5)
-	
-		if toggleButton:GetAttribute("State") and character and character.Parent then
+		if toggleButton:GetAttribute("State") then
 			spawnWings()
 		end
 	end)
@@ -15371,9 +14934,99 @@ local script = G2L["3e1"];
 	end)
 end;
 task.spawn(C_3e1);
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.Header.TextLabel.LocalScript
+local function C_3e7()
+local script = G2L["3e7"];
+	local name = script.Parent.Parent.Parent.Name
+	script.Parent.Text = name
+end;
+task.spawn(C_3e7);
+-- StarterGui.AnSer.Main.ContentArea.HUD.Fps.LocalScript
+local function C_3ee()
+local script = G2L["3ee"];
+	local container = script.Parent
+	local header = container:FindFirstChild("Header") or container
+	local toggleButton = header:FindFirstChild("ToggleButton")
+	if not toggleButton then
+		return
+	end 
+	local targetLabel = script.Parent.Parent.Parent.Parent.Parent.Title.Fps
+	local function toggleVisibility(state)
+		if targetLabel then
+			targetLabel.Visible = state
+		end
+	end
+	toggleButton:GetAttributeChangedSignal("State"):Connect(function()
+		local state = toggleButton:GetAttribute("State")
+		toggleVisibility(state == true)
+	end)
+	local initialState = toggleButton:GetAttribute("State")
+	toggleVisibility(initialState == true)
+end;
+task.spawn(C_3ee);
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.Header.TextLabel.LocalScript
+local function C_3f2()
+local script = G2L["3f2"];
+	local name = script.Parent.Parent.Parent.Name
+	script.Parent.Text = name
+end;
+task.spawn(C_3f2);
+-- StarterGui.AnSer.Main.ContentArea.HUD.User.LocalScript
+local function C_3f9()
+local script = G2L["3f9"];
+	local container = script.Parent
+	local header = container:FindFirstChild("Header") or container
+	local toggleButton = header:FindFirstChild("ToggleButton")
+	if not toggleButton then
+		return
+	end
+	local targetLabel = script.Parent.Parent.Parent.Parent.Parent.Title.User
+	local function toggleVisibility(state)
+		if targetLabel then
+			targetLabel.Visible = state
+		end
+	end
+	toggleButton:GetAttributeChangedSignal("State"):Connect(function()
+		local state = toggleButton:GetAttribute("State")
+		toggleVisibility(state == true)
+	end)
+	local initialState = toggleButton:GetAttribute("State")
+	toggleVisibility(initialState == true)
+end;
+task.spawn(C_3f9);
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.Header.TextLabel.LocalScript
+local function C_3fd()
+local script = G2L["3fd"];
+	local name = script.Parent.Parent.Parent.Name
+	script.Parent.Text = name
+end;
+task.spawn(C_3fd);
+-- StarterGui.AnSer.Main.ContentArea.HUD.Ping.LocalScript
+local function C_404()
+local script = G2L["404"];
+	local container = script.Parent
+	local header = container:FindFirstChild("Header") or container
+	local toggleButton = header:FindFirstChild("ToggleButton")
+	if not toggleButton then
+		return
+	end
+	local targetLabel = script.Parent.Parent.Parent.Parent.Parent.Title.Ping
+	local function toggleVisibility(state)
+		if targetLabel then
+			targetLabel.Visible = state
+		end
+	end
+	toggleButton:GetAttributeChangedSignal("State"):Connect(function()
+		local state = toggleButton:GetAttribute("State")
+		toggleVisibility(state == true)
+	end)
+	local initialState = toggleButton:GetAttribute("State")
+	toggleVisibility(initialState == true)
+end;
+task.spawn(C_404);
 -- StarterGui.AnSer.Main.ContentArea.Cfg.LocalScript
-local function C_42d()
-local script = G2L["42d"];
+local function C_41a()
+local script = G2L["41a"];
 	local HttpService = game:GetService("HttpService")
 	
 	local CfgTab = script.Parent
@@ -15564,10 +15217,10 @@ local script = G2L["42d"];
 	
 	refreshConfigList()
 end;
-task.spawn(C_42d);
+task.spawn(C_41a);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.global
-local function C_45a()
-local script = G2L["45a"];
+local function C_422()
+local script = G2L["422"];
 	local Players = game:GetService("Players")
 	local TeleportService = game:GetService("TeleportService")
 	
@@ -15619,17 +15272,17 @@ local script = G2L["45a"];
 		end)
 	end
 end;
-task.spawn(C_45a);
+task.spawn(C_422);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ReJoin.Header.TextLabel.LocalScript
-local function C_45d()
-local script = G2L["45d"];
+local function C_425()
+local script = G2L["425"];
 	local name = script.Parent.Parent.Parent.Name
 	script.Parent.Text = name
 end;
-task.spawn(C_45d);
+task.spawn(C_425);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.global
-local function C_463()
-local script = G2L["463"];
+local function C_42b()
+local script = G2L["42b"];
 	local Players = game:GetService("Players")
 	local TeleportService = game:GetService("TeleportService")
 	
@@ -15681,24 +15334,24 @@ local script = G2L["463"];
 		end)
 	end
 end;
-task.spawn(C_463);
+task.spawn(C_42b);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ServerHop.Header.TextLabel.LocalScript
-local function C_466()
-local script = G2L["466"];
+local function C_42e()
+local script = G2L["42e"];
 	local name = script.Parent.Parent.Parent.Name
 	script.Parent.Text = name
 end;
-task.spawn(C_466);
+task.spawn(C_42e);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Header.TextLabel.LocalScript
-local function C_46c()
-local script = G2L["46c"];
+local function C_434()
+local script = G2L["434"];
 	local name = script.Parent.Parent.Parent.Name
 	script.Parent.Text = name
 end;
-task.spawn(C_46c);
+task.spawn(C_434);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.global
-local function C_473()
-local script = G2L["473"];
+local function C_43b()
+local script = G2L["43b"];
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
 	local Workspace = game:GetService("Workspace")
@@ -15909,17 +15562,17 @@ local script = G2L["473"];
 		end
 	end)
 end;
-task.spawn(C_473);
+task.spawn(C_43b);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.NameLabel.LocalScript
-local function C_478()
-local script = G2L["478"];
+local function C_440()
+local script = G2L["440"];
 	local ss = script.Parent.Parent.Name
 	script.Parent.Text = ss
 end;
-task.spawn(C_478);
+task.spawn(C_440);
 -- StarterGui.AnSer.Main.ContentArea.Utility.ChunkyFpsBoost.Body.ChunkValue.LocalScript
-local function C_482()
-local script = G2L["482"];
+local function C_44a()
+local script = G2L["44a"];
 	--ChunkValue
 	local UserInputService = game:GetService("UserInputService")
 	local Container = script.Parent
@@ -16010,17 +15663,17 @@ local script = G2L["482"];
 		)
 	end)
 end;
-task.spawn(C_482);
+task.spawn(C_44a);
 -- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.Header.TextLabel.LocalScript
-local function C_487()
-local script = G2L["487"];
+local function C_44f()
+local script = G2L["44f"];
 	local name = script.Parent.Parent.Parent.Name
 	script.Parent.Text = name
 end;
-task.spawn(C_487);
+task.spawn(C_44f);
 -- StarterGui.AnSer.Main.ContentArea.Utility.AntiLag.LocalScript
-local function C_48e()
-local script = G2L["48e"];
+local function C_456()
+local script = G2L["456"];
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
 	local Workspace = game:GetService("Workspace")
@@ -16187,17 +15840,17 @@ local script = G2L["48e"];
 		end
 	end)
 end;
-task.spawn(C_48e);
+task.spawn(C_456);
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.Header.TextLabel.LocalScript
-local function C_492()
-local script = G2L["492"];
+local function C_45a()
+local script = G2L["45a"];
 	local name = script.Parent.Parent.Parent.Name
 	script.Parent.Text = name
 end;
-task.spawn(C_492);
+task.spawn(C_45a);
 -- StarterGui.AnSer.Main.ContentArea.Utility.LowGraphics.LocalScript
-local function C_499()
-local script = G2L["499"];
+local function C_461()
+local script = G2L["461"];
 	local Players = game:GetService("Players")
 	local Lighting = game:GetService("Lighting")
 	local RunService = game:GetService("RunService")
@@ -16370,14 +16023,12 @@ local script = G2L["499"];
 		end
 	end)
 end;
-task.spawn(C_499);
+task.spawn(C_461);
 -- StarterGui.AnSer.Main.Drag
-local function C_49a()
-local script = G2L["49a"];
+local function C_462()
+local script = G2L["462"];
 	local UserInputService = game:GetService("UserInputService")
 	local TweenService = game:GetService("TweenService")
-	
-	-- ПРЯМОЕ ПОЛУЧЕНИЕ ИЗ ВАШЕЙ СТРУКТУРЫ UI
 	local Main = script.Parent
 	local TopBar = Main:WaitForChild("TopBar")
 	local CloseBtn = TopBar:WaitForChild("CloseButton")
@@ -16429,18 +16080,15 @@ local script = G2L["49a"];
 	end
 	
 	for _, child in ipairs(ContentArea:GetChildren()) do
-		if child:IsA("GuiObject") then -- Собираем фреймы вкладок (Combat, Visual и т.д.)
+		if child:IsA("GuiObject") then 
 			table.insert(tabPages, child)
 		end
 	end
 	
 	local function selectTab(tabName)
-		-- Переключаем видимость страниц по их имени
 		for _, page in ipairs(tabPages) do
 			page.Visible = (page.Name == tabName)
 		end
-	
-		-- Меняем визуальный стиль кнопок
 		for _, btn in ipairs(tabButtons) do
 			if btn.Name == tabName then
 				TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(55, 55, 65)}):Play()
@@ -16451,15 +16099,11 @@ local script = G2L["49a"];
 			end
 		end
 	end
-	
-	-- Привязываем клики к кнопкам
 	for _, btn in ipairs(tabButtons) do
 		btn.MouseButton1Click:Connect(function()
 			selectTab(btn.Name)
 		end)
 	end
-	
-	-- Открываем первую вкладку по умолчанию при старте интерфейса, если кнопки существуют
 	if #tabButtons > 0 then
 		selectTab(tabButtons[1].Name)
 	end
@@ -16468,10 +16112,10 @@ local script = G2L["49a"];
 	_G.MenuMainFrame = Main
 	
 end;
-task.spawn(C_49a);
+task.spawn(C_462);
 -- StarterGui.AnSer.Main.Cursor
-local function C_49b()
-local script = G2L["49b"];
+local function C_463()
+local script = G2L["463"];
 	local UserInputService = game:GetService("UserInputService")
 	local TweenService = game:GetService("TweenService")
 	local Lighting = game:GetService("Lighting")
@@ -16549,10 +16193,10 @@ local script = G2L["49b"];
 		end
 	end)
 end;
-task.spawn(C_49b);
+task.spawn(C_463);
 -- StarterGui.AnSer.Title.LocalScript
-local function C_4a1()
-local script = G2L["4a1"];
+local function C_469()
+local script = G2L["469"];
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
 	
@@ -16608,6 +16252,6 @@ local script = G2L["4a1"];
 		end
 	end
 end;
-task.spawn(C_4a1);
+task.spawn(C_469);
 
 return G2L["1"], require;
