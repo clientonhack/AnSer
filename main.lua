@@ -10426,9 +10426,9 @@ local script = G2L["11d"];
 	local mouse = player:GetMouse()
 	
 	local frame = script.Parent
-	local header = frame:WaitForChild("Header")
-	local headerToggle = header:WaitForChild("ToggleButton")
-	local body = frame:WaitForChild("Body")
+	local header = frame:WaitForChild("Header", 5)
+	local headerToggle = header and header:WaitForChild("ToggleButton", 5)
+	local body = frame:WaitForChild("Body", 5)
 	
 	local function isToggleEnabled(button)
 		if not button or not button.Parent then return false end
@@ -10442,6 +10442,7 @@ local script = G2L["11d"];
 	end
 	
 	local function getSlider(name)
+		if not body then return nil end
 		local h = body:FindFirstChild(name)
 		if h then
 			local l = h:FindFirstChild("ValueLabel")
@@ -10451,6 +10452,7 @@ local script = G2L["11d"];
 	end
 	
 	local function getMode(frameName)
+		if not body then return "m1" end
 		local f = body:FindFirstChild(frameName)
 		if not f then return "m1" end
 		if isToggleEnabled(f:FindFirstChild("m1")) then return "m1" end
@@ -10460,6 +10462,7 @@ local script = G2L["11d"];
 	end
 	
 	local function getToggle(name)
+		if not body then return nil end
 		local h = body:FindFirstChild(name)
 		if h then return h:FindFirstChild("ToggleButton") end
 		return nil
@@ -10505,6 +10508,7 @@ local script = G2L["11d"];
 	local function hasLOS(part)
 		if not State.wallCheck then return true end
 		if not part or not part.Parent then return false end
+		if not camera then return false end
 		local origin = camera.CFrame.Position
 		local dir = part.Position - origin
 		local dist = dir.Magnitude
@@ -10517,8 +10521,12 @@ local script = G2L["11d"];
 	end
 	
 	local function pickPart(char)
-		if State.targetPart == "Head" then return char:FindFirstChild("Head") end
-		if State.targetPart == "Torso" then return char:FindFirstChild("HumanoidRootPart") end
+		if State.targetPart == "Head" then
+			return char:FindFirstChild("Head") or char:FindFirstChild("HumanoidRootPart")
+		end
+		if State.targetPart == "Torso" then
+			return char:FindFirstChild("HumanoidRootPart")
+		end
 		if State.targetPart == "UpperTorso" then
 			return char:FindFirstChild("UpperTorso") or char:FindFirstChild("HumanoidRootPart")
 		end
@@ -10526,6 +10534,7 @@ local script = G2L["11d"];
 	end
 	
 	local function selectTarget()
+		if not camera then return end
 		local vp = camera.ViewportSize
 		local cx, cy = vp.X / 2, vp.Y / 2
 		local best, bestScore = nil, math.huge
@@ -10537,7 +10546,8 @@ local script = G2L["11d"];
 					if part then
 						local dist3d = (part.Position - camera.CFrame.Position).Magnitude
 						if dist3d <= State.maxDist and hasLOS(part) then
-							local inRange, dist2d = true, 0
+							local inRange = true
+							local dist2d = dist3d
 							if State.useFov then
 								local sp, on = camera:WorldToViewportPoint(part.Position)
 								if on then
@@ -10571,8 +10581,9 @@ local script = G2L["11d"];
 	
 	local silentMode = "camera_snap"
 	
-	if type(hookmetamethod) == "function" and type(newcclosure) == "function" and type(getrawmetatable) == "function" and type(setreadonly) == "function" then
-		local success = pcall(function()
+	if type(hookmetamethod) == "function" and type(newcclosure) == "function"
+		and type(getrawmetatable) == "function" and type(setreadonly) == "function" then
+		local ok = pcall(function()
 			local mt = getrawmetatable(game)
 			local oldIndex = mt.__index
 			setreadonly(mt, false)
@@ -10592,15 +10603,14 @@ local script = G2L["11d"];
 			setreadonly(mt, true)
 			silentMode = "hook"
 		end)
-		if not success then
-			silentMode = "camera_snap"
-		end
+		if not ok then silentMode = "camera_snap" end
 	end
 	
 	local snapBusy = false
 	local lastSnapTime = 0
 	
 	local function safeClick()
+		if not camera then return end
 		local vp = camera.ViewportSize
 		local ok = pcall(function()
 			VirtualInputManager:SendMouseButtonEvent(vp.X / 2, vp.Y / 2, 0, true, game, 0)
@@ -10618,15 +10628,12 @@ local script = G2L["11d"];
 		if snapBusy then return false end
 		local now = tick()
 		if now - lastSnapTime < 0.08 then return false end
-		snapBusy = true
-		lastSnapTime = now
 		if not camera then
 			camera = Workspace.CurrentCamera
-			if not camera then
-				snapBusy = false
-				return false
-			end
+			if not camera then return false end
 		end
+		lastSnapTime = now
+		snapBusy = true
 		local savedCF = camera.CFrame
 		local savedType = camera.CameraType
 		local success = false
@@ -10675,9 +10682,14 @@ local script = G2L["11d"];
 	local spinAngle = 0
 	local originalCameraCFrame = nil
 	local originalCameraType = nil
+	local originalAutoRotate = nil
 	
 	RunService.RenderStepped:Connect(function(dt)
-		if State.enabled and State.silentCamera and currentTargetPos and camera and not State.spinbot then
+		if not camera then
+			camera = Workspace.CurrentCamera
+			if not camera then return end
+		end
+		if State.enabled and State.silentCamera and currentTargetPos and not State.spinbot then
 			if not (silentMode == "hook" and State.silentAim) then
 				local cur = camera.CFrame
 				local desired = CFrame.new(cur.Position, currentTargetPos)
@@ -10685,22 +10697,20 @@ local script = G2L["11d"];
 				camera.CFrame = cur:Lerp(desired, smoothFactor)
 			end
 		end
-		if State.enabled and State.spinbot and camera then
+		if State.enabled and State.spinbot then
 			if not originalCameraCFrame then
 				originalCameraCFrame = camera.CFrame
 				originalCameraType = camera.CameraType
 			end
 			camera.CameraType = Enum.CameraType.Scriptable
 			camera.CFrame = CFrame.new(camera.CFrame.Position) * CFrame.Angles(math.rad(-80), 0, 0)
-		else
-			if originalCameraCFrame and camera then
-				pcall(function()
-					camera.CameraType = originalCameraType or Enum.CameraType.Custom
-					camera.CFrame = originalCameraCFrame
-				end)
-				originalCameraCFrame = nil
-				originalCameraType = nil
-			end
+		elseif originalCameraCFrame then
+			pcall(function()
+				camera.CameraType = originalCameraType or Enum.CameraType.Custom
+				camera.CFrame = originalCameraCFrame
+			end)
+			originalCameraCFrame = nil
+			originalCameraType = nil
 		end
 	end)
 	
@@ -10712,12 +10722,24 @@ local script = G2L["11d"];
 				local hum = char:FindFirstChildOfClass("Humanoid")
 				if hrp and hum and not hrp.Anchored then
 					pcall(function()
+						if originalAutoRotate == nil then
+							originalAutoRotate = hum.AutoRotate
+						end
 						hum.AutoRotate = false
 						spinAngle = (spinAngle + math.rad(State.spinSpeed) * dt) % (math.pi * 2)
 						hrp.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, spinAngle, 0)
 					end)
 				end
 			end
+		elseif originalAutoRotate ~= nil then
+			local char = player.Character
+			if char then
+				local hum = char:FindFirstChildOfClass("Humanoid")
+				if hum then
+					pcall(function() hum.AutoRotate = originalAutoRotate end)
+				end
+			end
+			originalAutoRotate = nil
 		end
 	end)
 	
@@ -10754,10 +10776,7 @@ local script = G2L["11d"];
 			}
 		end
 		if State.silentAim and silentMode == "camera_snap" then
-			local success = cameraSnapShot()
-			if not success then
-				safeClick()
-			end
+			cameraSnapShot()
 		else
 			safeClick()
 		end
@@ -10772,7 +10791,7 @@ local script = G2L["11d"];
 		local now = tick()
 		if now - lastUpdate > 0.1 then
 			lastUpdate = now
-			State.enabled = isToggleEnabled(headerToggle)
+			State.enabled = headerToggle ~= nil and isToggleEnabled(headerToggle) or false
 			State.silentAim = isToggleEnabled(getToggle("SilentAim"))
 			State.silentCamera = isToggleEnabled(getToggle("SilentCamera"))
 			State.spinbot = isToggleEnabled(getToggle("Spinbot"))
@@ -10815,17 +10834,14 @@ local script = G2L["11d"];
 	player.CharacterAdded:Connect(function()
 		currentTarget, currentTargetPos = nil, nil
 		spinAngle = 0
-		originalCameraCFrame = nil
-		originalCameraType = nil
+		originalAutoRotate = nil
 	end)
 	
 	player.CharacterRemoving:Connect(function()
 		currentTarget, currentTargetPos = nil, nil
 		applyFakeLag(false)
-		originalCameraCFrame = nil
-		originalCameraType = nil
+		originalAutoRotate = nil
 	end)
-	
 end;
 task.spawn(C_11d);
 -- StarterGui.AnSer.Main.ContentArea.Combat.RageBot.Warning.LocalScript
@@ -11057,6 +11073,7 @@ local script = G2L["154"];
 	local modeFrame = script.Parent.Body.MusicMode
 	local volumeLabel = script.Parent.Body.Volume.ValueLabel
 	
+	local MODE_ORDER = { "m1", "m2", "m3", "m4", "m5", "m6" }
 	local SOUND_IDS = {
 		m1 = "rbxassetid://4817809188",
 		m2 = "rbxassetid://138901307926331",
@@ -11066,33 +11083,31 @@ local script = G2L["154"];
 		m6 = "rbxassetid://18410058858",
 	}
 	
-	local isEnabled = false
+	local isEnabled = toggleButton:GetAttribute("State") == true
 	
 	_G.AnSerHitsound = _G.AnSerHitsound or {}
 	
 	local function getSelectedMode()
-		for name, _ in pairs(SOUND_IDS) do
+		for _, name in ipairs(MODE_ORDER) do
 			local btn = modeFrame:FindFirstChild(name)
 			if btn then
 				local stroke = btn:FindFirstChild("UIStroke")
 				if stroke and stroke.Enabled then return name end
 				local dot = btn:FindFirstChild("Dot")
 				if dot and dot.Position.X.Scale >= 0.5 then return name end
-				local state = btn:GetAttribute("State")
-				if state == true then return name end
+				if btn:GetAttribute("State") == true then return name end
 			end
 		end
 		return "m1"
 	end
 	
 	local function getVolume()
-		local num = tonumber(volumeLabel.Text) or 5
+		local num = tonumber(string.match(volumeLabel.Text, "%d+%.?%d*")) or 5
 		return math.clamp(num / 10, 0, 1)
 	end
 	
 	local function playHitSound()
-		local mode = getSelectedMode()
-		local soundId = SOUND_IDS[mode]
+		local soundId = SOUND_IDS[getSelectedMode()]
 		if not soundId then return end
 	
 		local sound = Instance.new("Sound")
@@ -11101,11 +11116,11 @@ local script = G2L["154"];
 		sound.Parent = SoundService
 		sound:Play()
 	
-		sound.Ended:Connect(function()
-			if sound and sound.Parent then sound:Destroy() end
+		sound.Ended:Once(function()
+			sound:Destroy()
 		end)
 		task.delay(3, function()
-			if sound and sound.Parent then sound:Destroy() end
+			if sound.Parent then sound:Destroy() end
 		end)
 	end
 	
@@ -11113,14 +11128,17 @@ local script = G2L["154"];
 		if not isEnabled then return end
 	
 		local shot = _G.AnSerHitsound.LastShot
-		if not shot or shot.Target ~= humanoid then return end
+		if not shot then return end
+	
+		-- цель может быть Humanoid или его персонажем
+		if shot.Target ~= humanoid and shot.Target ~= humanoid.Parent then return end
 	
 		local ping = 0.1
 		pcall(function()
 			ping = localPlayer:GetNetworkPing()
 		end)
 	
-		local expectedDelay = math.clamp(ping + 0.05, 0.05, 0.4)
+		local minDelay = math.clamp(ping, 0, 0.3)
 		local timeSinceShot = tick() - shot.Time
 	
 		if timeSinceShot > 1.0 then
@@ -11128,7 +11146,7 @@ local script = G2L["154"];
 			return
 		end
 	
-		if timeSinceShot >= expectedDelay then
+		if timeSinceShot >= minDelay then
 			if newHealth < shot.Health then
 				playHitSound()
 			end
@@ -11136,28 +11154,31 @@ local script = G2L["154"];
 		end
 	end
 	
-	local function connectHumanoid(character)
-		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		if humanoid then
-			humanoid.HealthChanged:Connect(function(newHealth)
-				onHealthChanged(humanoid, newHealth)
-			end)
+	local hooked = setmetatable({}, { __mode = "k" })
+	
+	local function hookHumanoid(humanoid)
+		if hooked[humanoid] then return end
+		hooked[humanoid] = true
+		humanoid.HealthChanged:Connect(function(newHealth)
+			onHealthChanged(humanoid, newHealth)
+		end)
+	end
+	
+	for _, inst in ipairs(Workspace:GetDescendants()) do
+		if inst:IsA("Humanoid") then
+			hookHumanoid(inst)
 		end
 	end
 	
-	for _, p in ipairs(Players:GetPlayers()) do
-		if p.Character then connectHumanoid(p.Character) end
-		p.CharacterAdded:Connect(connectHumanoid)
-	end
+	Workspace.DescendantAdded:Connect(function(inst)
+		if inst:IsA("Humanoid") then
+			hookHumanoid(inst)
+		end
+	end)
 	
 	toggleButton:GetAttributeChangedSignal("State"):Connect(function()
 		isEnabled = toggleButton:GetAttribute("State") == true
 	end)
-	
-	if toggleButton:GetAttribute("State") == true then
-		isEnabled = true
-	end
-	
 end;
 task.spawn(C_154);
 -- StarterGui.AnSer.Main.ContentArea.Visual.Esp.Header.TextLabel.LocalScript
@@ -11175,11 +11196,18 @@ local script = G2L["161"];
 	local Camera = workspace.CurrentCamera
 	local localPlayer = Players.LocalPlayer
 	
-	local mainToggle = script.Parent.Header.ToggleButton
-	local modeToggle = script.Parent.Body["3D"].ToggleButton
-	local healthToggle = script.Parent.Body.HealthTag.ToggleButton
-	local metersToggle = script.Parent.Body.Metrs.ToggleButton
-	local skeletonToggle = script.Parent.Body.Skeleton.ToggleButton
+	local function child(parent, name)
+		return parent and parent:FindFirstChild(name) or nil
+	end
+	
+	local header = script.Parent:WaitForChild("Header", 5)
+	local body = script.Parent:WaitForChild("Body", 5)
+	
+	local mainToggle = child(header, "ToggleButton")
+	local modeToggle = child(child(body, "3D"), "ToggleButton")
+	local healthToggle = child(child(body, "HealthTag"), "ToggleButton")
+	local metersToggle = child(child(body, "Metrs"), "ToggleButton")
+	local skeletonToggle = child(child(body, "Skeleton"), "ToggleButton")
 	
 	local espEnabled = false
 	local is3DMode = false
@@ -11208,10 +11236,20 @@ local script = G2L["161"];
 		{"RightLowerLeg", "RightFoot"}
 	}
 	
+	local theme = {
+		text        = Color3.fromRGB(245, 245, 250),
+		textDim     = Color3.fromRGB(185, 185, 195),
+		stroke      = Color3.fromRGB(15, 15, 20),
+		bg          = Color3.fromRGB(30, 30, 35),
+		bgDim       = Color3.fromRGB(45, 45, 50),
+		accent      = Color3.fromRGB(235, 235, 240),
+		danger      = Color3.fromRGB(230, 90, 90),
+		skeleton    = Color3.fromRGB(230, 230, 235)
+	}
+	
 	local function clearPlayerESP(data)
 		if data.tag2D then data.tag2D:Destroy() data.tag2D = nil end
 		if data.box3D then data.box3D:Destroy() data.box3D = nil end
-	
 		if data.skeletonLines then
 			for _, line in ipairs(data.skeletonLines) do
 				if line then line:Remove() end
@@ -11223,7 +11261,7 @@ local script = G2L["161"];
 	local function create2DTag(player, head)
 		local bGui = Instance.new("BillboardGui")
 		bGui.Name = "ESP_2D"
-		bGui.Size = UDim2.new(0, 150, 0, 45)
+		bGui.Size = UDim2.new(0, 155, 0, 44)
 		bGui.AlwaysOnTop = true
 		bGui.ExtentsOffset = Vector3.new(0, 2.5, 0)
 		bGui.Adornee = head
@@ -11232,68 +11270,81 @@ local script = G2L["161"];
 		frame.Name = "MainFrame"
 		frame.Size = UDim2.new(1, 0, 1, 0)
 		frame.BackgroundTransparency = 1
+		frame.BorderSizePixel = 0
 	
 		local healthBG = Instance.new("Frame", frame)
 		healthBG.Name = "HealthBG"
-		healthBG.Size = UDim2.new(0, 4, 0, 35)
-		healthBG.Position = UDim2.new(0, 0, 0, 0)
-		healthBG.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+		healthBG.Size = UDim2.new(0, 4, 0, 38)
+		healthBG.Position = UDim2.new(0, 0, 0.5, 0)
+		healthBG.AnchorPoint = Vector2.new(0, 0.5)
+		healthBG.BackgroundColor3 = theme.bgDim
+		healthBG.BackgroundTransparency = 0.15
 		healthBG.BorderSizePixel = 0
 		healthBG.Visible = false
-		Instance.new("UICorner", healthBG).CornerRadius = UDim.new(0, 2)
+		Instance.new("UICorner", healthBG).CornerRadius = UDim.new(1, 0)
 	
 		local healthBar = Instance.new("Frame", healthBG)
 		healthBar.Name = "Bar"
 		healthBar.Size = UDim2.new(1, 0, 1, 0)
 		healthBar.Position = UDim2.new(0, 0, 1, 0)
 		healthBar.AnchorPoint = Vector2.new(0, 1)
-		healthBar.BackgroundColor3 = Color3.new(0, 1, 0)
+		healthBar.BackgroundColor3 = theme.accent
 		healthBar.BorderSizePixel = 0
-		Instance.new("UICorner", healthBar).CornerRadius = UDim.new(0, 2)
+		Instance.new("UICorner", healthBar).CornerRadius = UDim.new(1, 0)
 	
 		local img = Instance.new("ImageLabel", frame)
 		img.Name = "Avatar"
-		img.Size = UDim2.new(0, 35, 0, 35)
-		img.Position = UDim2.new(0, 0, 0, 0)
-		img.BackgroundTransparency = 0.4
-		img.BackgroundColor3 = Color3.new(0, 0, 0)
+		img.Size = UDim2.new(0, 38, 0, 38)
+		img.Position = UDim2.new(0, 0, 0.5, 0)
+		img.AnchorPoint = Vector2.new(0, 0.5)
+		img.BackgroundColor3 = theme.bg
+		img.BackgroundTransparency = 0
 		img.Image = "rbxthumb://type=AvatarHeadShot&id=" .. player.UserId .. "&w=150&h=150"
 		Instance.new("UICorner", img).CornerRadius = UDim.new(1, 0)
 	
+		local imgStroke = Instance.new("UIStroke", img)
+		imgStroke.Color = theme.accent
+		imgStroke.Thickness = 1.5
+		imgStroke.Transparency = 0.15
+	
 		local textContainer = Instance.new("Frame", frame)
 		textContainer.Name = "TextContainer"
-		textContainer.Position = UDim2.new(0, 42, 0, 0)
-		textContainer.Size = UDim2.new(1, -42, 1, 0)
+		textContainer.Position = UDim2.new(0, 44, 0.5, 0)
+		textContainer.AnchorPoint = Vector2.new(0, 0.5)
+		textContainer.Size = UDim2.new(1, -44, 0, 32)
 		textContainer.BackgroundTransparency = 1
 	
 		local nameTxt = Instance.new("TextLabel", textContainer)
-		nameTxt.Size = UDim2.new(1, 0, 0, 16)
-		nameTxt.Position = UDim2.new(0, 0, 0, 2)
+		nameTxt.Name = "Name"
+		nameTxt.Size = UDim2.new(1, 0, 0, 18)
+		nameTxt.Position = UDim2.new(0, 0, 0, 0)
 		nameTxt.BackgroundTransparency = 1
-		nameTxt.TextColor3 = Color3.new(1, 1, 1)
+		nameTxt.TextColor3 = theme.text
 		nameTxt.TextXAlignment = Enum.TextXAlignment.Left
-		nameTxt.TextSize = 13
-		nameTxt.Font = Enum.Font.SourceSansBold
+		nameTxt.TextSize = 14
+		nameTxt.Font = Enum.Font.GothamBold
 		nameTxt.Text = player.DisplayName
 	
 		local stroke = Instance.new("UIStroke", nameTxt)
-		stroke.Thickness = 1
-		stroke.Color = Color3.new(0, 0, 0)
+		stroke.Thickness = 1.5
+		stroke.Color = theme.stroke
+		stroke.Transparency = 0.35
 	
 		local infoTxt = Instance.new("TextLabel", textContainer)
 		infoTxt.Name = "Info"
 		infoTxt.Size = UDim2.new(1, 0, 0, 14)
-		infoTxt.Position = UDim2.new(0, 0, 0, 18)
+		infoTxt.Position = UDim2.new(0, 0, 0, 19)
 		infoTxt.BackgroundTransparency = 1
-		infoTxt.TextColor3 = Color3.fromRGB(200, 200, 200)
+		infoTxt.TextColor3 = theme.textDim
 		infoTxt.TextXAlignment = Enum.TextXAlignment.Left
 		infoTxt.TextSize = 12
-		infoTxt.Font = Enum.Font.SourceSans
+		infoTxt.Font = Enum.Font.Gotham
 		infoTxt.Text = ""
 	
 		local stroke2 = Instance.new("UIStroke", infoTxt)
-		stroke2.Thickness = 1
-		stroke2.Color = Color3.new(0, 0, 0)
+		stroke2.Thickness = 1.2
+		stroke2.Color = theme.stroke
+		stroke2.Transparency = 0.45
 	
 		bGui.Parent = espFolder
 		return bGui
@@ -11301,10 +11352,10 @@ local script = G2L["161"];
 	
 	local function create3DBox(character)
 		local highlight = Instance.new("Highlight")
-		highlight.FillColor = Color3.new(1, 0.2, 0.2)
-		highlight.FillTransparency = 0.6
-		highlight.OutlineColor = Color3.new(1, 1, 1)
-		highlight.OutlineTransparency = 0
+		highlight.FillColor = theme.accent
+		highlight.FillTransparency = 0.78
+		highlight.OutlineColor = theme.accent
+		highlight.OutlineTransparency = 0.1
 		highlight.Adornee = character
 		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 		highlight.Parent = espFolder
@@ -11335,16 +11386,19 @@ local script = G2L["161"];
 				if healthBG and avatar and container then
 					if showHealth then
 						healthBG.Visible = true
-						avatar.Position = UDim2.new(0, 12, 0, 0)
-						container.Position = UDim2.new(0, 54, 0, 0)
+						avatar.Position = UDim2.new(0, 12, 0.5, 0)
+						container.Position = UDim2.new(0, 56, 0.5, 0)
 	
-						local healthPercent = math.clamp(humanoid.Health / humanoid.MaxHealth, 0, 1)
-						healthBG.Bar.Size = UDim2.new(1, 0, healthPercent, 0)
-						healthBG.Bar.BackgroundColor3 = Color3.fromHSV(healthPercent * 0.33, 0.9, 0.9)
+						local pct = math.clamp(humanoid.Health / math.max(humanoid.MaxHealth, 1), 0, 1)
+						local bar = healthBG:FindFirstChild("Bar")
+						if bar then
+							bar.Size = UDim2.new(1, 0, pct, 0)
+							bar.BackgroundColor3 = theme.accent:Lerp(theme.danger, 1 - pct)
+						end
 					else
 						healthBG.Visible = false
-						avatar.Position = UDim2.new(0, 0, 0, 0)
-						container.Position = UDim2.new(0, 42, 0, 0)
+						avatar.Position = UDim2.new(0, 0, 0.5, 0)
+						container.Position = UDim2.new(0, 44, 0.5, 0)
 					end
 				end
 	
@@ -11371,7 +11425,6 @@ local script = G2L["161"];
 	
 		if showSkeleton then
 			local lineIndex = 1
-	
 			for _, bonePair in ipairs(skeletonConnections) do
 				local partA = character:FindFirstChild(bonePair[1])
 				local partB = character:FindFirstChild(bonePair[2])
@@ -11384,8 +11437,8 @@ local script = G2L["161"];
 						local line = data.skeletonLines[lineIndex]
 						if not line then
 							line = Drawing.new("Line")
-							line.Thickness = 2
-							line.Color = Color3.fromRGB(0, 255, 140)
+							line.Thickness = 1.5
+							line.Color = theme.skeleton
 							line.Transparency = 1
 							data.skeletonLines[lineIndex] = line
 						end
@@ -11440,36 +11493,21 @@ local script = G2L["161"];
 		for _, data in pairs(espData) do clearPlayerESP(data) end
 	end
 	
-	mainToggle:GetAttributeChangedSignal("State"):Connect(function()
-		espEnabled = mainToggle:GetAttribute("State") and true or false
-		forceRefreshAll()
-	end)
+	local function bindToggle(toggle, setter)
+		if not toggle then return end
+		local function sync()
+			setter(toggle:GetAttribute("State") and true or false)
+			forceRefreshAll()
+		end
+		toggle:GetAttributeChangedSignal("State"):Connect(sync)
+		sync()
+	end
 	
-	modeToggle:GetAttributeChangedSignal("State"):Connect(function()
-		is3DMode = modeToggle:GetAttribute("State") and true or false
-		forceRefreshAll()
-	end)
-	
-	healthToggle:GetAttributeChangedSignal("State"):Connect(function()
-		showHealth = healthToggle:GetAttribute("State") and true or false
-		forceRefreshAll()
-	end)
-	
-	metersToggle:GetAttributeChangedSignal("State"):Connect(function()
-		showMeters = metersToggle:GetAttribute("State") and true or false
-		forceRefreshAll()
-	end)
-	
-	skeletonToggle:GetAttributeChangedSignal("State"):Connect(function()
-		showSkeleton = skeletonToggle:GetAttribute("State") and true or false
-		forceRefreshAll()
-	end)
-	
-	espEnabled = mainToggle:GetAttribute("State") and true or false
-	is3DMode = modeToggle:GetAttribute("State") and true or false
-	showHealth = healthToggle:GetAttribute("State") and true or false
-	showMeters = metersToggle:GetAttribute("State") and true or false
-	showSkeleton = skeletonToggle:GetAttribute("State") and true or false
+	bindToggle(mainToggle,     function(v) espEnabled = v end)
+	bindToggle(modeToggle,     function(v) is3DMode = v end)
+	bindToggle(healthToggle,   function(v) showHealth = v end)
+	bindToggle(metersToggle,   function(v) showMeters = v end)
+	bindToggle(skeletonToggle, function(v) showSkeleton = v end)
 end;
 task.spawn(C_161);
 -- StarterGui.AnSer.Main.ContentArea.Visual.TimeChanger.Header.TextLabel.LocalScript
@@ -12120,7 +12158,11 @@ local script = G2L["1cf"];
 	local localPlayer = Players.LocalPlayer
 	local camera = Workspace.CurrentCamera
 	
-	local body = script.Parent.Body
+	local body = script.Parent:WaitForChild("Body")
+	
+	local TRACER_MAX_DIST = 250
+	local LINE_THICKNESS = 0.08
+	local tracerLines = {} -- [Player] = BoxHandleAdornment
 	
 	local function isToggleEnabled(button)
 		if not button or not button.Parent then return false end
@@ -12133,21 +12175,32 @@ local script = G2L["1cf"];
 		return false
 	end
 	
-	local function getSlider(name)
-		local h = body:FindFirstChild(name)
-		if h then
-			local l = h:FindFirstChild("ValueLabel")
-			if l then return tonumber(l.Text) end
+	local function clearAll()
+		for p, line in pairs(tracerLines) do
+			line:Destroy()
+			tracerLines[p] = nil
 		end
-		return nil
 	end
 	
-	local tracerContainer = Instance.new("Folder")
-	tracerContainer.Name = "TracerContainer"
-	tracerContainer.Parent = script.Parent
+	local function removeLine(p)
+		local line = tracerLines[p]
+		if line then
+			line:Destroy()
+			tracerLines[p] = nil
+		end
+	end
 	
-	local TRACER_MAX_DIST = 250
-	local tracerLines = {}
+	local function createLine()
+		local line = Instance.new("BoxHandleAdornment")
+		line.Adornee = Workspace.Terrain -- обязательно, иначе не рисуется
+		line.AlwaysOnTop = true
+		line.ZIndex = 10
+		line.Color3 = Color3.fromRGB(255, 0, 0)
+		line.Transparency = 0
+		line.Size = Vector3.new(LINE_THICKNESS, LINE_THICKNESS, 0.1)
+		line.Parent = camera
+		return line
+	end
 	
 	local function getTracerOrigin()
 		local char = localPlayer.Character
@@ -12161,71 +12214,52 @@ local script = G2L["1cf"];
 	end
 	
 	local function updateTracers()
-		local tracersEnabled = isToggleEnabled(body:FindFirstChild("Tracers") and body.Tracers:FindFirstChild("ToggleButton"))
-		if not tracersEnabled then
-			for _, line in pairs(tracerLines) do
-				if line and line.Parent then line:Destroy() end
-			end
-			tracerLines = {}
+		camera = Workspace.CurrentCamera
+	
+		local tracersFrame = body:FindFirstChild("Tracers")
+		local toggle = tracersFrame and tracersFrame:FindFirstChild("ToggleButton")
+		if not isToggleEnabled(toggle) then
+			clearAll()
 			return
 		end
 	
 		local origin = getTracerOrigin()
-		local activePlayers = {}
+		local seen = {}
 	
 		for _, p in ipairs(Players:GetPlayers()) do
 			if p ~= localPlayer and p.Character then
 				local hum = p.Character:FindFirstChildOfClass("Humanoid")
 				local root = p.Character:FindFirstChild("HumanoidRootPart")
 				if hum and hum.Health > 0 and root then
-					local dist = (root.Position - origin).Magnitude
-					if dist <= TRACER_MAX_DIST then
-						activePlayers[p] = root.Position
+					local targetPos = root.Position
+					local distance = (targetPos - origin).Magnitude
+					if distance <= TRACER_MAX_DIST and distance > 0.1 then
+						seen[p] = true
+	
+						local line = tracerLines[p]
+						if not line or not line.Parent then
+							line = createLine()
+							tracerLines[p] = line
+						end
+	
+						line.CFrame = CFrame.lookAt(origin, targetPos) * CFrame.new(0, 0, -distance / 2)
+						line.Size = Vector3.new(LINE_THICKNESS, LINE_THICKNESS, distance)
 					end
 				end
 			end
 		end
 	
-		for p, line in pairs(tracerLines) do
-			if not activePlayers[p] then
-				if line and line.Parent then line:Destroy() end
-				tracerLines[p] = nil
+		for p in pairs(tracerLines) do
+			if not seen[p] then
+				removeLine(p)
 			end
-		end
-	
-		for p, targetPos in pairs(activePlayers) do
-			local line = tracerLines[p]
-			if not line or not line.Parent then
-				line = Instance.new("BoxHandleAdornment")
-				line.Adornee = nil
-				line.ZIndex = 10
-				line.AlwaysOnTop = true
-				line.Size = Vector3.new(0, 0, 0)
-				line.Color3 = Color3.fromRGB(255, 0, 0)
-				line.Transparency = 0
-				line.Parent = tracerContainer
-				tracerLines[p] = line
-			end
-	
-			local direction = targetPos - origin
-			local distance = direction.Magnitude
-			local midPoint = origin + direction * 0.5
-	
-			line.CFrame = CFrame.lookAt(midPoint, targetPos)
-			line.Size = Vector3.new(0.05, 0.05, distance)
-			line.Adornee = nil
 		end
 	end
 	
 	RunService.RenderStepped:Connect(updateTracers)
 	
-	localPlayer.CharacterRemoving:Connect(function()
-		for _, line in pairs(tracerLines) do
-			if line and line.Parent then line:Destroy() end
-		end
-		tracerLines = {}
-	end)
-	
+	Players.PlayerRemoving:Connect(removeLine)
+	localPlayer.CharacterRemoving:Connect(clearAll)
 end;
 task.spawn(C_1cf);
 -- StarterGui.AnSer.Main.ContentArea.Player.Fov.Header.TextLabel.LocalScript
@@ -12589,88 +12623,274 @@ local function C_200()
 local script = G2L["200"];
 	local Players = game:GetService("Players")
 	local TweenService = game:GetService("TweenService")
+	local Debris = game:GetService("Debris")
+	local Workspace = game:GetService("Workspace")
 	
 	local toggleButton = script.Parent.Header.ToggleButton
 	local localPlayer = Players.LocalPlayer
 	
+	-- НАСТРОЙКИ
+	local SETTINGS = {
+		Cooldown = 0.12,     -- минимальная пауза между эффектами
+		Particles = true,    -- дымка и искорки
+		SizeMultiplier = 1,  -- общий размер эффекта
+	}
+	
+	-- Бело-серая тема
+	local WHITE = Color3.fromRGB(255, 255, 255)
+	local LIGHT = Color3.fromRGB(230, 230, 236)
+	local GRAY  = Color3.fromRGB(150, 150, 160)
+	
+	-- Слои эффекта
+	local RINGS = {
+		{ -- основное широкое кольцо
+			delay = 0, time = 0.7, startSize = 1.5, endSize = 13,
+			thickStart = 38, thickEnd = 3, strokeAlpha = 0, fillAlpha = 1,
+			lift = 0.35, spin = 100, colors = { WHITE, LIGHT, GRAY },
+		},
+		{ -- вторая волна, серая и тоньше
+			delay = 0.07, time = 0.6, startSize = 1, endSize = 9,
+			thickStart = 22, thickEnd = 2, strokeAlpha = 0.15, fillAlpha = 1,
+			lift = 0.2, spin = -140, colors = { LIGHT, GRAY, WHITE },
+		},
+		{ -- быстрая внутренняя вспышка с заливкой
+			delay = 0, time = 0.38, startSize = 1, endSize = 6.5,
+			thickStart = 12, thickEnd = 1, strokeAlpha = 0.1, fillAlpha = 0.55,
+			lift = 0.1, spin = 0, colors = { WHITE, WHITE, LIGHT },
+		},
+	}
+	
 	local isEnabled = false
 	local humanoidConnection = nil
+	local lastSpawn = 0
 	
-	local function createJumpRing(character)
+	local effectsFolder = Instance.new("Folder")
+	effectsFolder.Name = "JumpRingEffects"
+	effectsFolder.Parent = Workspace
+	
+	local rayParams = RaycastParams.new()
+	rayParams.FilterType = Enum.RaycastFilterType.Exclude
+	rayParams.RespectCanCollide = true
+	
+	-- где стоят ноги и куда смотрит поверхность
+	local function getGroundCFrame(character, root, humanoid)
+		rayParams.FilterDescendantsInstances = { character, effectsFolder }
+		local result = Workspace:Raycast(root.Position, Vector3.new(0, -8, 0), rayParams)
+	
+		local position, normal
+		if result then
+			position = result.Position + result.Normal * 0.06
+			normal = result.Normal
+		else
+			-- в воздухе: кольцо у ног
+			local feet = humanoid.HipHeight + root.Size.Y / 2
+			position = root.Position - Vector3.new(0, feet, 0)
+			normal = Vector3.yAxis
+		end
+	
+		-- поворачиваем так, чтобы верхняя грань смотрела по нормали
+		if normal:Dot(Vector3.yAxis) > 0.9999 then
+			return CFrame.new(position)
+		end
+		return CFrame.new(position, position + normal) * CFrame.Angles(-math.pi / 2, 0, 0)
+	end
+	
+	local function createRing(cf, spec)
+		local part = Instance.new("Part")
+		part.Name = "JumpRing"
+		part.Anchored = true
+		part.CanCollide = false
+		part.CanQuery = false
+		part.CanTouch = false
+		part.CastShadow = false
+		part.Massless = true
+		part.Transparency = 1
+		part.Size = Vector3.new(spec.startSize, 0.05, spec.startSize)
+		part.CFrame = cf
+	
+		local gui = Instance.new("SurfaceGui")
+		gui.Face = Enum.NormalId.Top
+		gui.SizingMode = Enum.SurfaceGuiSizingMode.FixedSize
+		gui.CanvasSize = Vector2.new(512, 512)
+		gui.LightInfluence = 0
+		gui.Brightness = 2.5
+		gui.AlwaysOnTop = false
+		gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+		gui.Adornee = part
+		gui.Parent = part
+	
+		local frame = Instance.new("Frame")
+		frame.AnchorPoint = Vector2.new(0.5, 0.5)
+		frame.Position = UDim2.fromScale(0.5, 0.5)
+		frame.Size = UDim2.fromScale(0.9, 0.9)
+		frame.BackgroundColor3 = WHITE
+		frame.BackgroundTransparency = spec.fillAlpha
+		frame.BorderSizePixel = 0
+		frame.Parent = gui
+	
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0.5, 0)
+		corner.Parent = frame
+	
+		local stroke = Instance.new("UIStroke")
+		stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		stroke.Color = WHITE
+		stroke.Thickness = spec.thickStart
+		stroke.Transparency = spec.strokeAlpha
+		stroke.Parent = frame
+	
+		local gradient = Instance.new("UIGradient")
+		gradient.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, spec.colors[1]),
+			ColorSequenceKeypoint.new(0.5, spec.colors[2]),
+			ColorSequenceKeypoint.new(1, spec.colors[3]),
+		})
+		gradient.Parent = stroke
+	
+		part.Parent = effectsFolder
+		Debris:AddItem(part, spec.time + spec.delay + 0.5)
+	
+		-- анимация
+		local grow = TweenInfo.new(spec.time, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+		local fade = TweenInfo.new(spec.time, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+		local spin = TweenInfo.new(spec.time, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+	
+		local endSize = spec.endSize * SETTINGS.SizeMultiplier
+		TweenService:Create(part, grow, {
+			Size = Vector3.new(endSize, 0.05, endSize),
+			CFrame = cf * CFrame.new(0, spec.lift, 0),
+		}):Play()
+		TweenService:Create(stroke, grow, { Thickness = spec.thickEnd }):Play()
+		TweenService:Create(stroke, fade, { Transparency = 1 }):Play()
+		TweenService:Create(frame, fade, { BackgroundTransparency = 1 }):Play()
+		if spec.spin ~= 0 then
+			TweenService:Create(gradient, spin, { Rotation = spec.spin }):Play()
+		end
+	
+		return part
+	end
+	
+	local function createParticles(cf)
+		local anchor = Instance.new("Part")
+		anchor.Name = "JumpParticles"
+		anchor.Anchored = true
+		anchor.CanCollide = false
+		anchor.CanQuery = false
+		anchor.CanTouch = false
+		anchor.Transparency = 1
+		anchor.Size = Vector3.new(1, 1, 1)
+		anchor.CFrame = cf
+		anchor.Parent = effectsFolder
+		Debris:AddItem(anchor, 2)
+	
+		local attachment = Instance.new("Attachment")
+		attachment.Parent = anchor
+	
+		-- дымка, расходящаяся кольцом
+		local dust = Instance.new("ParticleEmitter")
+		dust.Texture = "rbxasset://textures/particles/smoke_main.dds"
+		dust.Color = ColorSequence.new(LIGHT, GRAY)
+		dust.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.55),
+			NumberSequenceKeypoint.new(0.5, 0.75),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		dust.Size = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.8),
+			NumberSequenceKeypoint.new(1, 2.6),
+		})
+		dust.Lifetime = NumberRange.new(0.5, 0.9)
+		dust.Speed = NumberRange.new(7, 12)
+		dust.Drag = 6
+		dust.Acceleration = Vector3.new(0, 1.5, 0)
+		dust.Rotation = NumberRange.new(0, 360)
+		dust.RotSpeed = NumberRange.new(-40, 40)
+		dust.Shape = Enum.ParticleEmitterShape.Disc
+		dust.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+		dust.LightInfluence = 0.3
+		dust.Rate = 0
+		dust.Enabled = false
+		dust.Parent = attachment
+		dust:Emit(16)
+	
+		-- искорки вверх
+		local sparks = Instance.new("ParticleEmitter")
+		sparks.Texture = "rbxasset://textures/particles/sparkles_main.dds"
+		sparks.Color = ColorSequence.new(WHITE, LIGHT)
+		sparks.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.1),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		sparks.Size = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.35),
+			NumberSequenceKeypoint.new(1, 0),
+		})
+		sparks.Lifetime = NumberRange.new(0.5, 1)
+		sparks.Speed = NumberRange.new(4, 9)
+		sparks.SpreadAngle = Vector2.new(60, 60)
+		sparks.Acceleration = Vector3.new(0, -6, 0)
+		sparks.Rotation = NumberRange.new(0, 360)
+		sparks.RotSpeed = NumberRange.new(-90, 90)
+		sparks.LightEmission = 0.8
+		sparks.LightInfluence = 0
+		sparks.Rate = 0
+		sparks.Enabled = false
+		sparks.Parent = attachment
+		sparks:Emit(10)
+	end
+	
+	local function playJumpEffect(character)
 		if not character or not character.Parent then return end
 	
-		local rootPart = character:FindFirstChild("HumanoidRootPart")
-		if not rootPart then return end
+		local now = os.clock()
+		if now - lastSpawn < SETTINGS.Cooldown then return end
+		lastSpawn = now
 	
-		local ring = Instance.new("Part")
-		ring.Shape = Enum.PartType.Cylinder
-		ring.Size = Vector3.new(0.1, 2, 2)
-		ring.CFrame = rootPart.CFrame * CFrame.new(0, -2.5, 0) * CFrame.Angles(0, 0, math.rad(90))
-		ring.Material = Enum.Material.Neon
-		ring.Color = Color3.new(1, 1, 1)
-		ring.Transparency = 0
-		ring.Anchored = true
-		ring.CanCollide = false
-		ring.Massless = true
-		ring.Parent = workspace
+		local root = character:FindFirstChild("HumanoidRootPart")
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not root or not humanoid then return end
 	
-		local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+		local cf = getGroundCFrame(character, root, humanoid)
 	
-		local targetSize = Vector3.new(0.1, 7, 7)
-		local targetCFrame = ring.CFrame * CFrame.new(1.2, 0, 0)
-	
-		local tween = TweenService:Create(ring, tweenInfo, {
-			Size = targetSize,
-			CFrame = targetCFrame,
-			Transparency = 1
-		})
-	
-		tween:Play()
-	
-		tween.Completed:Connect(function()
-			if ring and ring.Parent then
-				ring:Destroy()
+		for _, spec in ipairs(RINGS) do
+			if spec.delay > 0 then
+				task.delay(spec.delay, createRing, cf, spec)
+			else
+				createRing(cf, spec)
 			end
-		end)
+		end
+	
+		if SETTINGS.Particles then
+			createParticles(cf)
+		end
 	end
 	
 	local function setupCharacter(character)
-		if not character or not character.Parent then return end
-	
 		if humanoidConnection then
 			humanoidConnection:Disconnect()
 			humanoidConnection = nil
 		end
 	
-		local humanoid = character:FindFirstChild("Humanoid")
-		if not humanoid then
-			humanoid = character:WaitForChild("Humanoid", 5)
-		end
+		local humanoid = character:WaitForChild("Humanoid", 5)
 		if not humanoid then return end
 	
-		humanoidConnection = humanoid.Jumping:Connect(function(isActive)
-			if isActive and isEnabled then
-				createJumpRing(character)
+		humanoidConnection = humanoid.Jumping:Connect(function(active)
+			if active and isEnabled then
+				playJumpEffect(character)
 			end
 		end)
 	end
 	
-	local function setFeature(state)
-		isEnabled = state and true or false
-	end
-	
 	toggleButton:GetAttributeChangedSignal("State"):Connect(function()
-		setFeature(toggleButton:GetAttribute("State"))
+		isEnabled = toggleButton:GetAttribute("State") == true
 	end)
-	
-	setFeature(toggleButton:GetAttribute("State") or false)
+	isEnabled = toggleButton:GetAttribute("State") == true
 	
 	if localPlayer.Character then
-		setupCharacter(localPlayer.Character)
+		task.spawn(setupCharacter, localPlayer.Character)
 	end
 	
 	localPlayer.CharacterAdded:Connect(function(character)
-		task.wait(0.1)
 		setupCharacter(character)
 	end)
 end;
@@ -12691,61 +12911,170 @@ local script = G2L["20b"];
 	local toggleButton = script.Parent.Header.ToggleButton
 	local localPlayer = Players.LocalPlayer
 	
+	-- НАСТРОЙКИ
+	local SETTINGS = {
+		BodyTrail = true,      -- широкая лента за корпусом
+		LimbTrails = true,     -- тонкие ленты за руками и ногами
+		Sparkles = true,       -- светлые искорки
+		Lifetime = 0.6,        -- длина шлейфа во времени
+		LightEmission = 0.55,  -- свечение (0 = матовый, 1 = очень яркий)
+	}
+	
+	-- Тема: бело-серая
+	local COLOR_WHITE = Color3.fromRGB(255, 255, 255)
+	local COLOR_LIGHT = Color3.fromRGB(225, 225, 230)
+	local COLOR_MID   = Color3.fromRGB(165, 165, 172)
+	local COLOR_DARK  = Color3.fromRGB(95, 95, 102)
+	
 	local isEnabled = false
-	local leftTrail = nil
-	local rightTrail = nil
-	local attachment1 = nil
-	local attachment2 = nil
+	local created = {}       -- все созданные объекты для очистки
+	local trails = {}        -- сами трейлы для проверки
+	
+	local function track(obj)
+		table.insert(created, obj)
+		return obj
+	end
 	
 	local function removeTrails()
-		if leftTrail then leftTrail:Destroy(); leftTrail = nil end
-		if rightTrail then rightTrail:Destroy(); rightTrail = nil end
-		if attachment1 then attachment1:Destroy(); attachment1 = nil end
-		if attachment2 then attachment2:Destroy(); attachment2 = nil end
+		for _, obj in ipairs(created) do
+			if obj and obj.Parent then
+				obj:Destroy()
+			end
+		end
+		table.clear(created)
+		table.clear(trails)
+	end
+	
+	local function addAttachment(part, offset, name)
+		local a = Instance.new("Attachment")
+		a.Name = name
+		a.Position = offset
+		a.Parent = part
+		return track(a)
+	end
+	
+	local function makeTrail(part, offset0, offset1, width, label)
+		local a0 = addAttachment(part, offset0, "TrailA0_" .. label)
+		local a1 = addAttachment(part, offset1, "TrailA1_" .. label)
+	
+		local trail = Instance.new("Trail")
+		trail.Name = "Trail_" .. label
+		trail.Attachment0 = a0
+		trail.Attachment1 = a1
+	
+		-- белый у источника -> светло-серый -> тёмно-серый на конце
+		trail.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, COLOR_WHITE),
+			ColorSequenceKeypoint.new(0.35, COLOR_LIGHT),
+			ColorSequenceKeypoint.new(0.7, COLOR_MID),
+			ColorSequenceKeypoint.new(1, COLOR_DARK),
+		})
+	
+		-- плавное растворение
+		trail.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.25),
+			NumberSequenceKeypoint.new(0.4, 0.55),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+	
+		-- сужение к концу
+		trail.WidthScale = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, width),
+			NumberSequenceKeypoint.new(0.5, width * 0.6),
+			NumberSequenceKeypoint.new(1, 0),
+		})
+	
+		trail.Lifetime = SETTINGS.Lifetime
+		trail.MinLength = 0.02
+		trail.LightEmission = SETTINGS.LightEmission
+		trail.LightInfluence = 0
+		trail.FaceCamera = true
+		trail.TextureMode = Enum.TextureMode.Stretch
+		trail.Enabled = true
+		trail.Parent = part
+	
+		track(trail)
+		table.insert(trails, trail)
+		return trail
+	end
+	
+	local function makeSparkles(part)
+		local emitter = Instance.new("ParticleEmitter")
+		emitter.Name = "TrailSparkles"
+		emitter.Texture = "rbxasset://textures/particles/sparkles_main.dds"
+		emitter.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, COLOR_WHITE),
+			ColorSequenceKeypoint.new(1, COLOR_MID),
+		})
+		emitter.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.2),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		emitter.Size = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.35),
+			NumberSequenceKeypoint.new(1, 0),
+		})
+		emitter.Lifetime = NumberRange.new(0.5, 1)
+		emitter.Rate = 12
+		emitter.Speed = NumberRange.new(0.5, 1.5)
+		emitter.SpreadAngle = Vector2.new(180, 180)
+		emitter.Rotation = NumberRange.new(0, 360)
+		emitter.RotSpeed = NumberRange.new(-60, 60)
+		emitter.LightEmission = 0.8
+		emitter.LightInfluence = 0
+		emitter.Parent = part
+		track(emitter)
+	end
+	
+	local function findPart(character, ...)
+		for _, name in ipairs({ ... }) do
+			local p = character:FindFirstChild(name)
+			if p and p:IsA("BasePart") then
+				return p
+			end
+		end
+		return nil
 	end
 	
 	local function spawnTrails(character)
 		removeTrails()
 		if not isEnabled or not character or not character.Parent then return end
 	
-		local torso = character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso")
+		local torso = findPart(character, "UpperTorso", "Torso")
 		if not torso then return end
 	
-		attachment1 = Instance.new("Attachment")
-		attachment1.Position = Vector3.new(0, 1, 0)
-		attachment1.Parent = torso
+		-- корпус: широкая лента по высоте
+		if SETTINGS.BodyTrail then
+			makeTrail(torso, Vector3.new(0, 0.9, 0), Vector3.new(0, -0.9, 0), 1, "Body")
+		end
 	
-		attachment2 = Instance.new("Attachment")
-		attachment2.Position = Vector3.new(0, -1, 0)
-		attachment2.Parent = torso
+		-- конечности: тонкие ленты
+		if SETTINGS.LimbTrails then
+			local limbs = {
+				{ findPart(character, "LeftHand", "Left Arm"), "LeftArm" },
+				{ findPart(character, "RightHand", "Right Arm"), "RightArm" },
+				{ findPart(character, "LeftFoot", "Left Leg"), "LeftLeg" },
+				{ findPart(character, "RightFoot", "Right Leg"), "RightLeg" },
+			}
+			for _, info in ipairs(limbs) do
+				local part, label = info[1], info[2]
+				if part then
+					makeTrail(part, Vector3.new(0, 0.35, 0), Vector3.new(0, -0.35, 0), 0.55, label)
+				end
+			end
+		end
 	
-		local gradient = ColorSequence.new({
-			ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)),
-			ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1))
-		})
-	
-		local transparency = NumberSequence.new({
-			NumberSequenceKeypoint.new(0, 0.4),
-			NumberSequenceKeypoint.new(1, 1)
-		})
-	
-		leftTrail = Instance.new("Trail")
-		leftTrail.Attachment0 = attachment1
-		leftTrail.Attachment1 = attachment2
-		leftTrail.Color = gradient
-		leftTrail.Transparency = transparency
-		leftTrail.Lifetime = 0.5
-		leftTrail.MinLength = 0.05
-		leftTrail.FaceCamera = true
-		leftTrail.Enabled = true
-		leftTrail.Parent = torso
+		if SETTINGS.Sparkles then
+			makeSparkles(torso)
+		end
 	end
 	
 	local function setTrails(state)
 		isEnabled = state == true
 		if isEnabled then
-			if localPlayer.Character and localPlayer.Character.Parent then
-				spawnTrails(localPlayer.Character)
+			local character = localPlayer.Character
+			if character and character.Parent then
+				spawnTrails(character)
 			end
 		else
 			removeTrails()
@@ -12758,27 +13087,43 @@ local script = G2L["20b"];
 	
 	setTrails(toggleButton:GetAttribute("State") or false)
 	
-	-- ЗАЩИТА: Если игра отключает трейл или удаляет аттачменты, мы их мгновенно восстанавливаем
-	RunService.RenderStepped:Connect(function()
+	-- ЗАЩИТА: если игра удалила или отключила трейлы, восстанавливаем (проверка 4 раза в секунду)
+	local elapsed = 0
+	RunService.Heartbeat:Connect(function(dt)
 		if not isEnabled then return end
+	
+		elapsed += dt
+		if elapsed < 0.25 then return end
+		elapsed = 0
 	
 		local character = localPlayer.Character
 		if not character or not character.Parent then return end
 	
-		if not attachment1 or not attachment1.Parent or not leftTrail or not leftTrail.Enabled then
+		if #trails == 0 then
 			spawnTrails(character)
+			return
 		end
 	
-		-- Дополнительная защита от принудительного отключения
-		if leftTrail then leftTrail.Enabled = true end
+		for _, trail in ipairs(trails) do
+			if not trail.Parent or not trail.Attachment0 or not trail.Attachment0.Parent then
+				spawnTrails(character)
+				return
+			end
+			if not trail.Enabled then
+				trail.Enabled = true
+			end
+		end
 	end)
 	
 	localPlayer.CharacterAdded:Connect(function(character)
 		task.wait(0.5)
 		if toggleButton:GetAttribute("State") then
+			isEnabled = true
 			spawnTrails(character)
 		end
 	end)
+	
+	localPlayer.CharacterRemoving:Connect(removeTrails)
 end;
 task.spawn(C_20b);
 -- StarterGui.AnSer.Main.ContentArea.Player.ThirdPerson.Header.TextLabel.LocalScript
@@ -12797,147 +13142,160 @@ local script = G2L["216"];
 	local Workspace = game:GetService("Workspace")
 	
 	local player = Players.LocalPlayer
-	local camera = Workspace.CurrentCamera
 	
 	local container = script.Parent
 	local header = container:FindFirstChild("Header") or container
-	local toggleButton = header:FindFirstChild("ToggleButton")
-	
+	local toggleButton = header:WaitForChild("ToggleButton", 10)
 	if not toggleButton then return end
 	
-	local isEnabled = false
-	local renderConnection = nil
-	local inputConnection = nil
+	-- НАСТРОЙКИ
+	local SENSITIVITY = 0.2          -- градусов на пиксель
+	local HEAD_HEIGHT = 2            -- высота точки, вокруг которой вращается камера
+	local SHOULDER_OFFSET = 0        -- сдвиг вбок (например, 1.5 для камеры «через плечо»)
+	local MIN_DISTANCE = 3
+	local MAX_DISTANCE = 25
+	local DEFAULT_DISTANCE = 8
+	local ZOOM_STEP = 2
+	local ZOOM_SMOOTHNESS = 12
+	local MIN_PITCH = math.rad(-70)  -- смотрим сверху вниз
+	local MAX_PITCH = math.rad(60)   -- смотрим снизу вверх
 	
-	local cameraOffset = Vector3.new(0, 2, 8)
-	local minDistance = 3
-	local maxDistance = 25
-	local rotX = 0
-	local rotY = 0
-	local savedCameraType = Enum.CameraType.Custom
-	local savedMouseBehavior = Enum.MouseBehavior.Default
+	local BIND_NAME = "CustomThirdPersonCamera"
+	
+	local isToggled = false
+	local active = false
+	local yaw, pitch = 0, 0
+	local distance = DEFAULT_DISTANCE
+	local targetDistance = DEFAULT_DISTANCE
+	local wheelConnection = nil
+	
+	local rayParams = RaycastParams.new()
+	rayParams.FilterType = Enum.RaycastFilterType.Exclude
+	rayParams.RespectCanCollide = true
 	
 	local function isMenuOpen()
-		return _G.MenuMainFrame and _G.MenuMainFrame.Visible == true
+		local frame = _G.MenuMainFrame
+		return frame ~= nil and frame.Visible == true
 	end
 	
-	local function updateCamera()
-		if not isEnabled or isMenuOpen() then return end
-	
+	local function step(dt)
+		local camera = Workspace.CurrentCamera
 		local character = player.Character
-		if not character or not character.Parent then return end
-	
-		local rootPart = character:FindFirstChild("HumanoidRootPart")
-		if not rootPart then return end
-	
-		for _, part in ipairs(character:GetDescendants()) do
-			if part:IsA("BasePart") then
-				part.LocalTransparencyModifier = 0
-			end
-		end
-	
-		if not camera then
-			camera = Workspace.CurrentCamera
-			if not camera then return end
-		end
+		local root = character and character:FindFirstChild("HumanoidRootPart")
+		if not camera or not root then return end
 	
 		camera.CameraType = Enum.CameraType.Scriptable
 		UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 	
-		local rootCFrame = CFrame.new(rootPart.Position)
-		local yaw = CFrame.Angles(0, rotX, 0)
-		local pitch = CFrame.Angles(rotY, 0, 0)
-		local startCFrame = rootCFrame * yaw * pitch
-		local targetPosition = startCFrame * cameraOffset
+		-- поворот мышью
+		local delta = UserInputService:GetMouseDelta()
+		yaw = yaw - math.rad(delta.X * SENSITIVITY)
+		pitch = math.clamp(pitch - math.rad(delta.Y * SENSITIVITY), MIN_PITCH, MAX_PITCH)
 	
-		camera.CFrame = CFrame.lookAt(targetPosition.Position, rootPart.Position + Vector3.new(0, 2, 0))
+		-- плавный зум
+		distance += (targetDistance - distance) * math.min(1, dt * ZOOM_SMOOTHNESS)
+	
+		-- точка, вокруг которой вращаемся
+		local pivot = root.Position + Vector3.new(0, HEAD_HEIGHT, 0)
+		local rotation = CFrame.new(pivot) * CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0)
+	
+		local desired = rotation:PointToWorldSpace(Vector3.new(SHOULDER_OFFSET, 0, distance))
+	
+		-- камера не проходит сквозь стены
+		rayParams.FilterDescendantsInstances = { character }
+		local offset = desired - pivot
+		local result = Workspace:Raycast(pivot, offset, rayParams)
+		if result and offset.Magnitude > 0 then
+			desired = pivot + offset.Unit * math.max(result.Distance - 0.4, 0.5)
+		end
+	
+		camera.CFrame = CFrame.new(desired) * rotation.Rotation
+		camera.Focus = CFrame.new(pivot)
 	end
 	
-	local function handleInput(input)
-		if not isEnabled or isMenuOpen() then return end
-	
-		if input.UserInputType == Enum.UserInputType.MouseMovement then
-			local delta = input.Delta
-			rotX = rotX - math.rad(delta.X * 0.2)
-			rotY = math.clamp(rotY - math.rad(delta.Y * 0.2), math.rad(-80), math.rad(80))
-		elseif input.UserInputType == Enum.UserInputType.MouseWheel then
-			local zoomDelta = input.Position.Z
-			if zoomDelta ~= 0 then
-				local newZ = math.clamp(cameraOffset.Z - (zoomDelta * 2), minDistance, maxDistance)
-				cameraOffset = Vector3.new(cameraOffset.X, cameraOffset.Y, newZ)
-			end
+	local function onInputChanged(input, gameProcessed)
+		if gameProcessed then return end
+		if input.UserInputType == Enum.UserInputType.MouseWheel then
+			targetDistance = math.clamp(targetDistance - input.Position.Z * ZOOM_STEP, MIN_DISTANCE, MAX_DISTANCE)
 		end
 	end
 	
-	local function enableThirdPerson()
-		if renderConnection then renderConnection:Disconnect() end
-		if inputConnection then inputConnection:Disconnect() end
+	local function activate()
+		if active then return end
+		active = true
 	
-		savedCameraType = camera and camera.CameraType or Enum.CameraType.Custom
-		savedMouseBehavior = UserInputService.MouseBehavior
-	
-		renderConnection = RunService.RenderStepped:Connect(updateCamera)
-		inputConnection = UserInputService.InputChanged:Connect(handleInput)
-	end
-	
-	local function disableThirdPerson()
-		if renderConnection then
-			renderConnection:Disconnect()
-			renderConnection = nil
-		end
-		if inputConnection then
-			inputConnection:Disconnect()
-			inputConnection = nil
-		end
-	
+		-- стартуем с текущего направления камеры, чтобы не было скачка
+		local camera = Workspace.CurrentCamera
 		if camera then
-			camera.CameraType = savedCameraType
+			local x, y = camera.CFrame:ToOrientation()
+			pitch = math.clamp(x, MIN_PITCH, MAX_PITCH)
+			yaw = y
 		end
-		UserInputService.MouseBehavior = savedMouseBehavior
+	
+		RunService:BindToRenderStep(BIND_NAME, Enum.RenderPriority.Camera.Value + 1, step)
+		wheelConnection = UserInputService.InputChanged:Connect(onInputChanged)
 	end
 	
-	local function applyCameraState()
-		local shouldEnable = isEnabled and not isMenuOpen()
+	local function deactivate()
+		if not active then return end
+		active = false
 	
-		if shouldEnable then
-			if rotX == 0 and rotY == 0 and camera then
-				local _, y, _ = camera.CFrame:ToEulerAnglesYXZ()
-				rotX = y
-				rotY = 0
+		RunService:UnbindFromRenderStep(BIND_NAME)
+		if wheelConnection then
+			wheelConnection:Disconnect()
+			wheelConnection = nil
+		end
+	
+		local camera = Workspace.CurrentCamera
+		if camera then
+			camera.CameraType = Enum.CameraType.Custom
+			local character = player.Character
+			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				camera.CameraSubject = humanoid
 			end
-			enableThirdPerson()
+		end
+		UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+	end
+	
+	local function refresh()
+		if isToggled and not isMenuOpen() then
+			activate()
 		else
-			disableThirdPerson()
+			deactivate()
 		end
 	end
 	
 	toggleButton:GetAttributeChangedSignal("State"):Connect(function()
-		isEnabled = toggleButton:GetAttribute("State") == true
-		applyCameraState()
+		isToggled = toggleButton:GetAttribute("State") == true
+		refresh()
 	end)
 	
-	if _G.MenuMainFrame then
-		_G.MenuMainFrame:GetPropertyChangedSignal("Visible"):Connect(applyCameraState)
-	else
-		task.delay(1, function()
-			if _G.MenuMainFrame then
-				_G.MenuMainFrame:GetPropertyChangedSignal("Visible"):Connect(applyCameraState)
+	-- следим за появлением и сменой меню (_G.MenuMainFrame может появиться позже)
+	task.spawn(function()
+		local watchedFrame = nil
+		while true do
+			local frame = _G.MenuMainFrame
+			if frame and frame ~= watchedFrame then
+				watchedFrame = frame
+				frame:GetPropertyChangedSignal("Visible"):Connect(refresh)
+				refresh()
 			end
-		end)
-	end
-	
-	isEnabled = toggleButton:GetAttribute("State") == true
-	applyCameraState()
-	
-	player.CharacterAdded:Connect(function()
-		task.wait(0.1)
-		if isEnabled and not isMenuOpen() then
-			enableThirdPerson()
+			task.wait(0.5)
 		end
 	end)
 	
-	player.CharacterRemoving:Connect(function()
-		disableThirdPerson()
+	isToggled = toggleButton:GetAttribute("State") == true
+	refresh()
+	
+	-- при респавне ничего пересоздавать не нужно: step каждый кадр берёт актуального персонажа
+	player.CharacterAdded:Connect(function()
+		if active then
+			local camera = Workspace.CurrentCamera
+			if camera then
+				camera.CameraType = Enum.CameraType.Scriptable
+			end
+		end
 	end)
 end;
 task.spawn(C_216);
@@ -12956,10 +13314,16 @@ local script = G2L["221"];
 	local toggleButton = script.Parent.Header.ToggleButton
 	local localPlayer = Players.LocalPlayer
 	
+	-- НАСТРОЙКИ
+	local MODEL_NAME = "TunTunSahur"
+	local HEIGHT_MULTIPLIER = 1                    -- 1 = рост модели равен росту персонажа
+	local MODEL_ROTATION = CFrame.Angles(0, 0, 0)  -- если модель смотрит назад: CFrame.Angles(0, math.pi, 0)
+	local RIGID_MODE = false                       -- true = вся модель жёстко к HumanoidRootPart (без анимации конечностей)
+	
 	local isEnabled = false
 	local spawnedModel = nil
-	local activeJoints = {}
 	local hiddenParts = {}
+	local applyToken = 0
 	
 	local function setCharacterVisibility(character, visible)
 		if not character or not character.Parent then return end
@@ -12968,7 +13332,9 @@ local script = G2L["221"];
 			for _, part in ipairs(character:GetDescendants()) do
 				if part:IsA("BasePart") or part:IsA("Decal") then
 					if part.Name ~= "HumanoidRootPart" and not (spawnedModel and part:IsDescendantOf(spawnedModel)) then
-						hiddenParts[part] = part.Transparency
+						if hiddenParts[part] == nil then
+							hiddenParts[part] = part.Transparency
+						end
 						part.Transparency = 1
 					end
 				end
@@ -12984,105 +13350,187 @@ local script = G2L["221"];
 	end
 	
 	local function removeCustomModel(character)
+		applyToken += 1 -- отменяет незавершённые applyCustomModel
+	
 		if spawnedModel then
 			spawnedModel:Destroy()
 			spawnedModel = nil
 		end
 	
-		for _, joint in ipairs(activeJoints) do
-			if joint and joint.Parent then
-				joint:Destroy()
-			end
-		end
-		table.clear(activeJoints)
-	
 		if character and character.Parent then
 			setCharacterVisibility(character, true)
+		else
+			table.clear(hiddenParts)
 		end
+	end
+	
+	-- расширяет границы по 8 углам детали
+	local function addBounds(cf, size, bounds)
+		for x = -1, 1, 2 do
+			for y = -1, 1, 2 do
+				for z = -1, 1, 2 do
+					local c = cf:PointToWorldSpace(Vector3.new(x * size.X / 2, y * size.Y / 2, z * size.Z / 2))
+					bounds.min = bounds.min:Min(c)
+					bounds.max = bounds.max:Max(c)
+				end
+			end
+		end
+	end
+	
+	local function newBounds()
+		return { min = Vector3.one * math.huge, max = Vector3.one * -math.huge }
+	end
+	
+	-- возвращает функцию, дающую CFrame детали персонажа в позе покоя (без анимации)
+	local function makeRestGetter(character, root)
+		local motors = {}
+		for _, d in ipairs(character:GetDescendants()) do
+			if d:IsA("Motor6D") and d.Part0 and d.Part1 then
+				motors[d.Part1] = d
+			end
+		end
+	
+		local cache = { [root] = root.CFrame }
+		local function rest(part)
+			if cache[part] then return cache[part] end
+			local m = motors[part]
+			if not m then
+				cache[part] = part.CFrame
+			else
+				cache[part] = rest(m.Part0) * m.C0 * m.C1:Inverse()
+			end
+			return cache[part]
+		end
+		return rest
 	end
 	
 	local function applyCustomModel(character)
 		removeCustomModel(character)
 		if not isEnabled then return end
-		if not character or not character.Parent then return end
 	
-		local sourceModel = script:FindFirstChild("TunTunSahur")
-		if not sourceModel then return end
+		local token = applyToken
 	
-		local humanoid = character:FindFirstChild("Humanoid")
-		if not humanoid then return end
-	
-		spawnedModel = sourceModel:Clone()
-	
-		local modelPivot = spawnedModel:GetPivot()
-		local characterPivot = character:GetPivot()
-	
-		local scaleFactor = 1
-		local modelHead = spawnedModel:FindFirstChild("Head", true)
-		local characterHead = character:FindFirstChild("Head")
-	
-		if modelHead and characterHead then
-			scaleFactor = characterHead.Size.Y / modelHead.Size.Y
+		local source = script:FindFirstChild(MODEL_NAME)
+		if not source then
+			warn("Модель " .. MODEL_NAME .. " не найдена внутри скрипта")
+			return
 		end
 	
-		for _, part in ipairs(spawnedModel:GetDescendants()) do
-			if part:IsA("BasePart") then
-				part.Anchored = false
-				part.CanCollide = false
-				part.CanTouch = false
-				part.CanQuery = false
-				part.Massless = true
+		local humanoid = character:WaitForChild("Humanoid", 5)
+		local root = character:WaitForChild("HumanoidRootPart", 5)
+		if not humanoid or not root then return end
+		if token ~= applyToken or not character.Parent or not isEnabled then return end
+	
+		-- части тела персонажа и их поза покоя
+		local rest = makeRestGetter(character, root)
+		local realParts = {}
+		local realBounds = newBounds()
+		for _, p in ipairs(character:GetChildren()) do
+			if p:IsA("BasePart") then
+				table.insert(realParts, p)
+				addBounds(rest(p), p.Size, realBounds)
+			end
+		end
+		if #realParts == 0 then return end
+		local realHeight = realBounds.max.Y - realBounds.min.Y
+		local floorY = realBounds.min.Y
+	
+		-- клон модели
+		local model = source:Clone()
+		if not model:IsA("Model") then
+			local wrapper = Instance.new("Model")
+			model.Parent = wrapper
+			model = wrapper
+		end
+	
+		-- убираем всё, что может ломать форму или мешать
+		for _, d in ipairs(model:GetDescendants()) do
+			if d:IsA("JointInstance") or d:IsA("WeldConstraint") or d:IsA("Constraint")
+				or d:IsA("Humanoid") or d:IsA("Animator") or d:IsA("LuaSourceContainer") then
+				d:Destroy()
 			end
 		end
 	
-		spawnedModel:PivotTo(characterPivot)
-	
-		if scaleFactor ~= 1 then
-			spawnedModel:ScaleTo(scaleFactor)
+		local modelParts = {}
+		for _, d in ipairs(model:GetDescendants()) do
+			if d:IsA("BasePart") then
+				d.Anchored = true -- пока выравниваем
+				d.CanCollide = false
+				d.CanTouch = false
+				d.CanQuery = false
+				d.Massless = true
+				table.insert(modelParts, d)
+			end
+		end
+		if #modelParts == 0 then
+			model:Destroy()
+			return
 		end
 	
-		setCharacterVisibility(character, false)
+		local function measure()
+			local b = newBounds()
+			for _, p in ipairs(modelParts) do
+				addBounds(p.CFrame, p.Size, b)
+			end
+			return b
+		end
 	
-		local realHRP = character:FindFirstChild("HumanoidRootPart", true)
+		-- 1) ориентация как у персонажа
+		local pivot = model:GetPivot()
+		model:PivotTo(CFrame.new(pivot.Position) * root.CFrame.Rotation * MODEL_ROTATION)
 	
-		for _, customPart in ipairs(spawnedModel:GetDescendants()) do
-			if customPart:IsA("BasePart") then
-				local realPart = character:FindFirstChild(customPart.Name, true)
-				if realPart and realPart:IsA("BasePart") then
-					customPart.CFrame = realPart.CFrame
+		-- 2) масштаб по высоте
+		local b = measure()
+		local modelHeight = b.max.Y - b.min.Y
+		if modelHeight > 0 then
+			model:ScaleTo(model:GetScale() * (realHeight * HEIGHT_MULTIPLIER) / modelHeight)
+		end
 	
-					if realPart == realHRP then
-						local weld = Instance.new("Weld")
-						weld.Part0 = realPart
-						weld.Part1 = customPart
-						weld.C0 = CFrame.new()
-						weld.C1 = CFrame.new()
-						weld.Parent = customPart
-						table.insert(activeJoints, weld)
-					else
-						local motor = Instance.new("Motor6D")
-						motor.Part0 = realPart
-						motor.Part1 = customPart
-						motor.C0 = CFrame.new()
-						motor.C1 = CFrame.new()
-						motor.Parent = customPart
-						table.insert(activeJoints, motor)
+		-- 3) ставим ногами на низ персонажа, по центру HumanoidRootPart
+		b = measure()
+		local center = (b.min + b.max) / 2
+		local delta = Vector3.new(root.Position.X - center.X, floorY - b.min.Y, root.Position.Z - center.Z)
+		model:PivotTo(model:GetPivot() + delta)
+	
+		-- 4) привариваем с сохранением формы
+		local rigid = RIGID_MODE or #modelParts == 1
+		for _, part in ipairs(modelParts) do
+			local target = root
+			if not rigid then
+				local bestDist = math.huge
+				for _, rp in ipairs(realParts) do
+					local d = (rest(rp).Position - part.Position).Magnitude
+					if d < bestDist then
+						bestDist = d
+						target = rp
 					end
 				end
 			end
+	
+			local weld = Instance.new("Weld")
+			weld.Part0 = target
+			weld.Part1 = part
+			weld.C0 = rest(target):ToObjectSpace(part.CFrame)
+			weld.C1 = CFrame.new()
+			weld.Parent = part
+	
+			part.Anchored = false
 		end
 	
-		spawnedModel.Parent = character
+		spawnedModel = model
+		setCharacterVisibility(character, false)
+		model.Parent = character
 	end
 	
 	local function setMorph(state)
 		isEnabled = state and true or false
 	
-		if localPlayer.Character and localPlayer.Character.Parent then
+		local character = localPlayer.Character
+		if character and character.Parent then
 			if isEnabled then
-				applyCustomModel(localPlayer.Character)
+				task.spawn(applyCustomModel, character)
 			else
-				removeCustomModel(localPlayer.Character)
+				removeCustomModel(character)
 			end
 		end
 	end
@@ -13097,12 +13545,13 @@ local script = G2L["221"];
 		task.wait(0.5)
 	
 		if toggleButton:GetAttribute("State") and character and character.Parent then
+			isEnabled = true
 			applyCustomModel(character)
 		end
 	end)
 	
-	localPlayer.CharacterRemoving:Connect(function()
-		removeCustomModel(localPlayer.Character)
+	localPlayer.CharacterRemoving:Connect(function(character)
+		removeCustomModel(character)
 	end)
 end;
 task.spawn(C_221);
